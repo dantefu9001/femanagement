@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siemens.brownfield.femanagement.dao.CdSparePartDao">
+  <resultMap id="BaseResultMap" type="com.siemens.brownfield.femanagement.entity.CdSparePart">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+    <result column="created_time" jdbcType="DATE" property="createdTime" />
+    <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+    <result column="updated_time" jdbcType="DATE" property="updatedTime" />
+    <result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
+    <result column="enterprise" jdbcType="INTEGER" property="enterprise" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, "name", created_by, created_time, updated_by, updated_time, is_delete, enterprise
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from "cd_equipment_group"
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from "cd_equipment_group"
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.CdSparePart" useGeneratedKeys="true">
+    insert into "cd_equipment_group" ("name", created_by, created_time,
+      updated_by, updated_time, is_delete,
+      enterprise)
+    values (#{name,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=DATE},
+      #{updatedBy,jdbcType=VARCHAR}, #{updatedTime,jdbcType=DATE}, #{isDelete,jdbcType=VARCHAR},
+      #{enterprise,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.CdSparePart" useGeneratedKeys="true">
+    insert into "cd_equipment_group"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        "name",
+      </if>
+      <if test="createdBy != null">
+        created_by,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedBy != null">
+        updated_by,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="enterprise != null">
+        enterprise,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=DATE},
+      </if>
+      <if test="updatedBy != null">
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=DATE},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=VARCHAR},
+      </if>
+      <if test="enterprise != null">
+        #{enterprise,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.siemens.brownfield.femanagement.entity.CdSparePart">
+    update "cd_equipment_group"
+    <set>
+      <if test="name != null">
+        "name" = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=DATE},
+      </if>
+      <if test="updatedBy != null">
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=DATE},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=VARCHAR},
+      </if>
+      <if test="enterprise != null">
+        enterprise = #{enterprise,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.siemens.brownfield.femanagement.entity.CdSparePart">
+    update "cd_equipment_group"
+    set "name" = #{name,jdbcType=VARCHAR},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=DATE},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_time = #{updatedTime,jdbcType=DATE},
+      is_delete = #{isDelete,jdbcType=VARCHAR},
+      enterprise = #{enterprise,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
