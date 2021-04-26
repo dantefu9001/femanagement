@@ -3,10 +3,16 @@ server:
 
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres?useSSL=false
-    username: postgres
-    password: postgres
+    FE:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/postgres?useSSL=false
+      username: postgres
+      password: postgres
+    BF:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://192.168.3.221:5432/stcl_order_entry_db?useSSL=false
+      username: postgres
+      password: pgSiemens2o2o
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

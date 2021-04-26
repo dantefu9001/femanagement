@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siemens.brownfield.femanagement.dao.bf.PersonDao">
+  <resultMap id="BaseResultMap" type="com.siemens.brownfield.femanagement.entity.bf.Person">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="person_num" jdbcType="VARCHAR" property="personNum" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="bf_user_id" jdbcType="INTEGER" property="bfUserId" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="wechat" jdbcType="VARCHAR" property="wechat" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="basic_data_version" jdbcType="VARCHAR" property="basicDataVersion" />
+    <result column="deleted" jdbcType="BOOLEAN" property="deleted" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="head_img" jdbcType="OTHER" property="headImg" />
+    <result column="skill_level" jdbcType="VARCHAR" property="skillLevel" />
+    <result column="image_id" jdbcType="INTEGER" property="imageId" />
+    <result column="level" jdbcType="VARCHAR" property="level" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, person_num, username, bf_user_id, sex, phone, email, wechat, role_id, basic_data_version,
+    deleted, salt, head_img, skill_level, image_id, "level"
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from "person"
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from "person"
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.bf.Person" useGeneratedKeys="true">
+    insert into "person" (person_num, username, bf_user_id,
+      sex, phone, email,
+      wechat, role_id, basic_data_version,
+      deleted, salt, head_img,
+      skill_level, image_id, "level"
+      )
+    values (#{personNum,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{bfUserId,jdbcType=INTEGER},
+      #{sex,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+      #{wechat,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, #{basicDataVersion,jdbcType=VARCHAR},
+      #{deleted,jdbcType=BOOLEAN}, #{salt,jdbcType=VARCHAR}, #{headImg,jdbcType=OTHER},
+      #{skillLevel,jdbcType=VARCHAR}, #{imageId,jdbcType=INTEGER}, #{level,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.bf.Person" useGeneratedKeys="true">
+    insert into "person"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="personNum != null">
+        person_num,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="bfUserId != null">
+        bf_user_id,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="wechat != null">
+        wechat,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="basicDataVersion != null">
+        basic_data_version,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="salt != null">
+        salt,
+      </if>
+      <if test="headImg != null">
+        head_img,
+      </if>
+      <if test="skillLevel != null">
+        skill_level,
+      </if>
+      <if test="imageId != null">
+        image_id,
+      </if>
+      <if test="level != null">
+        "level",
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="personNum != null">
+        #{personNum,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="bfUserId != null">
+        #{bfUserId,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat != null">
+        #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="basicDataVersion != null">
+        #{basicDataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BOOLEAN},
+      </if>
+      <if test="salt != null">
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="headImg != null">
+        #{headImg,jdbcType=OTHER},
+      </if>
+      <if test="skillLevel != null">
+        #{skillLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="imageId != null">
+        #{imageId,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.siemens.brownfield.femanagement.entity.bf.Person">
+    update "person"
+    <set>
+      <if test="personNum != null">
+        person_num = #{personNum,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="bfUserId != null">
+        bf_user_id = #{bfUserId,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat != null">
+        wechat = #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="basicDataVersion != null">
+        basic_data_version = #{basicDataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BOOLEAN},
+      </if>
+      <if test="salt != null">
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="headImg != null">
+        head_img = #{headImg,jdbcType=OTHER},
+      </if>
+      <if test="skillLevel != null">
+        skill_level = #{skillLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="imageId != null">
+        image_id = #{imageId,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        "level" = #{level,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.siemens.brownfield.femanagement.entity.bf.Person">
+    update "person"
+    set person_num = #{personNum,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      bf_user_id = #{bfUserId,jdbcType=INTEGER},
+      sex = #{sex,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      wechat = #{wechat,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=INTEGER},
+      basic_data_version = #{basicDataVersion,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=BOOLEAN},
+      salt = #{salt,jdbcType=VARCHAR},
+      head_img = #{headImg,jdbcType=OTHER},
+      skill_level = #{skillLevel,jdbcType=VARCHAR},
+      image_id = #{imageId,jdbcType=INTEGER},
+      "level" = #{level,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
