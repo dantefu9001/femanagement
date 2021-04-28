@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EquipmentServiceImpl implements EquipmentService {
@@ -20,13 +21,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public List<EquipmentDto> getEquipments() {
-        return null;
+        return equipmentDao.getEquipments().stream().map(equipment -> EquipmentDto.builder()
+                .id(equipment.getId())
+                .build()).collect(Collectors.toList());
     }
 
     @Override
     public EquipmentDto getEquipmentById(Integer id) {
         CdEquipment equipment = equipmentDao.selectByPrimaryKey(id);
-        Assert.notNull(equipment,"设备不存在");
+        Assert.notNull(equipment, "设备不存在");
         return EquipmentDto.builder()
                 .id(equipment.getId())
                 .build();

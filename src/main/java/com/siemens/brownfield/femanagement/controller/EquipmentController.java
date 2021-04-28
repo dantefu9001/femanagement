@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/equipments")
@@ -20,6 +22,13 @@ public class EquipmentController {
 
     public EquipmentController(EquipmentService equipmentService) {
         this.equipmentService = equipmentService;
+    }
+
+    @ApiOperation(value = "获取所有设备列表")
+    @GetMapping()
+    public List<EquipmentDto> getEquipments(){
+        System.out.println("here");
+        return equipmentService.getEquipments();
     }
 
     @ApiOperation(value = "获取指定设备")

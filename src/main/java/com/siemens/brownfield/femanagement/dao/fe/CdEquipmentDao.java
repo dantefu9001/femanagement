@@ -2,7 +2,12 @@ package com.siemens.brownfield.femanagement.dao.fe;
 
 import com.siemens.brownfield.femanagement.entity.fe.CdEquipment;
 
+import java.util.List;
+
 public interface CdEquipmentDao {
+
+    List<CdEquipment> getEquipments();
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(CdEquipment record);

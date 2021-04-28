@@ -44,6 +44,10 @@
     from "cd_equipment"
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getEquipments" resultType="com.siemens.brownfield.femanagement.entity.fe.CdEquipment">
+    select <include refid="Base_Column_List"/>
+    from "cd_equipment"
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from "cd_equipment"
     where id = #{id,jdbcType=INTEGER}
