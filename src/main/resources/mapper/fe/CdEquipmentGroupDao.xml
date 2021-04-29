@@ -20,7 +20,12 @@
     from "cd_equipment_group"
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="getEquipmentGroups"
+            resultType="com.siemens.brownfield.femanagement.entity.fe.CdEquipmentGroup">
+      select <include refid="Base_Column_List"/>
+      from "cd_equipment_group"
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from "cd_equipment_group"
     where id = #{id,jdbcType=INTEGER}
   </delete>
