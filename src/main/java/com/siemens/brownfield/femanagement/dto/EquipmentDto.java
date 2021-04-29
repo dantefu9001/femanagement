@@ -11,4 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EquipmentDto {
     private Integer id;
+    private String name;
+    private String code;
 }

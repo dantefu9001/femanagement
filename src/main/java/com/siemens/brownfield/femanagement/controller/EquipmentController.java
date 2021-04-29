@@ -4,11 +4,13 @@ import com.siemens.brownfield.femanagement.common.CommonResult;
 import com.siemens.brownfield.femanagement.dto.EquipmentDto;
 import com.siemens.brownfield.femanagement.service.EquipmentService;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,14 +28,14 @@ public class EquipmentController {
 
     @ApiOperation(value = "获取所有设备列表")
     @GetMapping()
-    public List<EquipmentDto> getEquipments(){
-        System.out.println("here");
-        return equipmentService.getEquipments();
+    public List<EquipmentDto> getEquipments(@Nullable @RequestParam("equipmentName") String name,
+                                            @Nullable @RequestParam("equipmentCode") String code) {
+        return equipmentService.getEquipments(name, code);
     }
 
     @ApiOperation(value = "获取指定设备")
     @GetMapping("/{id}")
-    public EquipmentDto getEquipmentById(@PathVariable("id")Integer id) {
+    public EquipmentDto getEquipmentById(@PathVariable("id") Integer id) {
         return equipmentService.getEquipmentById(id);
     }
 

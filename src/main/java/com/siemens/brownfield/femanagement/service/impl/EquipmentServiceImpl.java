@@ -4,6 +4,7 @@ import com.siemens.brownfield.femanagement.dao.fe.CdEquipmentDao;
 import com.siemens.brownfield.femanagement.dto.EquipmentDto;
 import com.siemens.brownfield.femanagement.entity.fe.CdEquipment;
 import com.siemens.brownfield.femanagement.service.EquipmentService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Log4j2
 public class EquipmentServiceImpl implements EquipmentService {
 
     private final CdEquipmentDao equipmentDao;
@@ -20,9 +22,11 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
-    public List<EquipmentDto> getEquipments() {
-        return equipmentDao.getEquipments().stream().map(equipment -> EquipmentDto.builder()
+    public List<EquipmentDto> getEquipments(String name, String code) {
+        return equipmentDao.getEquipments(name, code).stream().map(equipment -> EquipmentDto.builder()
                 .id(equipment.getId())
+                .name(equipment.getName())
+                .code(equipment.getCode())
                 .build()).collect(Collectors.toList());
     }
 

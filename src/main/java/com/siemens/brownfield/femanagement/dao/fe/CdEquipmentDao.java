@@ -1,12 +1,13 @@
 package com.siemens.brownfield.femanagement.dao.fe;
 
 import com.siemens.brownfield.femanagement.entity.fe.CdEquipment;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface CdEquipmentDao {
 
-    List<CdEquipment> getEquipments();
+    List<CdEquipment> getEquipments(@Param("name") String name,@Param("code") String code);
 
     int deleteByPrimaryKey(Integer id);
 
