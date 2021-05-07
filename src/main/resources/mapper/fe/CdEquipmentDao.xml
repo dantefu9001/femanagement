@@ -60,7 +60,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdEquipment" useGeneratedKeys="true">
-    insert into "cd_equipment" (picture, code, "name",
+    insert into "cd_equipment" (id, picture, code, "name",
       responsible, production_line, "process",
       asset, equipment_groups, description,
       is_auto_dispatch, "status", model,
@@ -70,7 +70,7 @@
       created_by, created_time, updated_by,
       updated_time, is_delete, enterprise
       )
-    values (#{picture,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{picture,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
       #{responsible,jdbcType=INTEGER}, #{productionLine,jdbcType=INTEGER}, #{process,jdbcType=INTEGER},
       #{asset,jdbcType=INTEGER}, #{equipmentGroups,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
       #{isAutoDispatch,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{model,jdbcType=VARCHAR},

@@ -2,6 +2,8 @@ package com.siemens.brownfield.femanagement.entity.fe;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -9,6 +11,7 @@ import lombok.Data;
  * @author
  */
 @Data
+@Builder
 public class CdEquipment implements Serializable {
     /**
      * id

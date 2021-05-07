@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,19 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public Boolean addEquipment(EquipmentDto equipmentDto) {
-        return null;
+        CdEquipment equipment = CdEquipment.builder()
+                .id(equipmentDto.getId())
+                .name(equipmentDto.getName())
+                .code(equipmentDto.getCode())
+                .dateOfProduction(Date.from(equipmentDto.getDateOfProduction()))
+                .build();
+        try {
+            equipmentDao.insert(equipment);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
