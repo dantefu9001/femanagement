@@ -28,6 +28,7 @@ public class EquipmentServiceImpl implements EquipmentService {
                 .id(equipment.getId())
                 .name(equipment.getName())
                 .code(equipment.getCode())
+                .isAutoDispatch(equipment.getIsAutoDispatch())
                 .build()).collect(Collectors.toList());
     }
 
