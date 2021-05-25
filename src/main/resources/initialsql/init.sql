@@ -820,3 +820,33 @@ comment on column cd_spare_parts_warehouse.enterprise is '引用机构表';
 
 alter table cd_spare_parts_warehouse owner to postgres;
 
+CREATE TABLE cd_equipment_management_summary(
+                                                id serial not null
+                                                    constraint cd_equipment_management_summary_pkey
+                                                        primary key,                                                type VARCHAR(32),
+                                                person INT,
+                                                group INT,
+                                                summary_time DATE,
+                                                summary TEXT,
+                                                created_by VARCHAR(32),
+                                                created_time DATE,
+                                                updated_by VARCHAR(32),
+                                                updated_time DATE,
+                                                is_delete VARCHAR(1),
+                                                enterprise INT,
+                                                PRIMARY KEY (id)
+);
+
+COMMENT ON TABLE cd_equipment_management_summary IS '设备管理小结';
+COMMENT ON COLUMN cd_equipment_management_summary.id IS 'id';
+COMMENT ON COLUMN cd_equipment_management_summary.type IS 'monthly/weekly';
+COMMENT ON COLUMN cd_equipment_management_summary.person IS '引用人员表';
+COMMENT ON COLUMN cd_equipment_management_summary.group IS '引用group表';
+COMMENT ON COLUMN cd_equipment_management_summary.summary_time IS '时间';
+COMMENT ON COLUMN cd_equipment_management_summary.summary IS '小结';
+COMMENT ON COLUMN cd_equipment_management_summary.created_by IS '创建人';
+COMMENT ON COLUMN cd_equipment_management_summary.created_time IS '创建时间';
+COMMENT ON COLUMN cd_equipment_management_summary.updated_by IS '更新人';
+COMMENT ON COLUMN cd_equipment_management_summary.updated_time IS '更新时间';
+COMMENT ON COLUMN cd_equipment_management_summary.is_delete IS '软删标识符';
+COMMENT ON COLUMN cd_equipment_management_summary.enterprise IS '引用企业机构表';
