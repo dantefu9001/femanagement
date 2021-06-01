@@ -59,12 +59,27 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
-    public EquipmentDto updateEquipment(EquipmentDto equipmentDto) {
-        return null;
+    public Boolean updateEquipment(EquipmentDto equipmentDto) {
+        try {
+            equipmentDao.updateByPrimaryKey(CdEquipment.from(equipmentDto));
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return false;
     }
 
     @Override
     public Boolean deleteEquipment(Integer id) {
-        return null;
+        try {
+            CdEquipment equipment = equipmentDao.selectByPrimaryKey(id);
+            equipment.setIsDelete("true");
+            equipmentDao.updateByPrimaryKeySelective(equipment);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return false;
+        }
+
     }
 }

@@ -12,7 +12,7 @@ public interface EquipmentService {
 
     Boolean addEquipment(EquipmentDto equipmentDto);
 
-    EquipmentDto updateEquipment(EquipmentDto equipmentDto);
+    Boolean updateEquipment(EquipmentDto equipmentDto);
 
     Boolean deleteEquipment(Integer id);
 

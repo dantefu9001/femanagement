@@ -6,6 +6,7 @@ import com.siemens.brownfield.femanagement.service.EquipmentService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,5 +47,19 @@ public class EquipmentController {
         return CommonResult.<Boolean>builder()
                 .data(success)
                 .build();
+    }
+
+    @ApiOperation(value = "删除指定id的设备")
+    @PostMapping("/{id}")
+    public CommonResult<Boolean> removeEquipmentById(@PathVariable("id") Integer id) {
+        Boolean success = equipmentService.deleteEquipment(id);
+        return CommonResult.<Boolean>builder()
+                .data(success)
+                .build();
+    }
+
+    @PostMapping("/update")
+    public CommonResult<Boolean> updateEquipment(@RequestBody EquipmentDto equipmentDto) {
+        return CommonResult.<Boolean>builder().data(equipmentService.updateEquipment(equipmentDto)).build();
     }
 }

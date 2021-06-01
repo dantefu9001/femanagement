@@ -1,8 +1,10 @@
 package com.siemens.brownfield.femanagement.entity.fe;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Date;
 
+import com.siemens.brownfield.femanagement.dto.EquipmentDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -154,4 +156,35 @@ public class CdEquipment implements Serializable {
     private Integer enterprise;
 
     private static final long serialVersionUID = 1L;
+
+    public static CdEquipment from(EquipmentDto dto){
+        return CdEquipment.builder()
+                .id(dto.getId())
+                .picture(dto.getPicture())
+                .code(dto.getCode())
+                .name(dto.getName())
+                .responsible(dto.getResponsible())
+                .productionLine(dto.getProductionLine())
+                .process(dto.getProcess())
+                .asset(dto.getAsset())
+                .equipmentGroups(dto.getEquipmentGroups())
+                .description(dto.getDescription())
+                .isAutoDispatch(dto.getIsAutoDispatch())
+                .status(dto.getStatus())
+                .model(dto.getModel())
+                .manufacturer(dto.getManufacturer())
+                .specification(dto.getSpecification())
+                .serialNumber(dto.getSerialNumber())
+                .dateOfProduction(Date.from(dto.getDateOfProduction()))
+                .dateOfInstallation(Date.from(dto.getDateOfInstallation()))
+                .dateOfFirstUse(Date.from(dto.getDateOfFirstUse()))
+                .dateOfExpiration(Date.from(dto.getDateOfExpiration()))
+                .expiresYears(dto.getExpiresYears())
+                .customAttributes(dto.getCustomAttributes())
+                .createdBy("zenan")
+                .createdTime(Date.from(Instant.now()))
+                .updatedBy("zenan")
+                .updatedTime(Date.from(Instant.now()))
+                .build();
+    }
 }
