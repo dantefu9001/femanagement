@@ -159,7 +159,6 @@ public class CdEquipment implements Serializable {
 
     public static CdEquipment from(EquipmentDto dto){
         return CdEquipment.builder()
-                .id(dto.getId())
                 .picture(dto.getPicture())
                 .code(dto.getCode())
                 .name(dto.getName())

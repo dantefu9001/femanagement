@@ -24,12 +24,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public List<EquipmentDto> getEquipments(String name, String code) {
-        return equipmentDao.getEquipments(name, code).stream().map(equipment -> EquipmentDto.builder()
-                .id(equipment.getId())
-                .name(equipment.getName())
-                .code(equipment.getCode())
-                .isAutoDispatch(equipment.getIsAutoDispatch())
-                .build()).collect(Collectors.toList());
+        return equipmentDao.getEquipments(name, code).stream().map(EquipmentDto::from)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -43,17 +39,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public Boolean addEquipment(EquipmentDto equipmentDto) {
-        CdEquipment equipment = CdEquipment.builder()
-                .id(equipmentDto.getId())
-                .name(equipmentDto.getName())
-                .code(equipmentDto.getCode())
-                .dateOfProduction(Date.from(equipmentDto.getDateOfProduction()))
-                .build();
+        CdEquipment equipment = CdEquipment.from(equipmentDto);
         try {
-            equipmentDao.insert(equipment);
+            equipmentDao.insertSelective(equipment);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return false;
     }

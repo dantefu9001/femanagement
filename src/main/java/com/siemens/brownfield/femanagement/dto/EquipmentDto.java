@@ -1,6 +1,7 @@
 package com.siemens.brownfield.femanagement.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.siemens.brownfield.femanagement.entity.fe.CdEquipment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.Objects;
 
 @Data
 @Builder
@@ -118,7 +120,7 @@ public class EquipmentDto {
     /**
      * 报废期限
      */
-    private Instant dateOfExpiration ;
+    private Instant dateOfExpiration;
 
     /**
      * json格式的自定义属性
@@ -134,5 +136,30 @@ public class EquipmentDto {
      */
     private Integer enterprise;
 
-    private static final long serialVersionUID = 1L;
+    public static EquipmentDto from(CdEquipment equipment) {
+        return EquipmentDto.builder()
+                .id(equipment.getId())
+                .picture(equipment.getPicture())
+                .code(equipment.getCode())
+                .name(equipment.getName())
+                .responsible(equipment.getResponsible())
+                .productionLine(equipment.getProductionLine())
+                .process(equipment.getProcess())
+                .asset(equipment.getAsset())
+                .equipmentGroups(equipment.getEquipmentGroups())
+                .description(equipment.getDescription())
+                .isAutoDispatch(equipment.getIsAutoDispatch())
+                .status(equipment.getStatus())
+                .model(equipment.getModel())
+                .manufacturer(equipment.getManufacturer())
+                .specification(equipment.getSpecification())
+                .serialNumber(equipment.getSerialNumber())
+                .dateOfProduction(Objects.isNull(equipment.getDateOfProduction()) ? null : equipment.getDateOfProduction().toInstant())
+                .dateOfInstallation(Objects.isNull(equipment.getDateOfInstallation()) ? null : equipment.getDateOfInstallation().toInstant())
+                .dateOfFirstUse(Objects.isNull(equipment.getDateOfFirstUse()) ? null : equipment.getDateOfFirstUse().toInstant())
+                .dateOfExpiration(Objects.isNull(equipment.getDateOfExpiration()) ? null : equipment.getDateOfExpiration().toInstant())
+                .expiresYears(equipment.getExpiresYears())
+                .customAttributes(equipment.getCustomAttributes())
+                .build();
+    }
 }
