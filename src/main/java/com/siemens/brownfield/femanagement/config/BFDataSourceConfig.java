@@ -44,13 +44,11 @@ public class BFDataSourceConfig {
     }
 
     @Bean("bfTransactionManager")
-    @Primary
     public DataSourceTransactionManager bfTransactionManager(@Qualifier("bfDataSource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean(name = "bfSqlSessionTemplate")
-    @Primary
     public SqlSessionTemplate bfSqlSessionTemplate(@Qualifier("bfSqlSessionFactory") SqlSessionFactory sqlSessionFactory){
         return new SqlSessionTemplate(sqlSessionFactory);
     }

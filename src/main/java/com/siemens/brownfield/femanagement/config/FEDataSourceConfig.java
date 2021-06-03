@@ -56,14 +56,4 @@ public class FEDataSourceConfig {
     public SqlSessionTemplate firstSqlSessionTemplate(@Qualifier("feSqlSessionFactory") SqlSessionFactory sqlSessionFactory){
         return new SqlSessionTemplate(sqlSessionFactory);
     }
-
-
-    private Class getType(String type) {
-        try {
-            return Class.forName(type);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

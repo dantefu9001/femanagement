@@ -1,6 +1,7 @@
 package com.siemens.brownfield.femanagement.service;
 
 import com.siemens.brownfield.femanagement.dto.EquipmentDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,6 +17,6 @@ public interface EquipmentService {
 
     Boolean deleteEquipment(Integer id);
 
-
+    String savePictureAsBlob(MultipartFile file);
 
 }

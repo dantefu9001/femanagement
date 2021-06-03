@@ -3,6 +3,7 @@ package com.siemens.brownfield.femanagement.entity.fe;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
+import java.util.Objects;
 
 import com.siemens.brownfield.femanagement.dto.EquipmentDto;
 import lombok.Builder;
@@ -158,7 +159,7 @@ public class CdEquipment implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static CdEquipment from(EquipmentDto dto){
-        return CdEquipment.builder()
+        CdEquipment equipment =  CdEquipment.builder()
                 .picture(dto.getPicture())
                 .code(dto.getCode())
                 .name(dto.getName())
@@ -174,10 +175,10 @@ public class CdEquipment implements Serializable {
                 .manufacturer(dto.getManufacturer())
                 .specification(dto.getSpecification())
                 .serialNumber(dto.getSerialNumber())
-                .dateOfProduction(Date.from(dto.getDateOfProduction()))
-                .dateOfInstallation(Date.from(dto.getDateOfInstallation()))
-                .dateOfFirstUse(Date.from(dto.getDateOfFirstUse()))
-                .dateOfExpiration(Date.from(dto.getDateOfExpiration()))
+                .dateOfProduction(fromNullableInstant(dto.getDateOfProduction()))
+                .dateOfInstallation(fromNullableInstant(dto.getDateOfInstallation()))
+                .dateOfFirstUse(fromNullableInstant(dto.getDateOfFirstUse()))
+                .dateOfExpiration(fromNullableInstant(dto.getDateOfExpiration()))
                 .expiresYears(dto.getExpiresYears())
                 .customAttributes(dto.getCustomAttributes())
                 .createdBy("zenan")
@@ -185,5 +186,13 @@ public class CdEquipment implements Serializable {
                 .updatedBy("zenan")
                 .updatedTime(Date.from(Instant.now()))
                 .build();
+        if (-1 != dto.getId()) {
+            equipment.setId(dto.getId());
+        }
+        return equipment;
+    }
+
+    private static Date fromNullableInstant(Instant instant) {
+        return Date.from(Objects.isNull(instant) ? Instant.now() : instant);
     }
 }

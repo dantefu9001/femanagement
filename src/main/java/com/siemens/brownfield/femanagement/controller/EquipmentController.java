@@ -4,6 +4,7 @@ import com.siemens.brownfield.femanagement.common.CommonResult;
 import com.siemens.brownfield.femanagement.dto.EquipmentDto;
 import com.siemens.brownfield.femanagement.service.EquipmentService;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
+import java.io.File;
 import java.util.List;
 
 @CrossOrigin
@@ -50,7 +54,7 @@ public class EquipmentController {
     }
 
     @ApiOperation(value = "删除指定id的设备")
-    @PostMapping("/{id}")
+    @DeleteMapping("/{id}")
     public CommonResult<Boolean> removeEquipmentById(@PathVariable("id") Integer id) {
         Boolean success = equipmentService.deleteEquipment(id);
         return CommonResult.<Boolean>builder()
@@ -61,5 +65,10 @@ public class EquipmentController {
     @PostMapping("/update")
     public CommonResult<Boolean> updateEquipment(@RequestBody EquipmentDto equipmentDto) {
         return CommonResult.<Boolean>builder().data(equipmentService.updateEquipment(equipmentDto)).build();
+    }
+
+    @PostMapping(value = "/upload-pic")
+    public CommonResult<String> uploadPicture(@RequestParam MultipartFile file){
+        return CommonResult.<String>builder().data(equipmentService.savePictureAsBlob(file)).build();
     }
 }

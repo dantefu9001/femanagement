@@ -108,7 +108,7 @@ alter table cd_factory_layout owner to postgres;
 
 create table cd_equipment
 (
-    id integer not null
+    id serial not null
         constraint cd_equipments_pkey
             primary key,
     picture varchar(32),
@@ -825,7 +825,7 @@ CREATE TABLE cd_equipment_management_summary(
                                                     constraint cd_equipment_management_summary_pkey
                                                         primary key,                                                type VARCHAR(32),
                                                 person INT,
-                                                group INT,
+                                                "group" INT,
                                                 summary_time DATE,
                                                 summary TEXT,
                                                 created_by VARCHAR(32),
@@ -833,8 +833,7 @@ CREATE TABLE cd_equipment_management_summary(
                                                 updated_by VARCHAR(32),
                                                 updated_time DATE,
                                                 is_delete VARCHAR(1),
-                                                enterprise INT,
-                                                PRIMARY KEY (id)
+                                                enterprise INT
 );
 
 COMMENT ON TABLE cd_equipment_management_summary IS '设备管理小结';
@@ -850,3 +849,16 @@ COMMENT ON COLUMN cd_equipment_management_summary.updated_by IS '更新人';
 COMMENT ON COLUMN cd_equipment_management_summary.updated_time IS '更新时间';
 COMMENT ON COLUMN cd_equipment_management_summary.is_delete IS '软删标识符';
 COMMENT ON COLUMN cd_equipment_management_summary.enterprise IS '引用企业机构表';
+
+create table cd_equipment_basic_picture
+(
+    file_id varchar(64) not null
+        constraint cd_equipment_basic_picture_pk
+            primary key,
+    file_content bytea
+);
+
+alter table cd_equipment_basic_picture owner to postgres;
+
+create unique index cd_equipment_basic_picture_file_id_uindex
+    on cd_equipment_basic_picture (file_id);

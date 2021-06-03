@@ -54,6 +54,8 @@
     <if test='code != null and code!=""'>
       and "code" = #{code}
     </if>
+    and is_delete != '1'
+    order by updated_time
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from "cd_equipment"
