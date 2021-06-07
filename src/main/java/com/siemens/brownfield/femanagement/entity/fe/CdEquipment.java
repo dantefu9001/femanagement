@@ -11,6 +11,7 @@ import lombok.Data;
 
 /**
  * cd_equipment
+ *
  * @author
  */
 @Data
@@ -158,15 +159,15 @@ public class CdEquipment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static CdEquipment from(EquipmentDto dto){
-        CdEquipment equipment =  CdEquipment.builder()
+    public static CdEquipment from(EquipmentDto dto) {
+        CdEquipment equipment = CdEquipment.builder()
                 .picture(dto.getPicture())
                 .code(dto.getCode())
                 .name(dto.getName())
-                .responsible(dto.getResponsible())
-                .productionLine(dto.getProductionLine())
-                .process(dto.getProcess())
-                .asset(dto.getAsset())
+                .responsible(Objects.isNull(dto.getProductionLine()) ? null : dto.getResponsible().getId())
+                .productionLine(Objects.isNull(dto.getProductionLine()) ? null : dto.getProductionLine().getId())
+                .process(Objects.isNull(dto.getProcess()) ? null : dto.getProcess().getId())
+                .asset(Objects.isNull(dto.getAsset()) ? null : dto.getAsset().getId())
                 .equipmentGroups(dto.getEquipmentGroups())
                 .description(dto.getDescription())
                 .isAutoDispatch(dto.getIsAutoDispatch())

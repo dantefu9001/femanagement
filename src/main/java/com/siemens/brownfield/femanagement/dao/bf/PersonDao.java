@@ -1,6 +1,9 @@
 package com.siemens.brownfield.femanagement.dao.bf;
 
+import com.siemens.brownfield.femanagement.dto.PersonDto;
 import com.siemens.brownfield.femanagement.entity.bf.Person;
+
+import java.util.List;
 
 public interface PersonDao {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,6 @@ public interface PersonDao {
     int updateByPrimaryKeySelective(Person record);
 
     int updateByPrimaryKey(Person record);
+
+    List<Person> selectPersonnel();
 }

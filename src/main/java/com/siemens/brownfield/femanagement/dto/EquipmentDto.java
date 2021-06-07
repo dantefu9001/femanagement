@@ -1,15 +1,12 @@
 package com.siemens.brownfield.femanagement.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.siemens.brownfield.femanagement.entity.fe.CdEquipment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.Objects;
 
 @Data
@@ -40,22 +37,22 @@ public class EquipmentDto {
     /**
      * fromBF
      */
-    private Integer responsible;
+    private PersonDto responsible;
 
     /**
      * fromBF
      */
-    private Integer productionLine;
+    private ProductionLineDto productionLine;
 
     /**
      * fromBF
      */
-    private Integer process;
+    private ProcessDto process;
 
     /**
      * fromBF
      */
-    private Integer asset;
+    private AssetDto asset;
 
     /**
      * 设备组
@@ -142,10 +139,10 @@ public class EquipmentDto {
                 .picture(equipment.getPicture())
                 .code(equipment.getCode())
                 .name(equipment.getName())
-                .responsible(equipment.getResponsible())
-                .productionLine(equipment.getProductionLine())
-                .process(equipment.getProcess())
-                .asset(equipment.getAsset())
+//                .responsibleId(equipment.getResponsible())
+//                .productionLineId(equipment.getProductionLine())
+//                .processId(equipment.getProcess())
+//                .assetId(equipment.getAsset())
                 .equipmentGroups(equipment.getEquipmentGroups())
                 .description(equipment.getDescription())
                 .isAutoDispatch(equipment.getIsAutoDispatch())

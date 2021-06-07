@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siemens.brownfield.femanagement.dao.bf.AssetDao">
+  <resultMap id="BaseResultMap" type="com.siemens.brownfield.femanagement.entity.bf.Asset">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="asset_num" jdbcType="VARCHAR" property="assetNum" />
+    <result column="asset_name" jdbcType="VARCHAR" property="assetName" />
+    <result column="physical_location" jdbcType="VARCHAR" property="physicalLocation" />
+    <result column="vendor" jdbcType="VARCHAR" property="vendor" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="group_leader" jdbcType="VARCHAR" property="groupLeader" />
+    <result column="available_time" jdbcType="DATE" property="availableTime" />
+    <result column="available" jdbcType="BOOLEAN" property="available" />
+    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="creation_time" jdbcType="DATE" property="creationTime" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="basic_data_version" jdbcType="VARCHAR" property="basicDataVersion" />
+    <result column="deleted" jdbcType="BOOLEAN" property="deleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, asset_num, asset_name, physical_location, vendor, manufacturer, group_leader,
+    available_time, available, organization_id, description, creation_time, creator,
+    basic_data_version, deleted
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from "asset"
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getAssetList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from "asset"
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from "asset"
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.bf.Asset" useGeneratedKeys="true">
+    insert into "asset" (asset_num, asset_name, physical_location,
+      vendor, manufacturer, group_leader,
+      available_time, available, organization_id,
+      description, creation_time, creator,
+      basic_data_version, deleted)
+    values (#{assetNum,jdbcType=VARCHAR}, #{assetName,jdbcType=VARCHAR}, #{physicalLocation,jdbcType=VARCHAR},
+      #{vendor,jdbcType=VARCHAR}, #{manufacturer,jdbcType=VARCHAR}, #{groupLeader,jdbcType=VARCHAR},
+      #{availableTime,jdbcType=DATE}, #{available,jdbcType=BOOLEAN}, #{organizationId,jdbcType=INTEGER},
+      #{description,jdbcType=VARCHAR}, #{creationTime,jdbcType=DATE}, #{creator,jdbcType=VARCHAR},
+      #{basicDataVersion,jdbcType=VARCHAR}, #{deleted,jdbcType=BOOLEAN})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.bf.Asset" useGeneratedKeys="true">
+    insert into "asset"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="assetNum != null">
+        asset_num,
+      </if>
+      <if test="assetName != null">
+        asset_name,
+      </if>
+      <if test="physicalLocation != null">
+        physical_location,
+      </if>
+      <if test="vendor != null">
+        vendor,
+      </if>
+      <if test="manufacturer != null">
+        manufacturer,
+      </if>
+      <if test="groupLeader != null">
+        group_leader,
+      </if>
+      <if test="availableTime != null">
+        available_time,
+      </if>
+      <if test="available != null">
+        available,
+      </if>
+      <if test="organizationId != null">
+        organization_id,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="creationTime != null">
+        creation_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="basicDataVersion != null">
+        basic_data_version,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="assetNum != null">
+        #{assetNum,jdbcType=VARCHAR},
+      </if>
+      <if test="assetName != null">
+        #{assetName,jdbcType=VARCHAR},
+      </if>
+      <if test="physicalLocation != null">
+        #{physicalLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="vendor != null">
+        #{vendor,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null">
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="groupLeader != null">
+        #{groupLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="availableTime != null">
+        #{availableTime,jdbcType=DATE},
+      </if>
+      <if test="available != null">
+        #{available,jdbcType=BOOLEAN},
+      </if>
+      <if test="organizationId != null">
+        #{organizationId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="creationTime != null">
+        #{creationTime,jdbcType=DATE},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="basicDataVersion != null">
+        #{basicDataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BOOLEAN},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.siemens.brownfield.femanagement.entity.bf.Asset">
+    update "asset"
+    <set>
+      <if test="assetNum != null">
+        asset_num = #{assetNum,jdbcType=VARCHAR},
+      </if>
+      <if test="assetName != null">
+        asset_name = #{assetName,jdbcType=VARCHAR},
+      </if>
+      <if test="physicalLocation != null">
+        physical_location = #{physicalLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="vendor != null">
+        vendor = #{vendor,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null">
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="groupLeader != null">
+        group_leader = #{groupLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="availableTime != null">
+        available_time = #{availableTime,jdbcType=DATE},
+      </if>
+      <if test="available != null">
+        available = #{available,jdbcType=BOOLEAN},
+      </if>
+      <if test="organizationId != null">
+        organization_id = #{organizationId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="creationTime != null">
+        creation_time = #{creationTime,jdbcType=DATE},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="basicDataVersion != null">
+        basic_data_version = #{basicDataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BOOLEAN},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.siemens.brownfield.femanagement.entity.bf.Asset">
+    update "asset"
+    set asset_num = #{assetNum,jdbcType=VARCHAR},
+      asset_name = #{assetName,jdbcType=VARCHAR},
+      physical_location = #{physicalLocation,jdbcType=VARCHAR},
+      vendor = #{vendor,jdbcType=VARCHAR},
+      manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      group_leader = #{groupLeader,jdbcType=VARCHAR},
+      available_time = #{availableTime,jdbcType=DATE},
+      available = #{available,jdbcType=BOOLEAN},
+      organization_id = #{organizationId,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      creation_time = #{creationTime,jdbcType=DATE},
+      creator = #{creator,jdbcType=VARCHAR},
+      basic_data_version = #{basicDataVersion,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=BOOLEAN}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
