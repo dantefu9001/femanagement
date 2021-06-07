@@ -158,7 +158,7 @@ comment on column cd_equipment.process is 'fromBF';
 
 comment on column cd_equipment.asset is 'fromBF';
 
-comment on column cd_equipment.equipment_groups is '设备组';
+comment on column cd_equipment.equipment_group is '设备组';
 
 comment on column cd_equipment.description is '描述';
 

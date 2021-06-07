@@ -60,7 +60,7 @@ public class CdEquipment implements Serializable {
     /**
      * 设备组
      */
-    private Integer equipmentGroups;
+    private Integer equipmentGroup;
 
     /**
      * 描述
@@ -168,7 +168,7 @@ public class CdEquipment implements Serializable {
                 .productionLine(Objects.isNull(dto.getProductionLine()) ? null : dto.getProductionLine().getId())
                 .process(Objects.isNull(dto.getProcess()) ? null : dto.getProcess().getId())
                 .asset(Objects.isNull(dto.getAsset()) ? null : dto.getAsset().getId())
-                .equipmentGroups(dto.getEquipmentGroups())
+                .equipmentGroup(Objects.isNull(dto.getEquipmentGroup()) ? null : dto.getEquipmentGroup().getId())
                 .description(dto.getDescription())
                 .isAutoDispatch(dto.getIsAutoDispatch())
                 .status(dto.getStatus())

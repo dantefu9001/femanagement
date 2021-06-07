@@ -8,6 +8,7 @@ import com.siemens.brownfield.femanagement.dao.fe.CdEquipmentBasicPictureDao;
 import com.siemens.brownfield.femanagement.dao.fe.CdEquipmentDao;
 import com.siemens.brownfield.femanagement.dto.AssetDto;
 import com.siemens.brownfield.femanagement.dto.EquipmentDto;
+import com.siemens.brownfield.femanagement.dto.EquipmentGroupDto;
 import com.siemens.brownfield.femanagement.dto.PersonDto;
 import com.siemens.brownfield.femanagement.dto.ProcessDto;
 import com.siemens.brownfield.femanagement.dto.ProductionLineDto;
@@ -17,6 +18,8 @@ import com.siemens.brownfield.femanagement.entity.bf.Process;
 import com.siemens.brownfield.femanagement.entity.bf.ProductionLine;
 import com.siemens.brownfield.femanagement.entity.fe.CdEquipment;
 import com.siemens.brownfield.femanagement.entity.fe.CdEquipmentBasicPicture;
+import com.siemens.brownfield.femanagement.entity.fe.CdEquipmentGroup;
+import com.siemens.brownfield.femanagement.service.EquipmentGroupService;
 import com.siemens.brownfield.femanagement.service.EquipmentService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -37,6 +40,8 @@ import java.util.stream.Collectors;
 @Log4j2
 public class EquipmentServiceImpl implements EquipmentService {
 
+    private final EquipmentGroupService equipmentGroupService;
+
     private final CdEquipmentDao equipmentDao;
 
     private final CdEquipmentBasicPictureDao equipmentBasicPictureDao;
@@ -49,7 +54,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     private final AssetDao assetDao;
 
-    public EquipmentServiceImpl(CdEquipmentDao equipmentDao, CdEquipmentBasicPictureDao equipmentBasicPictureDao, ProductionLineDao productionLineDao, PersonDao personDao, ProcessDao processDao, AssetDao assetDao) {
+    public EquipmentServiceImpl(EquipmentGroupService equipmentGroupService, CdEquipmentDao equipmentDao,
+                                CdEquipmentBasicPictureDao equipmentBasicPictureDao,
+                                ProductionLineDao productionLineDao,
+                                PersonDao personDao,
+                                ProcessDao processDao,
+                                AssetDao assetDao) {
+        this.equipmentGroupService = equipmentGroupService;
         this.equipmentDao = equipmentDao;
         this.equipmentBasicPictureDao = equipmentBasicPictureDao;
         this.productionLineDao = productionLineDao;
@@ -65,16 +76,25 @@ public class EquipmentServiceImpl implements EquipmentService {
         List<Person> people = personDao.selectPersonnel();
         List<Process> processes = processDao.getProcessList();
         List<Asset> assets = assetDao.getAssetList();
+        List<CdEquipmentGroup> equipmentGroups = equipmentGroupService.getEquipmentGroups();
         return equipments.parallelStream().map(equipment -> {
             EquipmentDto equipmentDto = EquipmentDto.from(equipment);
+
             Optional<ProductionLine> productionLineOptional = productionLines.stream().filter(productionLine -> productionLine.getId().equals(equipment.getProductionLine())).findAny();
             productionLineOptional.ifPresent(productionLine -> equipmentDto.setProductionLine(ProductionLineDto.from(productionLine)));
+
             Optional<Person> personOptional = people.stream().filter(person -> person.getId().equals(equipment.getResponsible())).findAny();
             personOptional.ifPresent(person -> equipmentDto.setResponsible(PersonDto.from(person)));
+
             Optional<Process> processOptional = processes.stream().filter(process -> process.getId().equals(equipment.getProcess())).findAny();
             processOptional.ifPresent(process->equipmentDto.setProcess(ProcessDto.from(process)));
+
             Optional<Asset> assetOptional = assets.stream().filter(asset->asset.getId().equals(equipment.getAsset())).findAny();
             assetOptional.ifPresent(asset->equipmentDto.setAsset(AssetDto.from(asset)));
+
+            Optional<CdEquipmentGroup> equipmentGroupOptional = equipmentGroups.stream().filter(cdEquipmentGroup -> cdEquipmentGroup.getId().equals(equipment.getEquipmentGroup())).findAny();
+            equipmentGroupOptional.ifPresent(group->equipmentDto.setEquipmentGroup(EquipmentGroupDto.from(group)));
+
             return equipmentDto;
         }).collect(Collectors.toList());
     }

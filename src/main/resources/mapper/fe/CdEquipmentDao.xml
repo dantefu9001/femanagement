@@ -10,7 +10,7 @@
     <result column="production_line" jdbcType="INTEGER" property="productionLine" />
     <result column="process" jdbcType="INTEGER" property="process" />
     <result column="asset" jdbcType="INTEGER" property="asset" />
-    <result column="equipment_groups" jdbcType="INTEGER" property="equipmentGroups" />
+    <result column="equipment_group" jdbcType="INTEGER" property="equipmentGroup" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="is_auto_dispatch" jdbcType="VARCHAR" property="isAutoDispatch" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -32,7 +32,7 @@
     <result column="enterprise" jdbcType="INTEGER" property="enterprise" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, picture, code, "name", responsible, production_line, "process", asset, equipment_groups,
+    id, picture, code, "name", responsible, production_line, "process", asset, equipment_group,
     description, is_auto_dispatch, "status", model, manufacturer, specification, serial_number,
     date_of_production, date_of_installation, date_of_first_use, expires_years, date_of_expiration,
     custom_attributes, created_by, created_time, updated_by, updated_time, is_delete,
@@ -64,7 +64,7 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdEquipment" useGeneratedKeys="true">
     insert into "cd_equipment" (id, picture, code, "name",
       responsible, production_line, "process",
-      asset, equipment_groups, description,
+      asset, equipment_group, description,
       is_auto_dispatch, "status", model,
       manufacturer, specification, serial_number,
       date_of_production, date_of_installation, date_of_first_use,
@@ -74,7 +74,7 @@
       )
     values (#{id,jdbcType=INTEGER}, #{picture,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
       #{responsible,jdbcType=INTEGER}, #{productionLine,jdbcType=INTEGER}, #{process,jdbcType=INTEGER},
-      #{asset,jdbcType=INTEGER}, #{equipmentGroups,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
+      #{asset,jdbcType=INTEGER}, #{equipmentGroup,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
       #{isAutoDispatch,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{model,jdbcType=VARCHAR},
       #{manufacturer,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR},
       #{dateOfProduction,jdbcType=DATE}, #{dateOfInstallation,jdbcType=DATE}, #{dateOfFirstUse,jdbcType=DATE},
@@ -107,8 +107,8 @@
       <if test="asset != null">
         asset,
       </if>
-      <if test="equipmentGroups != null">
-        equipment_groups,
+      <if test="equipmentGroup != null">
+        equipment_group,
       </if>
       <if test="description != null">
         description,
@@ -190,8 +190,8 @@
       <if test="asset != null">
         #{asset,jdbcType=INTEGER},
       </if>
-      <if test="equipmentGroups != null">
-        #{equipmentGroups,jdbcType=INTEGER},
+      <if test="equipmentGroup != null">
+        #{equipmentGroup,jdbcType=INTEGER},
       </if>
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
@@ -276,8 +276,8 @@
       <if test="asset != null">
         asset = #{asset,jdbcType=INTEGER},
       </if>
-      <if test="equipmentGroups != null">
-        equipment_groups = #{equipmentGroups,jdbcType=INTEGER},
+      <if test="equipmentGroup != null">
+        equipment_group = #{equipmentGroup,jdbcType=INTEGER},
       </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
@@ -348,7 +348,7 @@
       production_line = #{productionLine,jdbcType=INTEGER},
       "process" = #{process,jdbcType=INTEGER},
       asset = #{asset,jdbcType=INTEGER},
-      equipment_groups = #{equipmentGroups,jdbcType=INTEGER},
+      equipment_group = #{equipmentGroup,jdbcType=INTEGER},
       description = #{description,jdbcType=VARCHAR},
       is_auto_dispatch = #{isAutoDispatch,jdbcType=VARCHAR},
       "status" = #{status,jdbcType=INTEGER},

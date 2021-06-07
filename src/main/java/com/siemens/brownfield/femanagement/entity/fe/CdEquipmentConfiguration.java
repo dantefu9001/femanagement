@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * cd_equipment
+ * cd_equipment_configuration
  * @author
  */
 @Data
@@ -16,109 +16,44 @@ public class CdEquipmentConfiguration implements Serializable {
     private Integer id;
 
     /**
-     * 图片的url
+     * 引用设备
      */
-    private String picture;
+    private Integer equipmentId;
 
     /**
-     * fromBF
+     * 编号
      */
     private String code;
 
     /**
-     * fromBF
+     * 参数
      */
-    private String name;
+    private String param;
 
     /**
-     * fromBF
+     * 类型
      */
-    private Integer responsible;
+    private String type;
 
     /**
-     * fromBF
+     * 单位
      */
-    private Integer productionLine;
+    private String unit;
 
     /**
-     * fromBF
+     * 上限
      */
-    private Integer process;
+    private String max;
 
     /**
-     * fromBF
+     * 下限
      */
-    private Integer asset;
+    private String min;
 
     /**
-     * 设备组
+     * 默认值
      */
-    private Integer equipmentGroups;
-
-    /**
-     * 描述
-     */
-    private String description;
-
-    /**
-     * 自动分派
-     */
-    private String isAutoDispatch;
-
-    /**
-     * 引用状态表
-     */
-    private Integer status;
-
-    /**
-     * 型号
-     */
-    private String model;
-
-    /**
-     * 厂家
-     */
-    private String manufacturer;
-
-    /**
-     * 规格
-     */
-    private String specification;
-
-    /**
-     * 出厂编号
-     */
-    private String serialNumber;
-
-    /**
-     * 出厂日期
-     */
-    private Date dateOfProduction;
-
-    /**
-     * 安装日期
-     */
-    private Date dateOfInstallation;
-
-    /**
-     * 首次使用
-     */
-    private Date dateOfFirstUse;
-
-    /**
-     * 报废年限
-     */
-    private Integer expiresYears;
-
-    /**
-     * 报废期限
-     */
-    private Date dateOfExpiration;
-
-    /**
-     * json格式的自定义属性
-     */
-    private String customAttributes;
+    private String defaultValue;
 
     /**
      * 创建人
@@ -146,7 +81,7 @@ public class CdEquipmentConfiguration implements Serializable {
     private String isDelete;
 
     /**
-     * 引用企业机构表
+     * 引用机构表
      */
     private Integer enterprise;
 

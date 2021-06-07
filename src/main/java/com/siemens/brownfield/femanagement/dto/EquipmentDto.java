@@ -57,7 +57,7 @@ public class EquipmentDto {
     /**
      * 设备组
      */
-    private Integer equipmentGroups;
+    private EquipmentGroupDto equipmentGroup;
 
     /**
      * 描述
@@ -139,11 +139,6 @@ public class EquipmentDto {
                 .picture(equipment.getPicture())
                 .code(equipment.getCode())
                 .name(equipment.getName())
-//                .responsibleId(equipment.getResponsible())
-//                .productionLineId(equipment.getProductionLine())
-//                .processId(equipment.getProcess())
-//                .assetId(equipment.getAsset())
-                .equipmentGroups(equipment.getEquipmentGroups())
                 .description(equipment.getDescription())
                 .isAutoDispatch(equipment.getIsAutoDispatch())
                 .status(equipment.getStatus())
