@@ -170,6 +170,7 @@ public class CdEquipment implements Serializable {
                 .asset(Objects.isNull(dto.getAsset()) ? null : dto.getAsset().getId())
                 .equipmentGroup(Objects.isNull(dto.getEquipmentGroup()) ? null : dto.getEquipmentGroup().getId())
                 .description(dto.getDescription())
+                .isDelete(dto.getIsDelete())
                 .isAutoDispatch(dto.getIsAutoDispatch())
                 .status(dto.getStatus())
                 .model(dto.getModel())

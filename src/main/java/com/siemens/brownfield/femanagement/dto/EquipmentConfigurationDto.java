@@ -1,13 +1,13 @@
-package com.siemens.brownfield.femanagement.entity.fe;
+package com.siemens.brownfield.femanagement.dto;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import com.siemens.brownfield.femanagement.dto.EquipmentConfigurationDto;
+import com.siemens.brownfield.femanagement.entity.fe.CdEquipmentConfiguration;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * cd_equipment_configuration
@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CdEquipmentConfiguration implements Serializable {
+public class EquipmentConfigurationDto {
     /**
      * id
      */
@@ -93,19 +93,18 @@ public class CdEquipmentConfiguration implements Serializable {
      */
     private Integer enterprise;
 
-    private static final long serialVersionUID = 1L;
-
-    public static CdEquipmentConfiguration from(EquipmentConfigurationDto configurationDto) {
-        return CdEquipmentConfiguration.builder()
-                .id(configurationDto.getId())
-                .equipmentId(configurationDto.getEquipmentId())
-                .code(configurationDto.getCode())
-                .param(configurationDto.getParam())
-                .type(configurationDto.getType())
-                .unit(configurationDto.getUnit())
-                .max(configurationDto.getMax())
-                .min(configurationDto.getMin())
+    public static EquipmentConfigurationDto from(CdEquipmentConfiguration configuration) {
+        return EquipmentConfigurationDto.builder()
+                .id(configuration.getId())
+                .equipmentId(configuration.getEquipmentId())
+                .code(configuration.getCode())
+                .param(configuration.getParam())
+                .type(configuration.getType())
+                .unit(configuration.getUnit())
+                .max(configuration.getMax())
+                .min(configuration.getMin())
                 .isDelete("0")
                 .build();
     }
+
 }

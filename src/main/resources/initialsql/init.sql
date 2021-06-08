@@ -233,13 +233,10 @@ comment on column cd_equipment_group.is_delete is '软删除标识符';
 comment on column cd_equipment_group.enterprise is '引用机构表';
 
 alter table cd_equipment_group owner to postgres;
-
 create table cd_equipment_configuration
 (
-    id integer not null
-        constraint cd_equipment_configurations_pkey
-            primary key,
-    equipment_id integer,
+    id integer not null,
+    equipment_id integer not null,
     code varchar(32),
     param varchar(32),
     type varchar(32),
@@ -252,7 +249,9 @@ create table cd_equipment_configuration
     updated_by varchar(32),
     updated_time date,
     is_delete varchar(32),
-    enterprise integer
+    enterprise integer,
+    constraint cd_equipment_configuration_pk
+        primary key (id, equipment_id)
 );
 
 comment on table cd_equipment_configuration is '设备参数配置';
