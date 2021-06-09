@@ -27,10 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -87,13 +83,13 @@ public class EquipmentServiceImpl implements EquipmentService {
             personOptional.ifPresent(person -> equipmentDto.setResponsible(PersonDto.from(person)));
 
             Optional<Process> processOptional = processes.stream().filter(process -> process.getId().equals(equipment.getProcess())).findAny();
-            processOptional.ifPresent(process->equipmentDto.setProcess(ProcessDto.from(process)));
+            processOptional.ifPresent(process -> equipmentDto.setProcess(ProcessDto.from(process)));
 
-            Optional<Asset> assetOptional = assets.stream().filter(asset->asset.getId().equals(equipment.getAsset())).findAny();
-            assetOptional.ifPresent(asset->equipmentDto.setAsset(AssetDto.from(asset)));
+            Optional<Asset> assetOptional = assets.stream().filter(asset -> asset.getId().equals(equipment.getAsset())).findAny();
+            assetOptional.ifPresent(asset -> equipmentDto.setAsset(AssetDto.from(asset)));
 
             Optional<CdEquipmentGroup> equipmentGroupOptional = equipmentGroups.stream().filter(cdEquipmentGroup -> cdEquipmentGroup.getId().equals(equipment.getEquipmentGroup())).findAny();
-            equipmentGroupOptional.ifPresent(group->equipmentDto.setEquipmentGroup(EquipmentGroupDto.from(group)));
+            equipmentGroupOptional.ifPresent(group -> equipmentDto.setEquipmentGroup(EquipmentGroupDto.from(group)));
 
             return equipmentDto;
         }).collect(Collectors.toList());
@@ -163,46 +159,16 @@ public class EquipmentServiceImpl implements EquipmentService {
         }
     }
 
-
-    public void getFileByBytes() {
+    @Override
+    public byte[] getFileByBytes(String id) {
         byte[] result = new byte[0];
         try {
-            Object object = equipmentBasicPictureDao.getFiles().get(0);
+            Object object = equipmentBasicPictureDao.getFileById(id);
             result = (byte[]) object;
         } catch (Exception e) {
+            log.error(e.getMessage());
             e.printStackTrace();
         }
-        BufferedOutputStream bos = null;
-        FileOutputStream fos = null;
-        File file = null;
-        try {
-            file = new File("/Users/zenan/Documents/codes/git/femanagement/file.jpg");
-
-            //输出流
-            fos = new FileOutputStream(file);
-
-            //缓冲流
-            bos = new BufferedOutputStream(fos);
-
-            //将字节数组写出
-            bos.write(result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (bos != null) {
-                try {
-                    bos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        return result;
     }
 }

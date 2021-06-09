@@ -19,4 +19,5 @@ public interface EquipmentService {
 
     String savePictureAsBlob(MultipartFile file);
 
+    byte[] getFileByBytes(String id);
 }

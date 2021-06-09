@@ -31,4 +31,7 @@
   <select id="getFiles" resultType="java.lang.Object">
     select file_content from cd_equipment_basic_picture
   </select>
+  <select id="getFileById" resultType="java.lang.Object">
+    select file_content from cd_equipment_basic_picture where file_id=#{id}
+  </select>
 </mapper>

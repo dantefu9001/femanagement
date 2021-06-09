@@ -68,7 +68,12 @@ public class EquipmentController {
     }
 
     @PostMapping(value = "/upload-pic")
-    public CommonResult<String> uploadPicture(@RequestParam MultipartFile file){
+    public CommonResult<String> uploadPicture(@RequestParam MultipartFile file) {
         return CommonResult.<String>builder().data(equipmentService.savePictureAsBlob(file)).build();
+    }
+
+    @GetMapping(value = "/pic/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    public byte[] getPicture(@PathVariable String id){
+        return equipmentService.getFileByBytes(id);
     }
 }

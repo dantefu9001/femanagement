@@ -10,4 +10,6 @@ public interface CdEquipmentBasicPictureDao {
     int insertSelective(CdEquipmentBasicPicture record);
 
     List<Object> getFiles();
+
+    Object getFileById(String id);
 }
