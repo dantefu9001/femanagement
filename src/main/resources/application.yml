@@ -10,7 +10,7 @@ spring:
       password: postgres
     BF:
       driver-class-name: org.postgresql.Driver
-      url: jdbc:postgresql://192.168.3.221:5432/stcl_order_entry_db?useSSL=false
+      url: jdbc:postgresql://58.49.121.174:5432/stcl_order_entry_db?useSSL=false
       username: postgres
       password: pgSiemens2o2o
 

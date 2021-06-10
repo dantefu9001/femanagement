@@ -2,13 +2,22 @@ package com.siemens.brownfield.femanagement.entity.fe;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.siemens.brownfield.femanagement.dto.EquipmentDto;
+import com.siemens.brownfield.femanagement.dto.EquipmentGroupDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * cd_equipment_group
  * @author
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CdEquipmentGroup implements Serializable {
     /**
      * id
@@ -51,4 +60,11 @@ public class CdEquipmentGroup implements Serializable {
     private Integer enterprise;
 
     private static final long serialVersionUID = 1L;
+
+    public static CdEquipmentGroup from(EquipmentGroupDto equipmentDto) {
+        return CdEquipmentGroup.builder()
+                .id(equipmentDto.getId())
+                .name(equipmentDto.getName())
+                .build();
+    }
 }
