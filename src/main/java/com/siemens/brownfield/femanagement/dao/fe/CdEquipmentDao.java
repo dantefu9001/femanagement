@@ -9,7 +9,8 @@ public interface CdEquipmentDao {
 
     List<CdEquipment> getEquipments(@Param("name") String name,
                                     @Param("responsible") List<Integer> responsible,
-                                    @Param("productionLines") List<Integer> productionLine);
+                                    @Param("productionLines") List<Integer> productionLine,
+                                    @Param("groupId") Integer groupId);
 
     int deleteByPrimaryKey(Integer id);
 

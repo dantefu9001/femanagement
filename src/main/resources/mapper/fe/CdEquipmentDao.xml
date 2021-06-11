@@ -61,6 +61,7 @@
                 #{item}
             </foreach>
         </if>
+        and equipment_group = #{groupId}
         and is_delete != '1'
         order by updated_time
     </select>

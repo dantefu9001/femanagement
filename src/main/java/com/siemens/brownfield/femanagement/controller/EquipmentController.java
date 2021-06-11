@@ -36,8 +36,9 @@ public class EquipmentController {
     @GetMapping()
     public List<EquipmentDto> getEquipments(@Nullable @RequestParam("name") String name,
                                             @Nullable @RequestParam("responsible") String responsible,
-                                            @Nullable @RequestParam("workshop") String workshop) {
-        return equipmentService.getEquipments(name, responsible, workshop);
+                                            @Nullable @RequestParam("workshop") String workshop,
+                                            @Nullable @RequestParam("group") Integer group) {
+        return equipmentService.getEquipments(name, responsible, workshop, group);
     }
 
     @ApiOperation(value = "获取指定设备")
