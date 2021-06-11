@@ -19,4 +19,6 @@ public interface PersonDao {
     int updateByPrimaryKey(Person record);
 
     List<Person> selectPersonnel();
+
+    List<Person> selectByName(String responsible);
 }

@@ -22,9 +22,11 @@ import com.siemens.brownfield.femanagement.entity.fe.CdEquipmentGroup;
 import com.siemens.brownfield.femanagement.service.EquipmentGroupService;
 import com.siemens.brownfield.femanagement.service.EquipmentService;
 import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -66,8 +68,13 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
-    public List<EquipmentDto> getEquipments(String name, String code) {
-        List<CdEquipment> equipments = equipmentDao.getEquipments(name, code);
+    public List<EquipmentDto> getEquipments(String name, String responsible, String workshop) {
+        if (Strings.isEmpty(name)) {
+            name = Strings.EMPTY;
+        }
+        List<Integer> responsibleIds = personDao.selectByName(responsible).stream().map(Person::getId).collect(Collectors.toList());
+        List<Integer> productionLineIds = productionLineDao.selectByName(workshop).stream().map(ProductionLine::getId).collect(Collectors.toList());
+        List<CdEquipment> equipments = equipmentDao.getEquipments(name, responsibleIds, productionLineIds);
         List<ProductionLine> productionLines = productionLineDao.getProductionLines();
         List<Person> people = personDao.selectPersonnel();
         List<Process> processes = processDao.getProcessList();

@@ -19,4 +19,6 @@ public interface ProductionLineDao {
     int updateByPrimaryKey(ProductionLine record);
 
     List<ProductionLine> getProductionLines();
+
+    List<ProductionLine> selectByName(String workshop);
 }

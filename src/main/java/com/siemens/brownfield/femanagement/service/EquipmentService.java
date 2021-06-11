@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EquipmentService {
 
-    List<EquipmentDto> getEquipments(String name, String code);
+    List<EquipmentDto> getEquipments(String name, String responsible, String workshop);
 
     EquipmentDto getEquipmentById(Integer id);
 

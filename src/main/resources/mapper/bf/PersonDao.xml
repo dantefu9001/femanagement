@@ -32,7 +32,14 @@
   <select id="selectPersonnel" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/> from "person"
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByName" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/> from "person"
+      where 1=1
+      <if test="responsible!=null and responsible !=''">
+      and username like '%'||#{responsible,jdbcType=VARCHAR}||'%'
+      </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from "person"
     where id = #{id,jdbcType=INTEGER}
   </delete>

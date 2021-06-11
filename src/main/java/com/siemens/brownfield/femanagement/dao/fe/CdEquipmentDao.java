@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface CdEquipmentDao {
 
-    List<CdEquipment> getEquipments(@Param("name") String name,@Param("code") String code);
+    List<CdEquipment> getEquipments(@Param("name") String name,
+                                    @Param("responsible") List<Integer> responsible,
+                                    @Param("productionLines") List<Integer> productionLine);
 
     int deleteByPrimaryKey(Integer id);
 
