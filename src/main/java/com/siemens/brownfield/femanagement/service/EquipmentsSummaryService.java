@@ -8,13 +8,11 @@ public interface EquipmentsSummaryService {
 
     List<EquipmentSummaryDto> getSummaryList(String type, String description);
 
-    EquipmentSummaryDto getEquipmentById(Integer id);
-
     Boolean addEquipmentSummary(EquipmentSummaryDto equipmentSummaryDto);
 
-    EquipmentSummaryDto updateEquipmentSummary(EquipmentSummaryDto equipmentSummaryDto);
+    Boolean updateEquipmentSummary(EquipmentSummaryDto equipmentSummaryDto);
 
-    Boolean deleteEquipmentSummary(Integer id);
+    Boolean deleteEquipmentSummary(List<Integer> ids);
 
 
 

@@ -29,7 +29,8 @@
         select
         <include refid="Base_Column_List"/>
         from cd_equipment_management_summary
-        where "type" = #{type}
+        where is_delete = '0'
+        and "type" = #{type}
         <if test="summary!=null and summary!=''">
             and summary like '%'||#{summary}||'%'
         </if>
@@ -182,4 +183,12 @@
       enterprise = #{enterprise,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <update id="softDeleteEquipmentSummary">
+        update "cd_equipment_management_summary"
+        set is_delete = '1'
+        where 1=1 and id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 </mapper>

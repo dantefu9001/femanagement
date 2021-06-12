@@ -20,4 +20,6 @@ public interface CdEquipmentManagementSummaryDao {
     int updateByPrimaryKeySelective(CdEquipmentManagementSummary record);
 
     int updateByPrimaryKey(CdEquipmentManagementSummary record);
+
+    Boolean softDeleteEquipmentSummary(List<Integer> ids);
 }

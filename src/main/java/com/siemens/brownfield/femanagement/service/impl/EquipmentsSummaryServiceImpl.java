@@ -7,10 +7,7 @@ import com.siemens.brownfield.femanagement.service.EquipmentsSummaryService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -42,11 +39,6 @@ public class EquipmentsSummaryServiceImpl implements EquipmentsSummaryService {
     }
 
     @Override
-    public EquipmentSummaryDto getEquipmentById(Integer id) {
-        return null;
-    }
-
-    @Override
     public Boolean addEquipmentSummary(EquipmentSummaryDto equipmentSummaryDto) {
         try {
             equipmentManagementSummaryDao.insertSelective(CdEquipmentManagementSummary.from(equipmentSummaryDto));
@@ -58,12 +50,12 @@ public class EquipmentsSummaryServiceImpl implements EquipmentsSummaryService {
     }
 
     @Override
-    public EquipmentSummaryDto updateEquipmentSummary(EquipmentSummaryDto equipmentSummaryDto) {
-        return null;
+    public Boolean updateEquipmentSummary(EquipmentSummaryDto equipmentSummaryDto) {
+        return equipmentManagementSummaryDao.updateByPrimaryKeySelective(CdEquipmentManagementSummary.from(equipmentSummaryDto)) == 1;
     }
 
     @Override
-    public Boolean deleteEquipmentSummary(Integer id) {
-        return null;
+    public Boolean deleteEquipmentSummary(List<Integer> ids) {
+        return equipmentManagementSummaryDao.softDeleteEquipmentSummary(ids);
     }
 }

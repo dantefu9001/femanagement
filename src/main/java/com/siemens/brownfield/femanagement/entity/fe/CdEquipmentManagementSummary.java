@@ -76,11 +76,13 @@ public class CdEquipmentManagementSummary implements Serializable {
 
     public static CdEquipmentManagementSummary from(EquipmentSummaryDto summaryDto) {
         CdEquipmentManagementSummary equipmentManagementSummary = new CdEquipmentManagementSummary();
+        equipmentManagementSummary.setId(summaryDto.getId());
         equipmentManagementSummary.setSummary(summaryDto.getSummary());
         equipmentManagementSummary.setSummaryTime(Date.from(Instant.now()));
         equipmentManagementSummary.setPerson(summaryDto.getPerson());
         equipmentManagementSummary.setGroup(summaryDto.getGroup());
         equipmentManagementSummary.setType(summaryDto.getType());
+        equipmentManagementSummary.setIsDelete("0");
         equipmentManagementSummary.setCreatedTime(Date.from(Instant.now()));
         equipmentManagementSummary.setUpdatedTime(Date.from(Instant.now()));
         return equipmentManagementSummary;

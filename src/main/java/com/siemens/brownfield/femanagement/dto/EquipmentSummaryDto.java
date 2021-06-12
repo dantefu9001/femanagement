@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 /**
  * cd_equipment_managment_summary
@@ -18,6 +19,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EquipmentSummaryDto {
+
+    private List<Integer> ids;
     /**
      * id
      */

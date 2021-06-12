@@ -1,6 +1,7 @@
 package com.siemens.brownfield.femanagement.controller;
 
 import com.siemens.brownfield.femanagement.common.CommonResult;
+import com.siemens.brownfield.femanagement.dto.EquipmentConfigurationDeleteDto;
 import com.siemens.brownfield.femanagement.dto.EquipmentSummaryDto;
 import com.siemens.brownfield.femanagement.service.EquipmentsSummaryService;
 import io.swagger.annotations.ApiOperation;
@@ -40,5 +41,15 @@ public class EquipmentsSummaryController {
         return CommonResult.<Boolean>builder()
                 .data(success)
                 .build();
+    }
+
+    @PostMapping("/delete")
+    public Boolean deleteEquipmentConfiguration( @RequestBody EquipmentSummaryDto dto) {
+        return equipmentsSummaryService.deleteEquipmentSummary(dto.getIds());
+    }
+
+    @PostMapping("/update")
+    public Boolean updateEquipmentConfiguration( @RequestBody EquipmentSummaryDto dto) {
+        return equipmentsSummaryService.updateEquipmentSummary(dto);
     }
 }
