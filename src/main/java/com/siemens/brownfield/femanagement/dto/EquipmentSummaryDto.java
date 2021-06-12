@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -40,7 +41,7 @@ public class EquipmentSummaryDto {
     /**
      * 时间
      */
-    private Date summaryTime;
+    private String summaryTime;
 
     /**
      * 小结

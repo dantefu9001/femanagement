@@ -1,13 +1,12 @@
 package com.siemens.brownfield.femanagement.service;
 
-import com.siemens.brownfield.femanagement.dto.EquipmentDto;
 import com.siemens.brownfield.femanagement.dto.EquipmentSummaryDto;
 
 import java.util.List;
 
 public interface EquipmentsSummaryService {
 
-    List<EquipmentSummaryDto> getSummaryList();
+    List<EquipmentSummaryDto> getSummaryList(String type, String description);
 
     EquipmentSummaryDto getEquipmentById(Integer id);
 

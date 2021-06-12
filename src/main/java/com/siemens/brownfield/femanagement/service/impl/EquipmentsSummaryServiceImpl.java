@@ -7,7 +7,12 @@ import com.siemens.brownfield.femanagement.service.EquipmentsSummaryService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,13 +26,19 @@ public class EquipmentsSummaryServiceImpl implements EquipmentsSummaryService {
     }
 
     @Override
-    public List<EquipmentSummaryDto> getSummaryList() {
-        return equipmentManagementSummaryDao.getEquipmentManagementSummary().stream().map(equipmentSummary-> EquipmentSummaryDto.builder()
-                .summary(equipmentSummary.getSummary())
-                .summaryTime(equipmentSummary.getSummaryTime())
-                .group(1)
-                .person(1)
-                .build()).collect(Collectors.toList());
+    public List<EquipmentSummaryDto> getSummaryList(String type, String summary) {
+        List<EquipmentSummaryDto> summaryDtos = equipmentManagementSummaryDao.getEquipmentManagementSummary(type, summary)
+                .stream().map(equipmentSummary -> EquipmentSummaryDto.builder()
+                        .id(equipmentSummary.getId())
+                        .type(CdEquipmentManagementSummary.EquipmentManagementSummary.getValueByType(equipmentSummary.getType()))
+                        .summary(equipmentSummary.getSummary())
+                        .summaryTime(Objects.nonNull(equipmentSummary.getSummaryTime())
+                                ? new SimpleDateFormat("yyyy-MM-dd").format(equipmentSummary.getSummaryTime())
+                                : "")
+                        .group(equipmentSummary.getGroup())
+                        .person(equipmentSummary.getPerson())
+                        .build()).collect(Collectors.toList());
+        return summaryDtos;
     }
 
     @Override
@@ -38,7 +49,7 @@ public class EquipmentsSummaryServiceImpl implements EquipmentsSummaryService {
     @Override
     public Boolean addEquipmentSummary(EquipmentSummaryDto equipmentSummaryDto) {
         try {
-            equipmentManagementSummaryDao.insert(CdEquipmentManagementSummary.from(equipmentSummaryDto));
+            equipmentManagementSummaryDao.insertSelective(CdEquipmentManagementSummary.from(equipmentSummaryDto));
             return true;
         } catch (Exception e) {
             log.info(e.getMessage());

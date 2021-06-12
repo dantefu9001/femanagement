@@ -2,6 +2,7 @@ package com.siemens.brownfield.femanagement.entity.fe;
 
 import com.siemens.brownfield.femanagement.dto.EquipmentSummaryDto;
 import lombok.Data;
+import org.apache.logging.log4j.util.Strings;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -76,12 +77,30 @@ public class CdEquipmentManagementSummary implements Serializable {
     public static CdEquipmentManagementSummary from(EquipmentSummaryDto summaryDto) {
         CdEquipmentManagementSummary equipmentManagementSummary = new CdEquipmentManagementSummary();
         equipmentManagementSummary.setSummary(summaryDto.getSummary());
-        equipmentManagementSummary.setSummaryTime(summaryDto.getSummaryTime());
+        equipmentManagementSummary.setSummaryTime(Date.from(Instant.now()));
         equipmentManagementSummary.setPerson(summaryDto.getPerson());
         equipmentManagementSummary.setGroup(summaryDto.getGroup());
         equipmentManagementSummary.setType(summaryDto.getType());
         equipmentManagementSummary.setCreatedTime(Date.from(Instant.now()));
         equipmentManagementSummary.setUpdatedTime(Date.from(Instant.now()));
         return equipmentManagementSummary;
+    }
+
+    public enum EquipmentManagementSummary{
+        weekly("周总结"),
+        monthly("月总结");
+
+        private String value;
+
+        EquipmentManagementSummary(String value){
+            this.value = value;
+        }
+
+        public static String getValueByType(String type){
+            if (Strings.isEmpty(type)) {
+                return Strings.EMPTY;
+            }
+            return EquipmentManagementSummary.valueOf(type).value;
+        }
     }
 }
