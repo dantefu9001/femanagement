@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductionLineDto {
     private Integer id;
+    private Integer parentId;
     private String name;
 
     public static ProductionLineDto from(ProductionLine productionLine) {

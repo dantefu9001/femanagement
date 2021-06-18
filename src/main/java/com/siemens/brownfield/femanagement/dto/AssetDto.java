@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AssetDto {
 
+    private Integer parentId;
     private String name;
     private Integer id;
 

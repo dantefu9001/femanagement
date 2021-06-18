@@ -1,16 +1,18 @@
 server:
-  port: 8080
-
+  port: 8091
+  servlet:
+    context-path: "/api"
 spring:
   datasource:
     FE:
       driver-class-name: org.postgresql.Driver
-      url: jdbc:postgresql://localhost:5432/postgres?useSSL=false
+      url: jdbc:postgresql://192.168.3.221:5432/femanagement?useSSL=false
       username: postgres
-      password: postgres
+      password: pgSiemens2o2o
     BF:
       driver-class-name: org.postgresql.Driver
-      url: jdbc:postgresql://58.49.121.174:5432/stcl_order_entry_db?useSSL=false
+#      url: jdbc:postgresql://58.49.121.174:5432/stcl_order_entry_db?useSSL=false
+      url: jdbc:postgresql://192.168.3.221:5432/stcl_order_entry_db?useSSL=false
       username: postgres
       password: pgSiemens2o2o
 

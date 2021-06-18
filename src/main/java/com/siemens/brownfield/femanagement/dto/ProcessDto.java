@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProcessDto {
 
+    private Integer parentId;
     private Integer id;
     private String name;
 
