@@ -2,13 +2,21 @@ package com.siemens.brownfield.femanagement.entity.bf;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.siemens.brownfield.femanagement.dto.AssetDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * asset
  * @author
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Asset implements Serializable {
     private Integer id;
 
@@ -41,4 +49,11 @@ public class Asset implements Serializable {
     private Boolean deleted;
 
     private static final long serialVersionUID = 1L;
+
+    public static Asset from(AssetDto assetDto) {
+        return Asset.builder()
+                .groupLeader(assetDto.getGroupLeader())
+                .assetName(assetDto.getName())
+                .build();
+    }
 }

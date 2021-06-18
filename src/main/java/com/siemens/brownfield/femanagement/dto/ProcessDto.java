@@ -15,6 +15,7 @@ public class ProcessDto {
     private Integer parentId;
     private Integer id;
     private String name;
+    private String groupLeader;
 
     public static ProcessDto from(Process process) {
         return ProcessDto.builder()

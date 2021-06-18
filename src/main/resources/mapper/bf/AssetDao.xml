@@ -34,9 +34,27 @@
     <include refid="Base_Column_List" />
     from "asset"
   </select>
+  <select id="getAssetListByParentId" resultType="java.lang.Integer">
+    select asset_id from asset_process where process_id = #{processId}
+  </select>
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from "asset"
+    where id in
+    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from "asset"
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteAssetProcessRelationByProcessId">
+    delete from "asset_process" where process_id = #{processId}
+    </delete>
+  <delete id="deleteAssetProcessRelation">
+    delete from "asset_process" where process_id = #{parentId} and id = #{id}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.bf.Asset" useGeneratedKeys="true">
     insert into "asset" (asset_num, asset_name, physical_location,
@@ -140,6 +158,9 @@
         #{deleted,jdbcType=BOOLEAN},
       </if>
     </trim>
+  </insert>
+  <insert id="insertAssetProcessRelation">
+    insert into asset_process (asset_id, process_id) values (#{id},#{parentId})
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.siemens.brownfield.femanagement.entity.bf.Asset">
     update "asset"

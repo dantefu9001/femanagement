@@ -37,6 +37,10 @@
     delete from "production_line"
     where id = #{id,jdbcType=INTEGER}
   </delete>
+    <delete id="deleteProduction">
+        update from "production_line"
+        set deleted = true where id = #{id}
+    </delete>
     <insert id="insert" keyColumn="id" keyProperty="id"
             parameterType="com.siemens.brownfield.femanagement.entity.bf.ProductionLine" useGeneratedKeys="true">
     insert into "production_line" (organization_id, production_line_num,

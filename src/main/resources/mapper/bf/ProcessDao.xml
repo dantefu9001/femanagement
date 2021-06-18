@@ -1,44 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.siemens.brownfield.femanagement.dao.bf.ProcessDao">
-  <resultMap id="BaseResultMap" type="com.siemens.brownfield.femanagement.entity.bf.Process">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="process_num" jdbcType="VARCHAR" property="processNum" />
-    <result column="process_name" jdbcType="VARCHAR" property="processName" />
-    <result column="process_code" jdbcType="VARCHAR" property="processCode" />
-    <result column="process_type" jdbcType="VARCHAR" property="processType" />
-    <result column="group_leader" jdbcType="VARCHAR" property="groupLeader" />
-    <result column="ready_time" jdbcType="VARCHAR" property="readyTime" />
-    <result column="max_wip_quantity" jdbcType="DOUBLE" property="maxWipQuantity" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
-    <result column="creator" jdbcType="VARCHAR" property="creator" />
-    <result column="creation_time" jdbcType="DATE" property="creationTime" />
-    <result column="extras" jdbcType="OTHER" property="extras" />
-    <result column="basic_data_version" jdbcType="VARCHAR" property="basicDataVersion" />
-    <result column="deleted" jdbcType="BOOLEAN" property="deleted" />
-    <result column="hourly_rate" jdbcType="DOUBLE" property="hourlyRate" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.siemens.brownfield.femanagement.entity.bf.Process">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="process_num" jdbcType="VARCHAR" property="processNum"/>
+        <result column="process_name" jdbcType="VARCHAR" property="processName"/>
+        <result column="process_code" jdbcType="VARCHAR" property="processCode"/>
+        <result column="process_type" jdbcType="VARCHAR" property="processType"/>
+        <result column="group_leader" jdbcType="VARCHAR" property="groupLeader"/>
+        <result column="ready_time" jdbcType="VARCHAR" property="readyTime"/>
+        <result column="max_wip_quantity" jdbcType="DOUBLE" property="maxWipQuantity"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="organization_id" jdbcType="INTEGER" property="organizationId"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="creation_time" jdbcType="DATE" property="creationTime"/>
+        <result column="extras" jdbcType="OTHER" property="extras"/>
+        <result column="basic_data_version" jdbcType="VARCHAR" property="basicDataVersion"/>
+        <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
+        <result column="hourly_rate" jdbcType="DOUBLE" property="hourlyRate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, process_num, process_name, process_code, process_type, group_leader, ready_time,
     max_wip_quantity, description, organization_id, creator, creation_time, extras, basic_data_version,
     deleted, hourly_rate
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from "process"
-    where id = #{id,jdbcType=INTEGER}
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from "process"
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getProcessList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from "process"
+    </select>
+    <select id="getProcessListByParentId" resultType="java.lang.Integer">
+    select process_id from process_production_line where production_line_id = #{productionLineId}
   </select>
-  <select id="getProcessList" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" /> from "process"
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from "process"
+        where id in
+        <foreach collection="processIds" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from "process"
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.bf.Process" useGeneratedKeys="true">
+    <delete id="deleteProcessProcessLineRelationByProcessLineId">
+        delete from "process_production_line" where production_line_id = #{productionLineId}
+    </delete>
+    <delete id="deleteProcessProductionLineRelation">
+        delete from "process_production_line" where production_line_id = #{parentId} and id = #{id}
+  </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id"
+            parameterType="com.siemens.brownfield.femanagement.entity.bf.Process" useGeneratedKeys="true">
     insert into "process" (process_num, process_name, process_code,
       process_type, group_leader, ready_time,
       max_wip_quantity, description, organization_id,
@@ -52,155 +72,159 @@
       #{basicDataVersion,jdbcType=VARCHAR}, #{deleted,jdbcType=BOOLEAN}, #{hourlyRate,jdbcType=DOUBLE}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.bf.Process" useGeneratedKeys="true">
-    insert into "process"
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="processNum != null">
-        process_num,
-      </if>
-      <if test="processName != null">
-        process_name,
-      </if>
-      <if test="processCode != null">
-        process_code,
-      </if>
-      <if test="processType != null">
-        process_type,
-      </if>
-      <if test="groupLeader != null">
-        group_leader,
-      </if>
-      <if test="readyTime != null">
-        ready_time,
-      </if>
-      <if test="maxWipQuantity != null">
-        max_wip_quantity,
-      </if>
-      <if test="description != null">
-        description,
-      </if>
-      <if test="organizationId != null">
-        organization_id,
-      </if>
-      <if test="creator != null">
-        creator,
-      </if>
-      <if test="creationTime != null">
-        creation_time,
-      </if>
-      <if test="extras != null">
-        extras,
-      </if>
-      <if test="basicDataVersion != null">
-        basic_data_version,
-      </if>
-      <if test="deleted != null">
-        deleted,
-      </if>
-      <if test="hourlyRate != null">
-        hourly_rate,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="processNum != null">
-        #{processNum,jdbcType=VARCHAR},
-      </if>
-      <if test="processName != null">
-        #{processName,jdbcType=VARCHAR},
-      </if>
-      <if test="processCode != null">
-        #{processCode,jdbcType=VARCHAR},
-      </if>
-      <if test="processType != null">
-        #{processType,jdbcType=VARCHAR},
-      </if>
-      <if test="groupLeader != null">
-        #{groupLeader,jdbcType=VARCHAR},
-      </if>
-      <if test="readyTime != null">
-        #{readyTime,jdbcType=VARCHAR},
-      </if>
-      <if test="maxWipQuantity != null">
-        #{maxWipQuantity,jdbcType=DOUBLE},
-      </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="organizationId != null">
-        #{organizationId,jdbcType=INTEGER},
-      </if>
-      <if test="creator != null">
-        #{creator,jdbcType=VARCHAR},
-      </if>
-      <if test="creationTime != null">
-        #{creationTime,jdbcType=DATE},
-      </if>
-      <if test="extras != null">
-        #{extras,jdbcType=OTHER},
-      </if>
-      <if test="basicDataVersion != null">
-        #{basicDataVersion,jdbcType=VARCHAR},
-      </if>
-      <if test="deleted != null">
-        #{deleted,jdbcType=BOOLEAN},
-      </if>
-      <if test="hourlyRate != null">
-        #{hourlyRate,jdbcType=DOUBLE},
-      </if>
-    </trim>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.siemens.brownfield.femanagement.entity.bf.Process" useGeneratedKeys="true">
+        insert into "process"
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="processNum != null">
+                process_num,
+            </if>
+            <if test="processName != null">
+                process_name,
+            </if>
+            <if test="processCode != null">
+                process_code,
+            </if>
+            <if test="processType != null">
+                process_type,
+            </if>
+            <if test="groupLeader != null">
+                group_leader,
+            </if>
+            <if test="readyTime != null">
+                ready_time,
+            </if>
+            <if test="maxWipQuantity != null">
+                max_wip_quantity,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="organizationId != null">
+                organization_id,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="creationTime != null">
+                creation_time,
+            </if>
+            <if test="extras != null">
+                extras,
+            </if>
+            <if test="basicDataVersion != null">
+                basic_data_version,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="hourlyRate != null">
+                hourly_rate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="processNum != null">
+                #{processNum,jdbcType=VARCHAR},
+            </if>
+            <if test="processName != null">
+                #{processName,jdbcType=VARCHAR},
+            </if>
+            <if test="processCode != null">
+                #{processCode,jdbcType=VARCHAR},
+            </if>
+            <if test="processType != null">
+                #{processType,jdbcType=VARCHAR},
+            </if>
+            <if test="groupLeader != null">
+                #{groupLeader,jdbcType=VARCHAR},
+            </if>
+            <if test="readyTime != null">
+                #{readyTime,jdbcType=VARCHAR},
+            </if>
+            <if test="maxWipQuantity != null">
+                #{maxWipQuantity,jdbcType=DOUBLE},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="organizationId != null">
+                #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creationTime != null">
+                #{creationTime,jdbcType=DATE},
+            </if>
+            <if test="extras != null">
+                #{extras,jdbcType=OTHER},
+            </if>
+            <if test="basicDataVersion != null">
+                #{basicDataVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=BOOLEAN},
+            </if>
+            <if test="hourlyRate != null">
+                #{hourlyRate,jdbcType=DOUBLE},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertProcessProductionLineRelation">
+    insert into "process_production_line" (process_id, production_line_id) values(#{id},#{parentId})
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.siemens.brownfield.femanagement.entity.bf.Process">
-    update "process"
-    <set>
-      <if test="processNum != null">
-        process_num = #{processNum,jdbcType=VARCHAR},
-      </if>
-      <if test="processName != null">
-        process_name = #{processName,jdbcType=VARCHAR},
-      </if>
-      <if test="processCode != null">
-        process_code = #{processCode,jdbcType=VARCHAR},
-      </if>
-      <if test="processType != null">
-        process_type = #{processType,jdbcType=VARCHAR},
-      </if>
-      <if test="groupLeader != null">
-        group_leader = #{groupLeader,jdbcType=VARCHAR},
-      </if>
-      <if test="readyTime != null">
-        ready_time = #{readyTime,jdbcType=VARCHAR},
-      </if>
-      <if test="maxWipQuantity != null">
-        max_wip_quantity = #{maxWipQuantity,jdbcType=DOUBLE},
-      </if>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="organizationId != null">
-        organization_id = #{organizationId,jdbcType=INTEGER},
-      </if>
-      <if test="creator != null">
-        creator = #{creator,jdbcType=VARCHAR},
-      </if>
-      <if test="creationTime != null">
-        creation_time = #{creationTime,jdbcType=DATE},
-      </if>
-      <if test="extras != null">
-        extras = #{extras,jdbcType=OTHER},
-      </if>
-      <if test="basicDataVersion != null">
-        basic_data_version = #{basicDataVersion,jdbcType=VARCHAR},
-      </if>
-      <if test="deleted != null">
-        deleted = #{deleted,jdbcType=BOOLEAN},
-      </if>
-      <if test="hourlyRate != null">
-        hourly_rate = #{hourlyRate,jdbcType=DOUBLE},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.siemens.brownfield.femanagement.entity.bf.Process">
+    <update id="updateByPrimaryKeySelective" parameterType="com.siemens.brownfield.femanagement.entity.bf.Process">
+        update "process"
+        <set>
+            <if test="processNum != null">
+                process_num = #{processNum,jdbcType=VARCHAR},
+            </if>
+            <if test="processName != null">
+                process_name = #{processName,jdbcType=VARCHAR},
+            </if>
+            <if test="processCode != null">
+                process_code = #{processCode,jdbcType=VARCHAR},
+            </if>
+            <if test="processType != null">
+                process_type = #{processType,jdbcType=VARCHAR},
+            </if>
+            <if test="groupLeader != null">
+                group_leader = #{groupLeader,jdbcType=VARCHAR},
+            </if>
+            <if test="readyTime != null">
+                ready_time = #{readyTime,jdbcType=VARCHAR},
+            </if>
+            <if test="maxWipQuantity != null">
+                max_wip_quantity = #{maxWipQuantity,jdbcType=DOUBLE},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="organizationId != null">
+                organization_id = #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creationTime != null">
+                creation_time = #{creationTime,jdbcType=DATE},
+            </if>
+            <if test="extras != null">
+                extras = #{extras,jdbcType=OTHER},
+            </if>
+            <if test="basicDataVersion != null">
+                basic_data_version = #{basicDataVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=BOOLEAN},
+            </if>
+            <if test="hourlyRate != null">
+                hourly_rate = #{hourlyRate,jdbcType=DOUBLE},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.siemens.brownfield.femanagement.entity.bf.Process">
     update "process"
     set process_num = #{processNum,jdbcType=VARCHAR},
       process_name = #{processName,jdbcType=VARCHAR},

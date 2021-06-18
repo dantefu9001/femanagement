@@ -21,4 +21,6 @@ public interface ProductionLineDao {
     List<ProductionLine> getProductionLines();
 
     List<ProductionLine> selectByName(String workshop);
+
+    void deleteProduction(Integer id);
 }

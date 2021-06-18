@@ -2,13 +2,21 @@ package com.siemens.brownfield.femanagement.entity.bf;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.siemens.brownfield.femanagement.dto.ProcessDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * process
  * @author
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Process implements Serializable {
     private Integer id;
 
@@ -46,4 +54,11 @@ public class Process implements Serializable {
     private Double hourlyRate;
 
     private static final long serialVersionUID = 1L;
+
+    public static Process from(ProcessDto processDto) {
+        return Process.builder()
+                .id(processDto.getId())
+                .groupLeader(processDto.getGroupLeader())
+                .build();
+    }
 }
