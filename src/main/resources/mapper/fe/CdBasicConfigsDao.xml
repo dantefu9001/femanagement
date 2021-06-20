@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siemens.brownfield.femanagement.dao.fe.CdBasicConfigsDao">
+    <resultMap id="BaseResultMap" type="com.siemens.brownfield.femanagement.entity.fe.CdBasicConfigs">
+        <result column="easy_mode" jdbcType="BOOLEAN" property="easyMode"/>
+        <result column="auto_dispatch" jdbcType="BOOLEAN" property="autoDispatch"/>
+        <result column="enable_validation" jdbcType="BOOLEAN" property="enableValidation"/>
+        <result column="maintenance_alarm" jdbcType="BOOLEAN" property="maintenanceAlarm"/>
+        <result column="maintenance_waiting" jdbcType="VARCHAR" property="maintenanceWaiting"/>
+        <result column="down_time" jdbcType="VARCHAR" property="downTime"/>
+        <result column="maintenance_dispatch_time" jdbcType="VARCHAR" property="maintenanceDispatchTime"/>
+        <result column="malfunction_types" jdbcType="VARCHAR" property="malfunctionTypes"/>
+        <result column="malfunction_level" jdbcType="VARCHAR" property="malfunctionLevel"/>
+        <result column="equipment_management_summary" jdbcType="BOOLEAN" property="equipmentManagementSummary"/>
+        <result column="spare_part_management" jdbcType="BOOLEAN" property="sparePartManagement"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdBasicConfigs">
+    insert into "cd_basic_configs" (easy_mode, auto_dispatch, enable_validation,
+      maintenance_alarm, maintenance_waiting, down_time,
+      maintenance_dispatch_time, malfunction_types,
+      malfunction_level, equipment_management_summary,
+      spare_part_management)
+    values (#{easyMode,jdbcType=BOOLEAN}, #{autoDispatch,jdbcType=BOOLEAN}, #{enableValidation,jdbcType=BOOLEAN},
+      #{maintenanceAlarm,jdbcType=BOOLEAN}, #{maintenanceWaiting,jdbcType=VARCHAR}, #{downTime,jdbcType=VARCHAR},
+      #{maintenanceDispatchTime,jdbcType=VARCHAR}, #{malfunctionTypes,jdbcType=VARCHAR},
+      #{malfunctionLevel,jdbcType=VARCHAR}, #{equipmentManagementSummary,jdbcType=BOOLEAN},
+      #{sparePartManagement,jdbcType=BOOLEAN})
+  </insert>
+    <insert id="insertSelective" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdBasicConfigs">
+        insert into "cd_basic_configs"
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="easyMode != null">
+                easy_mode,
+            </if>
+            <if test="autoDispatch != null">
+                auto_dispatch,
+            </if>
+            <if test="enableValidation != null">
+                enable_validation,
+            </if>
+            <if test="maintenanceAlarm != null">
+                maintenance_alarm,
+            </if>
+            <if test="maintenanceWaiting != null">
+                maintenance_waiting,
+            </if>
+            <if test="downTime != null">
+                down_time,
+            </if>
+            <if test="maintenanceDispatchTime != null">
+                maintenance_dispatch_time,
+            </if>
+            <if test="malfunctionTypes != null">
+                malfunction_types,
+            </if>
+            <if test="malfunctionLevel != null">
+                malfunction_level,
+            </if>
+            <if test="equipmentManagementSummary != null">
+                equipment_management_summary,
+            </if>
+            <if test="sparePartManagement != null">
+                spare_part_management,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="easyMode != null">
+                #{easyMode,jdbcType=BOOLEAN},
+            </if>
+            <if test="autoDispatch != null">
+                #{autoDispatch,jdbcType=BOOLEAN},
+            </if>
+            <if test="enableValidation != null">
+                #{enableValidation,jdbcType=BOOLEAN},
+            </if>
+            <if test="maintenanceAlarm != null">
+                #{maintenanceAlarm,jdbcType=BOOLEAN},
+            </if>
+            <if test="maintenanceWaiting != null">
+                #{maintenanceWaiting,jdbcType=VARCHAR},
+            </if>
+            <if test="downTime != null">
+                #{downTime,jdbcType=VARCHAR},
+            </if>
+            <if test="maintenanceDispatchTime != null">
+                #{maintenanceDispatchTime,jdbcType=VARCHAR},
+            </if>
+            <if test="malfunctionTypes != null">
+                #{malfunctionTypes,jdbcType=VARCHAR},
+            </if>
+            <if test="malfunctionLevel != null">
+                #{malfunctionLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="equipmentManagementSummary != null">
+                #{equipmentManagementSummary,jdbcType=BOOLEAN},
+            </if>
+            <if test="sparePartManagement != null">
+                #{sparePartManagement,jdbcType=BOOLEAN},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdBasicConfigs">
+    update cd_basic_configs
+    set easy_mode = #{easyMode},
+        auto_dispatch = #{autoDispatch},
+        enable_validation = #{enableValidation},
+        maintenance_alarm = #{maintenanceAlarm},
+        maintenance_waiting = #{maintenanceWaiting},
+        down_time = #{downTime},
+        maintenance_dispatch_time = #{maintenanceDispatchTime},
+        malfunction_types = #{malfunctionTypes},
+        malfunction_level = #{malfunctionLevel},
+        equipment_management_summary =#{equipmentManagementSummary},
+        spare_part_management = #{sparePartManagement}
+        where id = 0
+  </update>
+    <select id="getConfig" resultMap="BaseResultMap">
+    select * from cd_basic_configs limit 1
+  </select>
+</mapper>
