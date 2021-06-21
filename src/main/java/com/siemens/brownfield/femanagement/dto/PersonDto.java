@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PersonDto {
 
-    public PersonDto(String id){
-        this.id = Integer.valueOf(id);
+    public PersonDto(Integer id) {
+        this.id = id;
     }
 
     private Integer id;

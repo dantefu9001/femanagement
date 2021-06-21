@@ -17,6 +17,10 @@ public class ProcessDto {
     private String name;
     private String groupLeader;
 
+    public ProcessDto(Integer id){
+        this.id = id;
+    }
+
     public static ProcessDto from(Process process) {
         return ProcessDto.builder()
                 .id(process.getId())

@@ -452,9 +452,27 @@
       enterprise = #{enterprise,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="batchSoftDelete">
+    update cd_maintenance set is_delete = '1'
+    where id in
+    <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
 
   <select id="getList" resultMap="BaseResultMap">
-    select * from cd_maintenance
+select *
+from cd_maintenance
+where equipment in (select id
+                    from cd_equipment
+                    where equipment_group in (select id from cd_equipment_group where name like '%'||#{group}||'%')
+                      and name like '%'||#{equipment}||'%') and is_delete = '0'
+                      <if test="startDate!=null">
+                        and to_char(submit_time,'yyyy-MM-dd') >=#{startDate}
+                      </if>
+                      <if test="endDate!=null">
+                        and to_char(submit_time,'yyyy-MM-dd')&lt;=#{endDate}
+                      </if>
   </select>
 
 </mapper>

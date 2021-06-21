@@ -15,6 +15,10 @@ public class EquipmentGroupDto {
     private Integer id;
     private String name;
 
+    public EquipmentGroupDto(Integer id){
+        this.id = id;
+    }
+
     public static EquipmentGroupDto from(CdEquipmentGroup cdEquipmentGroup) {
         return EquipmentGroupDto.builder()
                 .id(cdEquipmentGroup.getId())

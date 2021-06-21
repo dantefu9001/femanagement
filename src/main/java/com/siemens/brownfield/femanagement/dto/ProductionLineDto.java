@@ -15,6 +15,10 @@ public class ProductionLineDto {
     private Integer parentId;
     private String name;
 
+    public ProductionLineDto(Integer id){
+        this.id = id;
+    }
+
     public static ProductionLineDto from(ProductionLine productionLine) {
         return ProductionLineDto.builder()
                 .id(productionLine.getId())

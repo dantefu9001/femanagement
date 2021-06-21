@@ -17,6 +17,10 @@ public class AssetDto {
     private Integer id;
     private String groupLeader;
 
+    public AssetDto(Integer id){
+        this.id = id;
+    }
+
     public static AssetDto from(Asset asset) {
         return AssetDto.builder().id(asset.getId()).name(asset.getAssetName()).build();
     }

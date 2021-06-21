@@ -1,7 +1,6 @@
 package com.siemens.brownfield.femanagement.service;
 
 import com.siemens.brownfield.femanagement.dto.MaintenanceDto;
-import com.siemens.brownfield.femanagement.dto.MaintenanceResDto;
 
 import java.util.List;
 
@@ -10,5 +9,5 @@ public interface MaintenanceService {
 
     void add(MaintenanceDto dto);
 
-    void delete(MaintenanceDto dto);
+    void delete(List<Integer> dto);
 }

@@ -207,10 +207,12 @@ public class CdMaintenance implements Serializable {
 
     public static CdMaintenance from(MaintenanceDto dto) {
         return CdMaintenance.builder()
+                .code(dto.getCode())
                 .equipment(dto.getEquipment().getId())
                 .submitTime(Date.from(Instant.now()))
                 .malfunctionDesc(dto.getDescription())
                 .malfunctionPhotos(Strings.join(Arrays.asList(dto.getPicUrls()),','))
+                .malfunctionDesc(dto.getDescription())
                 .status("已提交")
                 .isDelete("0")
                 .build();

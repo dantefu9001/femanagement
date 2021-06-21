@@ -1,6 +1,7 @@
 package com.siemens.brownfield.femanagement.dao.fe;
 
 import com.siemens.brownfield.femanagement.entity.fe.CdMaintenance;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,5 +18,9 @@ public interface CdMaintenanceDao {
 
     int updateByPrimaryKey(CdMaintenance record);
 
-    List<CdMaintenance> getList(String equipment, String group, String start, String end);
+    List<CdMaintenance> getList(@Param("equipment") String equipment, @Param("group") String group,
+                                @Param("startDate") String start, @Param("endDate") String end);
+
+    void batchSoftDelete(List<Integer> ids);
+
 }

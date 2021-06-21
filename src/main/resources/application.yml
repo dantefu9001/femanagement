@@ -4,6 +4,9 @@ server:
     context-path: "/api"
 spring:
   datasource:
+    hikari:
+      max-lifetime: 180
+      connection-timeout: 30000
     FE:
       driver-class-name: org.postgresql.Driver
       url: jdbc:postgresql://192.168.3.221:5432/femanagement?useSSL=false
