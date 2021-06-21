@@ -133,6 +133,10 @@ public class EquipmentDto {
      */
     private Integer enterprise;
 
+    public EquipmentDto(String id){
+        this.id = Integer.valueOf(id);
+    }
+
     public static EquipmentDto from(CdEquipment equipment) {
         return EquipmentDto.builder()
                 .id(equipment.getId())

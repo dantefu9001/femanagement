@@ -20,4 +20,6 @@ public interface EquipmentService {
     String savePictureAsBlob(MultipartFile file);
 
     byte[] getFileByBytes(String id);
+
+    List<EquipmentDto> getEquipmentsByProcessId(Integer processId);
 }

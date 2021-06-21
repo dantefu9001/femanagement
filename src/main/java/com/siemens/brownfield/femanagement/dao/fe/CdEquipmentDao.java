@@ -1,5 +1,6 @@
 package com.siemens.brownfield.femanagement.dao.fe;
 
+import com.siemens.brownfield.femanagement.dto.EquipmentDto;
 import com.siemens.brownfield.femanagement.entity.fe.CdEquipment;
 import org.apache.ibatis.annotations.Param;
 
@@ -23,4 +24,6 @@ public interface CdEquipmentDao {
     int updateByPrimaryKeySelective(CdEquipment record);
 
     int updateByPrimaryKey(CdEquipment record);
+
+    List<EquipmentDto> getEquipmentsByProcessId(Integer processId);
 }

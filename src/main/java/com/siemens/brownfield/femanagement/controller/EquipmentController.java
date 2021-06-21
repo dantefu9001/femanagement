@@ -41,6 +41,11 @@ public class EquipmentController {
         return equipmentService.getEquipments(name, responsible, workshop, group);
     }
 
+    @GetMapping("/process={processId}")
+    public List<EquipmentDto> getEquipmentByProcessId(@PathVariable("processId") Integer processId) {
+        return equipmentService.getEquipmentsByProcessId(processId);
+    }
+
     @ApiOperation(value = "获取指定设备")
     @GetMapping("/{id}")
     public EquipmentDto getEquipmentById(@PathVariable("id") Integer id) {

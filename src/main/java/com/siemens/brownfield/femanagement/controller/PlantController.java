@@ -5,6 +5,7 @@ import com.siemens.brownfield.femanagement.dto.AssetDto;
 import com.siemens.brownfield.femanagement.dto.ProcessDto;
 import com.siemens.brownfield.femanagement.dto.ProductionLineDto;
 import com.siemens.brownfield.femanagement.service.PlantService;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,7 +48,7 @@ public class PlantController {
     }
 
     @GetMapping("/process/list")
-    public List<ProcessDto> getProcesses(@RequestParam("parentId") Integer parentId) {
+    public List<ProcessDto> getProcesses(@Nullable @RequestParam("parentId") Integer parentId) {
         return plantService.getProcessesByProductionId(parentId);
     }
 

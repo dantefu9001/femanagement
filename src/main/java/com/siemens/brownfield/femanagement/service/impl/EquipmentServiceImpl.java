@@ -177,4 +177,9 @@ public class EquipmentServiceImpl implements EquipmentService {
         }
         return result;
     }
+
+    @Override
+    public List<EquipmentDto> getEquipmentsByProcessId(Integer processId) {
+        return equipmentDao.getEquipmentsByProcessId(processId);
+    }
 }

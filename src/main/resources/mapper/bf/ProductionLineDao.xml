@@ -28,10 +28,7 @@
     <select id="selectByName" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from "production_line" where 1=1
-        <if test="workshop!=null and workshop!=''">
-           and production_line_num like '%'||#{workshop}||'%'
-        </if>
+        from "production_line" where production_line_num like '%'||#{workshop}||'%'
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from "production_line"

@@ -12,6 +12,7 @@ public class ExceptionHandlerAdvice {
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
     public CommonResult<Object> errorHandler(Exception e) {
+        e.printStackTrace();
         return CommonResult.builder()
                 .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(e.getMessage())

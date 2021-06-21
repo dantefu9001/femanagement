@@ -3,7 +3,35 @@
 <mapper namespace="com.siemens.brownfield.femanagement.dao.fe.CdMaintenanceDao">
   <resultMap id="BaseResultMap" type="com.siemens.brownfield.femanagement.entity.fe.CdMaintenance">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="equipment" jdbcType="INTEGER" property="equipment" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="workshop" jdbcType="INTEGER" property="workshop" />
+    <result column="area" jdbcType="INTEGER" property="area" />
+    <result column="process" jdbcType="INTEGER" property="process" />
+    <result column="submitter" jdbcType="INTEGER" property="submitter" />
+    <result column="submit_time" jdbcType="DATE" property="submitTime" />
+    <result column="malfunction_desc" jdbcType="VARCHAR" property="malfunctionDesc" />
+    <result column="malfunction_photos" jdbcType="VARCHAR" property="malfunctionPhotos" />
+    <result column="malfunction_type" jdbcType="INTEGER" property="malfunctionType" />
+    <result column="malfunction_level" jdbcType="INTEGER" property="malfunctionLevel" />
+    <result column="auditor" jdbcType="INTEGER" property="auditor" />
+    <result column="audit_time" jdbcType="DATE" property="auditTime" />
+    <result column="dispatcher" jdbcType="INTEGER" property="dispatcher" />
+    <result column="dispatch_time" jdbcType="DATE" property="dispatchTime" />
+    <result column="dispatch_info" jdbcType="VARCHAR" property="dispatchInfo" />
+    <result column="maintenance_deadline" jdbcType="DATE" property="maintenanceDeadline" />
+    <result column="maintenance_personnel" jdbcType="INTEGER" property="maintenancePersonnel" />
+    <result column="maintenance_desc" jdbcType="VARCHAR" property="maintenanceDesc" />
+    <result column="maintenance_finish_time" jdbcType="DATE" property="maintenanceFinishTime" />
+    <result column="troubleshooting_time" jdbcType="INTEGER" property="troubleshootingTime" />
+    <result column="maintenance_time" jdbcType="INTEGER" property="maintenanceTime" />
+    <result column="precautions" jdbcType="VARCHAR" property="precautions" />
+    <result column="validator" jdbcType="INTEGER" property="validator" />
+    <result column="validate_time" jdbcType="DATE" property="validateTime" />
+    <result column="validate_desc" jdbcType="VARCHAR" property="validateDesc" />
+    <result column="validate_judgement" jdbcType="VARCHAR" property="validateJudgement" />
+    <result column="maintenance_photos" jdbcType="VARCHAR" property="maintenancePhotos" />
     <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
     <result column="created_time" jdbcType="DATE" property="createdTime" />
     <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
@@ -12,31 +40,140 @@
     <result column="enterprise" jdbcType="INTEGER" property="enterprise" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, "name", created_by, created_time, updated_by, updated_time, is_delete, enterprise
+    id, equipment, code, "status", workshop, area, "process", submitter, submit_time,
+    malfunction_desc, malfunction_photos, malfunction_type, malfunction_level, auditor,
+    audit_time, dispatcher, dispatch_time, dispatch_info, maintenance_deadline, maintenance_personnel,
+    maintenance_desc, maintenance_finish_time, troubleshooting_time, maintenance_time,
+    precautions, "validator", validate_time, validate_desc, validate_judgement, maintenance_photos,
+    created_by, created_time, updated_by, updated_time, is_delete, enterprise
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from "cd_equipment_group"
+    from "cd_maintenance"
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from "cd_equipment_group"
+    delete from "cd_maintenance"
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdMaintenance" useGeneratedKeys="true">
-    insert into "cd_equipment_group" ("name", created_by, created_time,
+    insert into "cd_maintenance" (equipment, code, "status",
+      workshop, area, "process",
+      submitter, submit_time, malfunction_desc,
+      malfunction_photos, malfunction_type, malfunction_level,
+      auditor, audit_time, dispatcher,
+      dispatch_time, dispatch_info, maintenance_deadline,
+      maintenance_personnel, maintenance_desc,
+      maintenance_finish_time, troubleshooting_time,
+      maintenance_time, precautions, "validator",
+      validate_time, validate_desc, validate_judgement,
+      maintenance_photos, created_by, created_time,
       updated_by, updated_time, is_delete,
       enterprise)
-    values (#{name,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=DATE},
+    values (#{equipment,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+      #{workshop,jdbcType=INTEGER}, #{area,jdbcType=INTEGER}, #{process,jdbcType=INTEGER},
+      #{submitter,jdbcType=INTEGER}, #{submitTime,jdbcType=DATE}, #{malfunctionDesc,jdbcType=VARCHAR},
+      #{malfunctionPhotos,jdbcType=VARCHAR}, #{malfunctionType,jdbcType=INTEGER}, #{malfunctionLevel,jdbcType=INTEGER},
+      #{auditor,jdbcType=INTEGER}, #{auditTime,jdbcType=DATE}, #{dispatcher,jdbcType=INTEGER},
+      #{dispatchTime,jdbcType=DATE}, #{dispatchInfo,jdbcType=VARCHAR}, #{maintenanceDeadline,jdbcType=DATE},
+      #{maintenancePersonnel,jdbcType=INTEGER}, #{maintenanceDesc,jdbcType=VARCHAR},
+      #{maintenanceFinishTime,jdbcType=DATE}, #{troubleshootingTime,jdbcType=INTEGER},
+      #{maintenanceTime,jdbcType=INTEGER}, #{precautions,jdbcType=VARCHAR}, #{validator,jdbcType=INTEGER},
+      #{validateTime,jdbcType=DATE}, #{validateDesc,jdbcType=VARCHAR}, #{validateJudgement,jdbcType=VARCHAR},
+      #{maintenancePhotos,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=DATE},
       #{updatedBy,jdbcType=VARCHAR}, #{updatedTime,jdbcType=DATE}, #{isDelete,jdbcType=VARCHAR},
       #{enterprise,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdMaintenance" useGeneratedKeys="true">
-    insert into "cd_equipment_group"
+    insert into "cd_maintenance"
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        "name",
+      <if test="equipment != null">
+        equipment,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="status != null">
+        "status",
+      </if>
+      <if test="workshop != null">
+        workshop,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="process != null">
+        "process",
+      </if>
+      <if test="submitter != null">
+        submitter,
+      </if>
+      <if test="submitTime != null">
+        submit_time,
+      </if>
+      <if test="malfunctionDesc != null">
+        malfunction_desc,
+      </if>
+      <if test="malfunctionPhotos != null">
+        malfunction_photos,
+      </if>
+      <if test="malfunctionType != null">
+        malfunction_type,
+      </if>
+      <if test="malfunctionLevel != null">
+        malfunction_level,
+      </if>
+      <if test="auditor != null">
+        auditor,
+      </if>
+      <if test="auditTime != null">
+        audit_time,
+      </if>
+      <if test="dispatcher != null">
+        dispatcher,
+      </if>
+      <if test="dispatchTime != null">
+        dispatch_time,
+      </if>
+      <if test="dispatchInfo != null">
+        dispatch_info,
+      </if>
+      <if test="maintenanceDeadline != null">
+        maintenance_deadline,
+      </if>
+      <if test="maintenancePersonnel != null">
+        maintenance_personnel,
+      </if>
+      <if test="maintenanceDesc != null">
+        maintenance_desc,
+      </if>
+      <if test="maintenanceFinishTime != null">
+        maintenance_finish_time,
+      </if>
+      <if test="troubleshootingTime != null">
+        troubleshooting_time,
+      </if>
+      <if test="maintenanceTime != null">
+        maintenance_time,
+      </if>
+      <if test="precautions != null">
+        precautions,
+      </if>
+      <if test="validator != null">
+        "validator",
+      </if>
+      <if test="validateTime != null">
+        validate_time,
+      </if>
+      <if test="validateDesc != null">
+        validate_desc,
+      </if>
+      <if test="validateJudgement != null">
+        validate_judgement,
+      </if>
+      <if test="maintenancePhotos != null">
+        maintenance_photos,
       </if>
       <if test="createdBy != null">
         created_by,
@@ -58,8 +195,92 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="equipment != null">
+        #{equipment,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="workshop != null">
+        #{workshop,jdbcType=INTEGER},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=INTEGER},
+      </if>
+      <if test="process != null">
+        #{process,jdbcType=INTEGER},
+      </if>
+      <if test="submitter != null">
+        #{submitter,jdbcType=INTEGER},
+      </if>
+      <if test="submitTime != null">
+        #{submitTime,jdbcType=DATE},
+      </if>
+      <if test="malfunctionDesc != null">
+        #{malfunctionDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="malfunctionPhotos != null">
+        #{malfunctionPhotos,jdbcType=VARCHAR},
+      </if>
+      <if test="malfunctionType != null">
+        #{malfunctionType,jdbcType=INTEGER},
+      </if>
+      <if test="malfunctionLevel != null">
+        #{malfunctionLevel,jdbcType=INTEGER},
+      </if>
+      <if test="auditor != null">
+        #{auditor,jdbcType=INTEGER},
+      </if>
+      <if test="auditTime != null">
+        #{auditTime,jdbcType=DATE},
+      </if>
+      <if test="dispatcher != null">
+        #{dispatcher,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchTime != null">
+        #{dispatchTime,jdbcType=DATE},
+      </if>
+      <if test="dispatchInfo != null">
+        #{dispatchInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenanceDeadline != null">
+        #{maintenanceDeadline,jdbcType=DATE},
+      </if>
+      <if test="maintenancePersonnel != null">
+        #{maintenancePersonnel,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceDesc != null">
+        #{maintenanceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenanceFinishTime != null">
+        #{maintenanceFinishTime,jdbcType=DATE},
+      </if>
+      <if test="troubleshootingTime != null">
+        #{troubleshootingTime,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceTime != null">
+        #{maintenanceTime,jdbcType=INTEGER},
+      </if>
+      <if test="precautions != null">
+        #{precautions,jdbcType=VARCHAR},
+      </if>
+      <if test="validator != null">
+        #{validator,jdbcType=INTEGER},
+      </if>
+      <if test="validateTime != null">
+        #{validateTime,jdbcType=DATE},
+      </if>
+      <if test="validateDesc != null">
+        #{validateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="validateJudgement != null">
+        #{validateJudgement,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenancePhotos != null">
+        #{maintenancePhotos,jdbcType=VARCHAR},
       </if>
       <if test="createdBy != null">
         #{createdBy,jdbcType=VARCHAR},
@@ -82,10 +303,94 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdMaintenance">
-    update "cd_equipment_group"
+    update "cd_maintenance"
     <set>
-      <if test="name != null">
-        "name" = #{name,jdbcType=VARCHAR},
+      <if test="equipment != null">
+        equipment = #{equipment,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        "status" = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="workshop != null">
+        workshop = #{workshop,jdbcType=INTEGER},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=INTEGER},
+      </if>
+      <if test="process != null">
+        "process" = #{process,jdbcType=INTEGER},
+      </if>
+      <if test="submitter != null">
+        submitter = #{submitter,jdbcType=INTEGER},
+      </if>
+      <if test="submitTime != null">
+        submit_time = #{submitTime,jdbcType=DATE},
+      </if>
+      <if test="malfunctionDesc != null">
+        malfunction_desc = #{malfunctionDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="malfunctionPhotos != null">
+        malfunction_photos = #{malfunctionPhotos,jdbcType=VARCHAR},
+      </if>
+      <if test="malfunctionType != null">
+        malfunction_type = #{malfunctionType,jdbcType=INTEGER},
+      </if>
+      <if test="malfunctionLevel != null">
+        malfunction_level = #{malfunctionLevel,jdbcType=INTEGER},
+      </if>
+      <if test="auditor != null">
+        auditor = #{auditor,jdbcType=INTEGER},
+      </if>
+      <if test="auditTime != null">
+        audit_time = #{auditTime,jdbcType=DATE},
+      </if>
+      <if test="dispatcher != null">
+        dispatcher = #{dispatcher,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchTime != null">
+        dispatch_time = #{dispatchTime,jdbcType=DATE},
+      </if>
+      <if test="dispatchInfo != null">
+        dispatch_info = #{dispatchInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenanceDeadline != null">
+        maintenance_deadline = #{maintenanceDeadline,jdbcType=DATE},
+      </if>
+      <if test="maintenancePersonnel != null">
+        maintenance_personnel = #{maintenancePersonnel,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceDesc != null">
+        maintenance_desc = #{maintenanceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenanceFinishTime != null">
+        maintenance_finish_time = #{maintenanceFinishTime,jdbcType=DATE},
+      </if>
+      <if test="troubleshootingTime != null">
+        troubleshooting_time = #{troubleshootingTime,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceTime != null">
+        maintenance_time = #{maintenanceTime,jdbcType=INTEGER},
+      </if>
+      <if test="precautions != null">
+        precautions = #{precautions,jdbcType=VARCHAR},
+      </if>
+      <if test="validator != null">
+        "validator" = #{validator,jdbcType=INTEGER},
+      </if>
+      <if test="validateTime != null">
+        validate_time = #{validateTime,jdbcType=DATE},
+      </if>
+      <if test="validateDesc != null">
+        validate_desc = #{validateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="validateJudgement != null">
+        validate_judgement = #{validateJudgement,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenancePhotos != null">
+        maintenance_photos = #{maintenancePhotos,jdbcType=VARCHAR},
       </if>
       <if test="createdBy != null">
         created_by = #{createdBy,jdbcType=VARCHAR},
@@ -109,8 +414,36 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdMaintenance">
-    update "cd_equipment_group"
-    set "name" = #{name,jdbcType=VARCHAR},
+    update "cd_maintenance"
+    set equipment = #{equipment,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      "status" = #{status,jdbcType=VARCHAR},
+      workshop = #{workshop,jdbcType=INTEGER},
+      area = #{area,jdbcType=INTEGER},
+      "process" = #{process,jdbcType=INTEGER},
+      submitter = #{submitter,jdbcType=INTEGER},
+      submit_time = #{submitTime,jdbcType=DATE},
+      malfunction_desc = #{malfunctionDesc,jdbcType=VARCHAR},
+      malfunction_photos = #{malfunctionPhotos,jdbcType=VARCHAR},
+      malfunction_type = #{malfunctionType,jdbcType=INTEGER},
+      malfunction_level = #{malfunctionLevel,jdbcType=INTEGER},
+      auditor = #{auditor,jdbcType=INTEGER},
+      audit_time = #{auditTime,jdbcType=DATE},
+      dispatcher = #{dispatcher,jdbcType=INTEGER},
+      dispatch_time = #{dispatchTime,jdbcType=DATE},
+      dispatch_info = #{dispatchInfo,jdbcType=VARCHAR},
+      maintenance_deadline = #{maintenanceDeadline,jdbcType=DATE},
+      maintenance_personnel = #{maintenancePersonnel,jdbcType=INTEGER},
+      maintenance_desc = #{maintenanceDesc,jdbcType=VARCHAR},
+      maintenance_finish_time = #{maintenanceFinishTime,jdbcType=DATE},
+      troubleshooting_time = #{troubleshootingTime,jdbcType=INTEGER},
+      maintenance_time = #{maintenanceTime,jdbcType=INTEGER},
+      precautions = #{precautions,jdbcType=VARCHAR},
+      "validator" = #{validator,jdbcType=INTEGER},
+      validate_time = #{validateTime,jdbcType=DATE},
+      validate_desc = #{validateDesc,jdbcType=VARCHAR},
+      validate_judgement = #{validateJudgement,jdbcType=VARCHAR},
+      maintenance_photos = #{maintenancePhotos,jdbcType=VARCHAR},
       created_by = #{createdBy,jdbcType=VARCHAR},
       created_time = #{createdTime,jdbcType=DATE},
       updated_by = #{updatedBy,jdbcType=VARCHAR},
@@ -119,4 +452,9 @@
       enterprise = #{enterprise,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getList" resultMap="BaseResultMap">
+    select * from cd_maintenance
+  </select>
+
 </mapper>
