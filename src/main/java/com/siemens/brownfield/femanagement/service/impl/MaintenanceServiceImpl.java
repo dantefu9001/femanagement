@@ -5,21 +5,24 @@ import com.siemens.brownfield.femanagement.dao.bf.ProcessDao;
 import com.siemens.brownfield.femanagement.dao.bf.ProductionLineDao;
 import com.siemens.brownfield.femanagement.dao.fe.CdEquipmentDao;
 import com.siemens.brownfield.femanagement.dao.fe.CdEquipmentGroupDao;
+import com.siemens.brownfield.femanagement.dao.fe.CdMaintenanceConsumptionDao;
 import com.siemens.brownfield.femanagement.dao.fe.CdMaintenanceDao;
 import com.siemens.brownfield.femanagement.dto.EquipmentDto;
 import com.siemens.brownfield.femanagement.dto.MaintenanceDto;
 import com.siemens.brownfield.femanagement.dto.PersonDto;
 import com.siemens.brownfield.femanagement.dto.ProcessDto;
 import com.siemens.brownfield.femanagement.dto.ProductionLineDto;
+import com.siemens.brownfield.femanagement.dto.SparePartDto;
 import com.siemens.brownfield.femanagement.entity.fe.CdEquipment;
 import com.siemens.brownfield.femanagement.entity.fe.CdMaintenance;
+import com.siemens.brownfield.femanagement.entity.fe.CdMaintenanceConsumption;
 import com.siemens.brownfield.femanagement.service.MaintenanceService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -35,15 +38,17 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     private final PersonDao personDao;
     private final ProductionLineDao productionLineDao;
     private final ProcessDao processDao;
+    private final CdMaintenanceConsumptionDao cdMaintenanceConsumptionDao;
 
 
-    public MaintenanceServiceImpl(CdEquipmentDao cdEquipmentDao, CdMaintenanceDao cdMaintenanceDao, CdEquipmentGroupDao cdEquipmentGroupDao, PersonDao personDao, ProductionLineDao productionLineDao, ProcessDao processDao) {
+    public MaintenanceServiceImpl(CdEquipmentDao cdEquipmentDao, CdMaintenanceDao cdMaintenanceDao, CdEquipmentGroupDao cdEquipmentGroupDao, PersonDao personDao, ProductionLineDao productionLineDao, ProcessDao processDao, CdMaintenanceConsumptionDao cdMaintenanceConsumptionDao) {
         this.cdEquipmentDao = cdEquipmentDao;
         this.cdMaintenanceDao = cdMaintenanceDao;
         this.cdEquipmentGroupDao = cdEquipmentGroupDao;
         this.personDao = personDao;
         this.productionLineDao = productionLineDao;
         this.processDao = processDao;
+        this.cdMaintenanceConsumptionDao = cdMaintenanceConsumptionDao;
     }
 
     @Override
@@ -54,7 +59,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         if (Strings.isNotBlank(end)) {
             end = new SimpleDateFormat("yyyy-MM-dd").format(Date.from(Instant.parse(end)));
         }
-        List<MaintenanceDto> list = cdMaintenanceDao.getList(equipment, group,status, start, end).parallelStream().map(maintenance -> {
+        return cdMaintenanceDao.getList(equipment, group,status, start, end).parallelStream().map(maintenance -> {
             MaintenanceDto dto = MaintenanceDto.from(maintenance);
             CdEquipment cdEquipment = cdEquipmentDao.selectByPrimaryKey(maintenance.getEquipment());
             if (Objects.nonNull(cdEquipment)) {
@@ -65,7 +70,6 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             }
             return dto;
         }).collect(Collectors.toList());
-        return list;
     }
 
     @Override
@@ -96,5 +100,14 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         CdMaintenance cdMaintenance = CdMaintenance.maintainFrom(dto);
         cdMaintenance.setStatus("已维护");
         cdMaintenanceDao.updateByPrimaryKeySelective(cdMaintenance);
+        if (Objects.nonNull(dto.getSpareParts()) && dto.getSpareParts().length > 0) {
+            List<SparePartDto> dtos = Arrays.asList(dto.getSpareParts());
+            List<CdMaintenanceConsumption> cdMaintenanceConsumptions = dtos.parallelStream().map(sparePartDto -> CdMaintenanceConsumption.builder()
+                    .maintenance(dto.getId())
+                    .sparePart(sparePartDto.getId())
+                    .number(sparePartDto.getConsumption())
+                    .build()).collect(Collectors.toList());
+            cdMaintenanceConsumptions.forEach(cdMaintenanceConsumptionDao::insertSelective);
+        }
     }
 }

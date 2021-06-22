@@ -1,5 +1,6 @@
 package com.siemens.brownfield.femanagement.dto;
 
+import com.siemens.brownfield.femanagement.entity.fe.CdSparePart;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,22 +11,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class SparePartDto {
-//    id: number,
-//    code: string,
-//    name: string,
-//    stock: number,
-//    unit: string,
-//    consumption: number,
-//    period: number,
-//    remark: string,
     private Integer id;
     private String code;
     private String name;
-    private Integer stock;
+    private String stock;
     private Integer consumption;
     private String unit;
-    private Integer period;
+    private String period;
     private String remark;
 
 
+    public static SparePartDto from(CdSparePart cdSparePart) {
+        return SparePartDto.builder()
+                .id(cdSparePart.getId())
+                .code(cdSparePart.getCode())
+                .name(cdSparePart.getName())
+                .stock(cdSparePart.getStock())
+                .unit(cdSparePart.getUnit())
+                .period(cdSparePart.getReplacementPeriod())
+                .build();
+    }
 }

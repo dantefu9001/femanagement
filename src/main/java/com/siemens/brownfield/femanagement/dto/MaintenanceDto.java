@@ -35,6 +35,7 @@ public class MaintenanceDto {
     private String pauseTime;
     //进行维护时上传的图片
     private String[] maintainPicUrls;
+    private SparePartDto[] spareParts;
 
     public static MaintenanceDto from(CdMaintenance cdMaintenance) {
         return MaintenanceDto.builder()
