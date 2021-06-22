@@ -13,8 +13,8 @@
     <result column="submit_time" jdbcType="DATE" property="submitTime" />
     <result column="malfunction_desc" jdbcType="VARCHAR" property="malfunctionDesc" />
     <result column="malfunction_photos" jdbcType="VARCHAR" property="malfunctionPhotos" />
-    <result column="malfunction_type" jdbcType="INTEGER" property="malfunctionType" />
-    <result column="malfunction_level" jdbcType="INTEGER" property="malfunctionLevel" />
+    <result column="malfunction_type" jdbcType="VARCHAR" property="malfunctionType" />
+    <result column="malfunction_level" jdbcType="VARCHAR" property="malfunctionLevel" />
     <result column="auditor" jdbcType="INTEGER" property="auditor" />
     <result column="audit_time" jdbcType="DATE" property="auditTime" />
     <result column="dispatcher" jdbcType="INTEGER" property="dispatcher" />
@@ -24,8 +24,8 @@
     <result column="maintenance_personnel" jdbcType="INTEGER" property="maintenancePersonnel" />
     <result column="maintenance_desc" jdbcType="VARCHAR" property="maintenanceDesc" />
     <result column="maintenance_finish_time" jdbcType="DATE" property="maintenanceFinishTime" />
-    <result column="troubleshooting_time" jdbcType="INTEGER" property="troubleshootingTime" />
-    <result column="maintenance_time" jdbcType="INTEGER" property="maintenanceTime" />
+    <result column="troubleshooting_time" jdbcType="VARCHAR" property="troubleshootingTime" />
+    <result column="maintenance_time" jdbcType="VARCHAR" property="maintenanceTime" />
     <result column="precautions" jdbcType="VARCHAR" property="precautions" />
     <result column="validator" jdbcType="INTEGER" property="validator" />
     <result column="validate_time" jdbcType="DATE" property="validateTime" />
@@ -74,12 +74,12 @@
     values (#{equipment,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
       #{workshop,jdbcType=INTEGER}, #{area,jdbcType=INTEGER}, #{process,jdbcType=INTEGER},
       #{submitter,jdbcType=INTEGER}, #{submitTime,jdbcType=DATE}, #{malfunctionDesc,jdbcType=VARCHAR},
-      #{malfunctionPhotos,jdbcType=VARCHAR}, #{malfunctionType,jdbcType=INTEGER}, #{malfunctionLevel,jdbcType=INTEGER},
+      #{malfunctionPhotos,jdbcType=VARCHAR}, #{malfunctionType,jdbcType=VARCHAR}, #{malfunctionLevel,jdbcType=VARCHAR},
       #{auditor,jdbcType=INTEGER}, #{auditTime,jdbcType=DATE}, #{dispatcher,jdbcType=INTEGER},
       #{dispatchTime,jdbcType=DATE}, #{dispatchInfo,jdbcType=VARCHAR}, #{maintenanceDeadline,jdbcType=DATE},
       #{maintenancePersonnel,jdbcType=INTEGER}, #{maintenanceDesc,jdbcType=VARCHAR},
-      #{maintenanceFinishTime,jdbcType=DATE}, #{troubleshootingTime,jdbcType=INTEGER},
-      #{maintenanceTime,jdbcType=INTEGER}, #{precautions,jdbcType=VARCHAR}, #{validator,jdbcType=INTEGER},
+      #{maintenanceFinishTime,jdbcType=DATE}, #{troubleshootingTime,jdbcType=VARCHAR},
+      #{maintenanceTime,jdbcType=VARCHAR}, #{precautions,jdbcType=VARCHAR}, #{validator,jdbcType=INTEGER},
       #{validateTime,jdbcType=DATE}, #{validateDesc,jdbcType=VARCHAR}, #{validateJudgement,jdbcType=VARCHAR},
       #{maintenancePhotos,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=DATE},
       #{updatedBy,jdbcType=VARCHAR}, #{updatedTime,jdbcType=DATE}, #{isDelete,jdbcType=VARCHAR},
@@ -226,10 +226,10 @@
         #{malfunctionPhotos,jdbcType=VARCHAR},
       </if>
       <if test="malfunctionType != null">
-        #{malfunctionType,jdbcType=INTEGER},
+        #{malfunctionType,jdbcType=VARCHAR},
       </if>
       <if test="malfunctionLevel != null">
-        #{malfunctionLevel,jdbcType=INTEGER},
+        #{malfunctionLevel,jdbcType=VARCHAR},
       </if>
       <if test="auditor != null">
         #{auditor,jdbcType=INTEGER},
@@ -259,10 +259,10 @@
         #{maintenanceFinishTime,jdbcType=DATE},
       </if>
       <if test="troubleshootingTime != null">
-        #{troubleshootingTime,jdbcType=INTEGER},
+        #{troubleshootingTime,jdbcType=VARCHAR},
       </if>
       <if test="maintenanceTime != null">
-        #{maintenanceTime,jdbcType=INTEGER},
+        #{maintenanceTime,jdbcType=VARCHAR},
       </if>
       <if test="precautions != null">
         #{precautions,jdbcType=VARCHAR},
@@ -336,10 +336,10 @@
         malfunction_photos = #{malfunctionPhotos,jdbcType=VARCHAR},
       </if>
       <if test="malfunctionType != null">
-        malfunction_type = #{malfunctionType,jdbcType=INTEGER},
+        malfunction_type = #{malfunctionType,jdbcType=VARCHAR},
       </if>
       <if test="malfunctionLevel != null">
-        malfunction_level = #{malfunctionLevel,jdbcType=INTEGER},
+        malfunction_level = #{malfunctionLevel,jdbcType=VARCHAR},
       </if>
       <if test="auditor != null">
         auditor = #{auditor,jdbcType=INTEGER},
@@ -369,10 +369,10 @@
         maintenance_finish_time = #{maintenanceFinishTime,jdbcType=DATE},
       </if>
       <if test="troubleshootingTime != null">
-        troubleshooting_time = #{troubleshootingTime,jdbcType=INTEGER},
+        troubleshooting_time = #{troubleshootingTime,jdbcType=VARCHAR},
       </if>
       <if test="maintenanceTime != null">
-        maintenance_time = #{maintenanceTime,jdbcType=INTEGER},
+        maintenance_time = #{maintenanceTime,jdbcType=VARCHAR},
       </if>
       <if test="precautions != null">
         precautions = #{precautions,jdbcType=VARCHAR},
@@ -425,8 +425,8 @@
       submit_time = #{submitTime,jdbcType=DATE},
       malfunction_desc = #{malfunctionDesc,jdbcType=VARCHAR},
       malfunction_photos = #{malfunctionPhotos,jdbcType=VARCHAR},
-      malfunction_type = #{malfunctionType,jdbcType=INTEGER},
-      malfunction_level = #{malfunctionLevel,jdbcType=INTEGER},
+      malfunction_type = #{malfunctionType,jdbcType=VARCHAR},
+      malfunction_level = #{malfunctionLevel,jdbcType=VARCHAR},
       auditor = #{auditor,jdbcType=INTEGER},
       audit_time = #{auditTime,jdbcType=DATE},
       dispatcher = #{dispatcher,jdbcType=INTEGER},
@@ -436,8 +436,8 @@
       maintenance_personnel = #{maintenancePersonnel,jdbcType=INTEGER},
       maintenance_desc = #{maintenanceDesc,jdbcType=VARCHAR},
       maintenance_finish_time = #{maintenanceFinishTime,jdbcType=DATE},
-      troubleshooting_time = #{troubleshootingTime,jdbcType=INTEGER},
-      maintenance_time = #{maintenanceTime,jdbcType=INTEGER},
+      troubleshooting_time = #{troubleshootingTime,jdbcType=VARCHAR},
+      maintenance_time = #{maintenanceTime,jdbcType=VARCHAR},
       precautions = #{precautions,jdbcType=VARCHAR},
       "validator" = #{validator,jdbcType=INTEGER},
       validate_time = #{validateTime,jdbcType=DATE},

@@ -82,12 +82,12 @@ public class CdMaintenance implements Serializable {
     /**
      * 引用故障类型配置表
      */
-    private Integer malfunctionType;
+    private String malfunctionType;
 
     /**
      * 引用故障等级配置表
      */
-    private Integer malfunctionLevel;
+    private String malfunctionLevel;
 
     /**
      * 引用人员
@@ -137,12 +137,12 @@ public class CdMaintenance implements Serializable {
     /**
      * 单位小时
      */
-    private Integer troubleshootingTime;
+    private String troubleshootingTime;
 
     /**
      * 单位小时
      */
-    private Integer maintenanceTime;
+    private String maintenanceTime;
 
     /**
      * 预防措施
@@ -214,20 +214,23 @@ public class CdMaintenance implements Serializable {
                         : null)
                 .submitTime(Date.from(Instant.now()))
                 .malfunctionDesc(dto.getDescription())
-                .malfunctionPhotos(Strings.join(Arrays.asList(dto.getPicUrls()), ','))
-                .malfunctionDesc(dto.getDescription())
-                .status("已提交")
+                .malfunctionPhotos(Objects.nonNull(dto.getPicUrls()) ? Strings.join(Arrays.asList(dto.getPicUrls()), ',') : null)
+                .maintenanceDesc(dto.getMaintenanceDesc())
+                .maintenanceTime(dto.getPauseTime())
                 .isDelete("0")
                 .build();
     }
 
-    public static CdMaintenance from(MaintenanceResDto dto) {
+    public static CdMaintenance maintainFrom(MaintenanceDto dto) {
         return CdMaintenance.builder()
-                .submitTime(Date.from(Instant.now()))
-                .malfunctionDesc(dto.getDescription())
-                .malfunctionPhotos(Strings.join(Arrays.asList(dto.getPicUrls()), ','))
-                .status("已提交")
-                .isDelete("0")
+                .id(dto.getId())
+                .malfunctionType(dto.getMalfunctionType())
+                .maintenanceDesc(dto.getMaintenanceDesc())
+                .maintenanceTime(dto.getPauseTime())
+                .maintenancePhotos(Objects.nonNull(dto.getMaintainPicUrls())
+                        ? Strings.join(Arrays.asList(dto.getMaintainPicUrls()), ',')
+                        : null)
                 .build();
     }
+
 }

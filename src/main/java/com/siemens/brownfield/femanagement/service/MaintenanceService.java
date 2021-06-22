@@ -12,4 +12,6 @@ public interface MaintenanceService {
     void delete(List<Integer> ids);
 
     void audit(List<Integer> ids);
+
+    void maintain(MaintenanceDto dto);
 }

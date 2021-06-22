@@ -25,4 +25,5 @@ public interface CdMaintenanceDao {
     void batchSoftDelete(List<Integer> ids);
 
     void audit(List<Integer> ids);
+
 }

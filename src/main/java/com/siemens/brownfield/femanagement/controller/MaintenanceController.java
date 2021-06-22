@@ -1,7 +1,6 @@
 package com.siemens.brownfield.femanagement.controller;
 
 import com.siemens.brownfield.femanagement.dto.MaintenanceDto;
-import com.siemens.brownfield.femanagement.dto.MaintenanceResDto;
 import com.siemens.brownfield.femanagement.service.MaintenanceService;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -52,5 +51,10 @@ public class MaintenanceController {
     @PostMapping("/auditor/audit")
     public void audiMaintenanceSheet(@RequestBody MaintenanceDto dto) {
         maintenanceService.audit(dto.getIds());
+    }
+
+    @PostMapping("/maintainer")
+    public void updateMaintenance(@RequestBody MaintenanceDto dto) {
+        maintenanceService.maintain(dto);
     }
 }

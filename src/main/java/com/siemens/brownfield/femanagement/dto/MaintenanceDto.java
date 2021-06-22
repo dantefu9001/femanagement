@@ -29,7 +29,12 @@ public class MaintenanceDto {
     private String malfunctionType;
     private String rating;
     private String status;
+    //新增维修单上传的图片
     private String[] picUrls;
+    private String maintenanceDesc;
+    private String pauseTime;
+    //进行维护时上传的图片
+    private String[] maintainPicUrls;
 
     public static MaintenanceDto from(CdMaintenance cdMaintenance) {
         return MaintenanceDto.builder()

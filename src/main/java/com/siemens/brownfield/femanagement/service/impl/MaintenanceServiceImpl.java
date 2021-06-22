@@ -70,7 +70,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Override
     public void add(MaintenanceDto dto) {
-        cdMaintenanceDao.insertSelective(CdMaintenance.from(dto));
+        CdMaintenance cdMaintenance = CdMaintenance.from(dto);
+        cdMaintenance.setStatus("已提交");
+        cdMaintenanceDao.insertSelective(cdMaintenance);
     }
 
     @Override
@@ -87,5 +89,12 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             return;
         }
         cdMaintenanceDao.audit(ids);
+    }
+
+    @Override
+    public void maintain(MaintenanceDto dto) {
+        CdMaintenance cdMaintenance = CdMaintenance.maintainFrom(dto);
+        cdMaintenance.setStatus("已维护");
+        cdMaintenanceDao.updateByPrimaryKeySelective(cdMaintenance);
     }
 }
