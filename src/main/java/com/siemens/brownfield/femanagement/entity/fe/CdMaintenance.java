@@ -1,10 +1,5 @@
 package com.siemens.brownfield.femanagement.entity.fe;
 
-import java.io.Serializable;
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.Date;
-
 import com.siemens.brownfield.femanagement.dto.MaintenanceDto;
 import com.siemens.brownfield.femanagement.dto.MaintenanceResDto;
 import lombok.AllArgsConstructor;
@@ -12,10 +7,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.util.StringUtils;
+
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * cd_maintenance
+ *
  * @author
  */
 @Data
@@ -208,10 +209,12 @@ public class CdMaintenance implements Serializable {
     public static CdMaintenance from(MaintenanceDto dto) {
         return CdMaintenance.builder()
                 .code(dto.getCode())
-                .equipment(dto.getEquipment().getId())
+                .equipment(Objects.nonNull(dto.getEquipment())
+                        ? dto.getEquipment().getId()
+                        : null)
                 .submitTime(Date.from(Instant.now()))
                 .malfunctionDesc(dto.getDescription())
-                .malfunctionPhotos(Strings.join(Arrays.asList(dto.getPicUrls()),','))
+                .malfunctionPhotos(Strings.join(Arrays.asList(dto.getPicUrls()), ','))
                 .malfunctionDesc(dto.getDescription())
                 .status("已提交")
                 .isDelete("0")
@@ -222,7 +225,7 @@ public class CdMaintenance implements Serializable {
         return CdMaintenance.builder()
                 .submitTime(Date.from(Instant.now()))
                 .malfunctionDesc(dto.getDescription())
-                .malfunctionPhotos(Strings.join(Arrays.asList(dto.getPicUrls()),','))
+                .malfunctionPhotos(Strings.join(Arrays.asList(dto.getPicUrls()), ','))
                 .status("已提交")
                 .isDelete("0")
                 .build();
