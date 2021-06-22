@@ -47,14 +47,14 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public List<MaintenanceDto> getMaintenanceList(String start, String end, String equipment, String group) {
+    public List<MaintenanceDto> getMaintenanceList(String start, String end,String status, String equipment, String group) {
         if (Strings.isNotBlank((start))) {
             start = new SimpleDateFormat("yyyy-MM-dd").format(Date.from(Instant.parse(start)));
         }
         if (Strings.isNotBlank(end)) {
             end = new SimpleDateFormat("yyyy-MM-dd").format(Date.from(Instant.parse(end)));
         }
-        List<MaintenanceDto> list = cdMaintenanceDao.getList(equipment, group, start, end).parallelStream().map(maintenance -> {
+        List<MaintenanceDto> list = cdMaintenanceDao.getList(equipment, group,status, start, end).parallelStream().map(maintenance -> {
             MaintenanceDto dto = MaintenanceDto.from(maintenance);
             CdEquipment cdEquipment = cdEquipmentDao.selectByPrimaryKey(maintenance.getEquipment());
             if (Objects.nonNull(cdEquipment)) {
@@ -79,5 +79,13 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             return;
         }
         cdMaintenanceDao.batchSoftDelete(ids);
+    }
+
+    @Override
+    public void audit(List<Integer> ids) {
+        if(ids.size()==0){
+            return;
+        }
+        cdMaintenanceDao.audit(ids);
     }
 }

@@ -36,6 +36,7 @@ public class MaintenanceDto {
                 .id(cdMaintenance.getId())
                 .code(cdMaintenance.getCode())
                 .description(cdMaintenance.getMalfunctionDesc())
+                .status(cdMaintenance.getStatus())
                 .malfunctionTime(Objects.nonNull(cdMaintenance.getSubmitTime())
                         ? new SimpleDateFormat("yyyy-MM-dd").format(cdMaintenance.getSubmitTime())
                         : "")

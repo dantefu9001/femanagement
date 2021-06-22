@@ -459,6 +459,13 @@
       #{item}
     </foreach>
   </update>
+  <update id="audit">
+    update cd_maintenance set status = '已审批'
+    where id in
+    <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
 
   <select id="getList" resultMap="BaseResultMap">
 select *
@@ -473,6 +480,9 @@ where equipment in (select id
                       <if test="endDate!=null">
                         and to_char(submit_time,'yyyy-MM-dd')&lt;=#{endDate}
                       </if>
+                    <if test="status!=null and status !=''">
+                      and status = #{status}
+                    </if>
   </select>
 
 </mapper>

@@ -19,8 +19,10 @@ public interface CdMaintenanceDao {
     int updateByPrimaryKey(CdMaintenance record);
 
     List<CdMaintenance> getList(@Param("equipment") String equipment, @Param("group") String group,
+                                @Param("status") String status,
                                 @Param("startDate") String start, @Param("endDate") String end);
 
     void batchSoftDelete(List<Integer> ids);
 
+    void audit(List<Integer> ids);
 }

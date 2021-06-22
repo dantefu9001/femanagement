@@ -27,10 +27,11 @@ public class MaintenanceController {
 
     @GetMapping("/submitter")
     public List<MaintenanceDto> getMaintenanceList(@Nullable @RequestParam("startDate") String start,
-                                                      @Nullable @RequestParam("endDate") String end,
-                                                      @Nullable @RequestParam("equipment") String equipment,
-                                                      @Nullable @RequestParam("equipmentGroup") String group) {
-        return maintenanceService.getMaintenanceList(start, end, equipment, group);
+                                                   @Nullable @RequestParam("endDate") String end,
+                                                   @Nullable @RequestParam("status") String status,
+                                                   @Nullable @RequestParam("equipment") String equipment,
+                                                   @Nullable @RequestParam("equipmentGroup") String group) {
+        return maintenanceService.getMaintenanceList(start, end, status, equipment, group);
     }
 
     @PostMapping("/submitter")
@@ -41,5 +42,15 @@ public class MaintenanceController {
     @PostMapping("/submitter/delete")
     public void deleteMaintenanceSheet(@RequestBody MaintenanceDto dto) {
         maintenanceService.delete(dto.getIds());
+    }
+
+    @PostMapping("/auditor/deprecate")
+    public void deprecateMaintenanceSheet(@RequestBody MaintenanceDto dto) {
+        maintenanceService.delete(dto.getIds());
+    }
+
+    @PostMapping("/auditor/audit")
+    public void audiMaintenanceSheet(@RequestBody MaintenanceDto dto) {
+        maintenanceService.audit(dto.getIds());
     }
 }
