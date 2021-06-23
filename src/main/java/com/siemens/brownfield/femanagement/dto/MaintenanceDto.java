@@ -1,5 +1,7 @@
 package com.siemens.brownfield.femanagement.dto;
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
+import com.siemens.brownfield.femanagement.entity.MaintenanceStatus;
 import com.siemens.brownfield.femanagement.entity.fe.CdMaintenance;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

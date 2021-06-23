@@ -480,8 +480,11 @@ where equipment in (select id
                       <if test="endDate!=null">
                         and to_char(submit_time,'yyyy-MM-dd')&lt;=#{endDate}
                       </if>
-                    <if test="status!=null and status !=''">
-                      and status = #{status}
+                    <if test="status!=null and status.size()>0">
+                      and status in
+                        <foreach collection="status" index="index" item="item" open="(" separator="," close=")">
+                          #{item}
+                        </foreach>
                     </if>
   </select>
 

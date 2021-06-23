@@ -2,6 +2,7 @@ package com.siemens.brownfield.femanagement.controller;
 
 import com.siemens.brownfield.femanagement.dto.MaintenanceDto;
 import com.siemens.brownfield.femanagement.service.MaintenanceService;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin
@@ -30,7 +33,10 @@ public class MaintenanceController {
                                                    @Nullable @RequestParam("status") String status,
                                                    @Nullable @RequestParam("equipment") String equipment,
                                                    @Nullable @RequestParam("equipmentGroup") String group) {
-        return maintenanceService.getMaintenanceList(start, end, status, equipment, group);
+        if (Strings.isEmpty(status)) {
+            return maintenanceService.getMaintenanceList(start, end, Collections.emptyList(), equipment, group);
+        }
+        return maintenanceService.getMaintenanceList(start, end, Arrays.asList(status.split(",")), equipment, group);
     }
 
     @PostMapping("/submitter")
@@ -50,11 +56,11 @@ public class MaintenanceController {
 
     @PostMapping("/submitter/confirm")
     public void confirmMaintenance(@RequestBody MaintenanceDto dto) {
-        maintenanceService.confirm(dto);
+        maintenanceService.updateStatus(dto);
     }
 
     @PostMapping("/submitter/validate")
-    public void validateMaintenance(@RequestBody MaintenanceDto dto){
+    public void validateMaintenance(@RequestBody MaintenanceDto dto) {
         maintenanceService.validateBySubmitter(dto);
     }
 
@@ -69,7 +75,7 @@ public class MaintenanceController {
     }
 
     @PostMapping("/auditor/approve-validation")
-    public void approveMaintenanceValidation(@RequestBody MaintenanceDto dto){
+    public void approveMaintenanceValidation(@RequestBody MaintenanceDto dto) {
         maintenanceService.approveValidation(dto.getIds());
     }
 

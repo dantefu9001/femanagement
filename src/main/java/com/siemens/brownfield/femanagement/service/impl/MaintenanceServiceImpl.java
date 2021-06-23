@@ -14,6 +14,7 @@ import com.siemens.brownfield.femanagement.dto.PersonDto;
 import com.siemens.brownfield.femanagement.dto.ProcessDto;
 import com.siemens.brownfield.femanagement.dto.ProductionLineDto;
 import com.siemens.brownfield.femanagement.dto.SparePartDto;
+import com.siemens.brownfield.femanagement.entity.MaintenanceStatus;
 import com.siemens.brownfield.femanagement.entity.fe.CdEquipment;
 import com.siemens.brownfield.femanagement.entity.fe.CdMaintenance;
 import com.siemens.brownfield.femanagement.entity.fe.CdMaintenanceConsumption;
@@ -57,7 +58,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public List<MaintenanceDto> getMaintenanceList(String start, String end, String status, String equipment, String group) {
+    public List<MaintenanceDto> getMaintenanceList(String start, String end, List<String> status, String equipment, String group) {
         if (Strings.isNotBlank((start))) {
             start = new SimpleDateFormat("yyyy-MM-dd").format(Date.from(Instant.parse(start)));
         }
@@ -80,7 +81,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     @Override
     public void add(MaintenanceDto dto) {
         CdMaintenance cdMaintenance = CdMaintenance.from(dto);
-        cdMaintenance.setStatus("已提交");
+        cdMaintenance.setStatus(MaintenanceStatus.SUBMITTED.getStatus());
         cdMaintenanceDao.insertSelective(cdMaintenance);
     }
 
@@ -102,7 +103,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Override
     public void maintain(MaintenanceDto dto) {
-        updateMaintenanceStatus(dto, "已维护");
+        updateMaintenanceStatus(dto);
         if (Objects.nonNull(dto.getSpareParts()) && dto.getSpareParts().length > 0) {
             List<SparePartDto> dtos = Arrays.asList(dto.getSpareParts());
             List<CdMaintenanceConsumption> cdMaintenanceConsumptions = dtos.parallelStream().map(sparePartDto -> CdMaintenanceConsumption.builder()
@@ -129,13 +130,13 @@ public class MaintenanceServiceImpl implements MaintenanceService {
                         ? dto.getProvider().getName() :
                         "")
                 .build();
-        updateMaintenanceStatus(dto, "已评价");
+        updateMaintenanceStatus(dto);
         cdMaintenanceFeedbackDao.insertSelective(feedback);
     }
 
     @Override
-    public void confirm(MaintenanceDto dto) {
-        updateMaintenanceStatus(dto, "已确认");
+    public void updateStatus(MaintenanceDto dto) {
+        updateMaintenanceStatus(dto);
     }
 
     @Override
@@ -150,14 +151,14 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     public void approveValidation(List<Integer> ids) {
         ids.parallelStream().forEach(id -> {
             CdMaintenance cdMaintenance = CdMaintenance.builder().id(id).build();
-            cdMaintenance.setStatus("验证已审核");
+            cdMaintenance.setStatus(MaintenanceStatus.VALIDATION_APPROVED.getStatus());
             cdMaintenanceDao.updateByPrimaryKeySelective(cdMaintenance);
         });
     }
 
-    private void updateMaintenanceStatus(MaintenanceDto dto, String status) {
+    private void updateMaintenanceStatus(MaintenanceDto dto) {
         CdMaintenance maintenance = cdMaintenanceDao.selectByPrimaryKey(dto.getId());
-        maintenance.setStatus(status);
+        maintenance.setStatus(dto.getStatus());
         cdMaintenanceDao.updateByPrimaryKey(maintenance);
     }
 }

@@ -5,7 +5,7 @@ import com.siemens.brownfield.femanagement.dto.MaintenanceDto;
 import java.util.List;
 
 public interface MaintenanceService {
-    List<MaintenanceDto> getMaintenanceList(String start, String end,String status, String equipment, String group);
+    List<MaintenanceDto> getMaintenanceList(String start, String end,List<String> status, String equipment, String group);
 
     void add(MaintenanceDto dto);
 
@@ -17,7 +17,7 @@ public interface MaintenanceService {
 
     void rate(MaintenanceDto dto);
 
-    void confirm(MaintenanceDto dto);
+    void updateStatus(MaintenanceDto dto);
 
     void validateBySubmitter(MaintenanceDto dto);
 
