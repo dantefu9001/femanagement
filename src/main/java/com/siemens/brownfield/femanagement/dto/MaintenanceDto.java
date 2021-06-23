@@ -44,6 +44,9 @@ public class MaintenanceDto {
     private PersonDto provider;
     private Boolean isAnonymous;
 
+    private String validation;
+    private String validateDesc;
+
     public static MaintenanceDto from(CdMaintenance cdMaintenance) {
         return MaintenanceDto.builder()
                 .id(cdMaintenance.getId())

@@ -18,4 +18,8 @@ public interface MaintenanceService {
     void rate(MaintenanceDto dto);
 
     void confirm(MaintenanceDto dto);
+
+    void validateBySubmitter(MaintenanceDto dto);
+
+    void approveValidation(List<Integer> ids);
 }

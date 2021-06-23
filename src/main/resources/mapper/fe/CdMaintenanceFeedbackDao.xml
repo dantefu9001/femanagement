@@ -3,7 +3,14 @@
 <mapper namespace="com.siemens.brownfield.femanagement.dao.fe.CdMaintenanceFeedbackDao">
   <resultMap id="BaseResultMap" type="com.siemens.brownfield.femanagement.entity.fe.CdMaintenanceFeedback">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="maintenance" jdbcType="INTEGER" property="maintenance" />
+    <result column="response" jdbcType="VARCHAR" property="response" />
+    <result column="quality" jdbcType="VARCHAR" property="quality" />
+    <result column="onsite_management" jdbcType="VARCHAR" property="onsiteManagement" />
+    <result column="overall" jdbcType="VARCHAR" property="overall" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="provider" jdbcType="VARCHAR" property="provider" />
+    <result column="is_anonymous" jdbcType="VARCHAR" property="isAnonymous" />
     <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
     <result column="created_time" jdbcType="DATE" property="createdTime" />
     <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
@@ -12,31 +19,57 @@
     <result column="enterprise" jdbcType="INTEGER" property="enterprise" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, "name", created_by, created_time, updated_by, updated_time, is_delete, enterprise
+    id, maintenance, response, quality, onsite_management, overall, description, provider,
+    is_anonymous, created_by, created_time, updated_by, updated_time, is_delete, enterprise
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from "cd_equipment_group"
+    from "cd_maintenance_feedback"
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from "cd_equipment_group"
+    delete from "cd_maintenance_feedback"
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdMaintenanceFeedback" useGeneratedKeys="true">
-    insert into "cd_equipment_group" ("name", created_by, created_time,
-      updated_by, updated_time, is_delete,
-      enterprise)
-    values (#{name,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=DATE},
-      #{updatedBy,jdbcType=VARCHAR}, #{updatedTime,jdbcType=DATE}, #{isDelete,jdbcType=VARCHAR},
-      #{enterprise,jdbcType=INTEGER})
+    insert into "cd_maintenance_feedback" (maintenance, response, quality,
+      onsite_management, overall, description,
+      provider, is_anonymous, created_by,
+      created_time, updated_by, updated_time,
+      is_delete, enterprise)
+    values (#{maintenance,jdbcType=INTEGER}, #{response,jdbcType=VARCHAR}, #{quality,jdbcType=VARCHAR},
+      #{onsiteManagement,jdbcType=VARCHAR}, #{overall,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+      #{provider,jdbcType=VARCHAR}, #{isAnonymous,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR},
+      #{createdTime,jdbcType=DATE}, #{updatedBy,jdbcType=VARCHAR}, #{updatedTime,jdbcType=DATE},
+      #{isDelete,jdbcType=VARCHAR}, #{enterprise,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdMaintenanceFeedback" useGeneratedKeys="true">
-    insert into "cd_equipment_group"
+    insert into "cd_maintenance_feedback"
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        "name",
+      <if test="maintenance != null">
+        maintenance,
+      </if>
+      <if test="response != null">
+        response,
+      </if>
+      <if test="quality != null">
+        quality,
+      </if>
+      <if test="onsiteManagement != null">
+        onsite_management,
+      </if>
+      <if test="overall != null">
+        overall,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="provider != null">
+        provider,
+      </if>
+      <if test="isAnonymous != null">
+        is_anonymous,
       </if>
       <if test="createdBy != null">
         created_by,
@@ -58,8 +91,29 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="maintenance != null">
+        #{maintenance,jdbcType=INTEGER},
+      </if>
+      <if test="response != null">
+        #{response,jdbcType=VARCHAR},
+      </if>
+      <if test="quality != null">
+        #{quality,jdbcType=VARCHAR},
+      </if>
+      <if test="onsiteManagement != null">
+        #{onsiteManagement,jdbcType=VARCHAR},
+      </if>
+      <if test="overall != null">
+        #{overall,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="provider != null">
+        #{provider,jdbcType=VARCHAR},
+      </if>
+      <if test="isAnonymous != null">
+        #{isAnonymous,jdbcType=VARCHAR},
       </if>
       <if test="createdBy != null">
         #{createdBy,jdbcType=VARCHAR},
@@ -82,10 +136,31 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdMaintenanceFeedback">
-    update "cd_equipment_group"
+    update "cd_maintenance_feedback"
     <set>
-      <if test="name != null">
-        "name" = #{name,jdbcType=VARCHAR},
+      <if test="maintenance != null">
+        maintenance = #{maintenance,jdbcType=INTEGER},
+      </if>
+      <if test="response != null">
+        response = #{response,jdbcType=VARCHAR},
+      </if>
+      <if test="quality != null">
+        quality = #{quality,jdbcType=VARCHAR},
+      </if>
+      <if test="onsiteManagement != null">
+        onsite_management = #{onsiteManagement,jdbcType=VARCHAR},
+      </if>
+      <if test="overall != null">
+        overall = #{overall,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="provider != null">
+        provider = #{provider,jdbcType=VARCHAR},
+      </if>
+      <if test="isAnonymous != null">
+        is_anonymous = #{isAnonymous,jdbcType=VARCHAR},
       </if>
       <if test="createdBy != null">
         created_by = #{createdBy,jdbcType=VARCHAR},
@@ -109,8 +184,15 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdMaintenanceFeedback">
-    update "cd_equipment_group"
-    set "name" = #{name,jdbcType=VARCHAR},
+    update "cd_maintenance_feedback"
+    set maintenance = #{maintenance,jdbcType=INTEGER},
+      response = #{response,jdbcType=VARCHAR},
+      quality = #{quality,jdbcType=VARCHAR},
+      onsite_management = #{onsiteManagement,jdbcType=VARCHAR},
+      overall = #{overall,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      provider = #{provider,jdbcType=VARCHAR},
+      is_anonymous = #{isAnonymous,jdbcType=VARCHAR},
       created_by = #{createdBy,jdbcType=VARCHAR},
       created_time = #{createdTime,jdbcType=DATE},
       updated_by = #{updatedBy,jdbcType=VARCHAR},

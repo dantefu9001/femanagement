@@ -53,6 +53,11 @@ public class MaintenanceController {
         maintenanceService.confirm(dto);
     }
 
+    @PostMapping("/submitter/validate")
+    public void validateMaintenance(@RequestBody MaintenanceDto dto){
+        maintenanceService.validateBySubmitter(dto);
+    }
+
     @PostMapping("/auditor/deprecate")
     public void deprecateMaintenanceSheet(@RequestBody MaintenanceDto dto) {
         maintenanceService.delete(dto.getIds());
@@ -61,6 +66,11 @@ public class MaintenanceController {
     @PostMapping("/auditor/audit")
     public void audiMaintenanceSheet(@RequestBody MaintenanceDto dto) {
         maintenanceService.audit(dto.getIds());
+    }
+
+    @PostMapping("/auditor/approve-validation")
+    public void approveMaintenanceValidation(@RequestBody MaintenanceDto dto){
+        maintenanceService.approveValidation(dto.getIds());
     }
 
     @PostMapping("/maintainer")

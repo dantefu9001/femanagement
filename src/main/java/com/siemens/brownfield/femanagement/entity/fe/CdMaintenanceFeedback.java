@@ -2,13 +2,20 @@ package com.siemens.brownfield.femanagement.entity.fe;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * cd_equipment_group
+ * cd_maintenance_feedback
  * @author
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CdMaintenanceFeedback implements Serializable {
     /**
      * id
@@ -16,9 +23,44 @@ public class CdMaintenanceFeedback implements Serializable {
     private Integer id;
 
     /**
-     * 名称
+     * 维修单号
      */
-    private String name;
+    private Integer maintenance;
+
+    /**
+     * 响应性
+     */
+    private String response;
+
+    /**
+     * 维修质量
+     */
+    private String quality;
+
+    /**
+     * 现场5S
+     */
+    private String onsiteManagement;
+
+    /**
+     * 总体评价
+     */
+    private String overall;
+
+    /**
+     * 补充说明
+     */
+    private String description;
+
+    /**
+     * 评价人
+     */
+    private String provider;
+
+    /**
+     * 是否匿名提交
+     */
+    private String isAnonymous;
 
     /**
      * 创建人
@@ -41,7 +83,7 @@ public class CdMaintenanceFeedback implements Serializable {
     private Date updatedTime;
 
     /**
-     * 软删除标识符
+     * 软删标识符
      */
     private String isDelete;
 

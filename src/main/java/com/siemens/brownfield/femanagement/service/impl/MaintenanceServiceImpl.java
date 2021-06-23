@@ -138,6 +138,23 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         updateMaintenanceStatus(dto, "已确认");
     }
 
+    @Override
+    public void validateBySubmitter(MaintenanceDto dto) {
+        CdMaintenance maintenance = CdMaintenance.from(dto);
+        maintenance.setId(dto.getId());
+        cdMaintenanceDao.updateByPrimaryKeySelective(maintenance);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void approveValidation(List<Integer> ids) {
+        ids.parallelStream().forEach(id -> {
+            CdMaintenance cdMaintenance = CdMaintenance.builder().id(id).build();
+            cdMaintenance.setStatus("验证已审核");
+            cdMaintenanceDao.updateByPrimaryKeySelective(cdMaintenance);
+        });
+    }
+
     private void updateMaintenanceStatus(MaintenanceDto dto, String status) {
         CdMaintenance maintenance = cdMaintenanceDao.selectByPrimaryKey(dto.getId());
         maintenance.setStatus(status);

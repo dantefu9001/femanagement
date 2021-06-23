@@ -217,6 +217,8 @@ public class CdMaintenance implements Serializable {
                 .malfunctionPhotos(Objects.nonNull(dto.getPicUrls()) ? Strings.join(Arrays.asList(dto.getPicUrls()), ',') : null)
                 .maintenanceDesc(dto.getMaintenanceDesc())
                 .maintenanceTime(dto.getPauseTime())
+                .validateJudgement(dto.getValidation())
+                .validateDesc(dto.getValidateDesc())
                 .isDelete("0")
                 .build();
     }
