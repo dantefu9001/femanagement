@@ -37,6 +37,13 @@ public class MaintenanceDto {
     private String[] maintainPicUrls;
     private SparePartDto[] spareParts;
 
+    private String responseRating;
+    private String qualityRating;
+    private String fiveSRating;
+    private String overallRating;
+    private PersonDto provider;
+    private Boolean isAnonymous;
+
     public static MaintenanceDto from(CdMaintenance cdMaintenance) {
         return MaintenanceDto.builder()
                 .id(cdMaintenance.getId())

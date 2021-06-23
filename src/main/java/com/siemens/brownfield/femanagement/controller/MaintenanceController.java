@@ -43,6 +43,16 @@ public class MaintenanceController {
         maintenanceService.delete(dto.getIds());
     }
 
+    @PostMapping("/submitter/rate")
+    public void rateMaintenance(@RequestBody MaintenanceDto dto) {
+        maintenanceService.rate(dto);
+    }
+
+    @PostMapping("/submitter/confirm")
+    public void confirmMaintenance(@RequestBody MaintenanceDto dto) {
+        maintenanceService.confirm(dto);
+    }
+
     @PostMapping("/auditor/deprecate")
     public void deprecateMaintenanceSheet(@RequestBody MaintenanceDto dto) {
         maintenanceService.delete(dto.getIds());

@@ -7,6 +7,7 @@ import com.siemens.brownfield.femanagement.dao.fe.CdEquipmentDao;
 import com.siemens.brownfield.femanagement.dao.fe.CdEquipmentGroupDao;
 import com.siemens.brownfield.femanagement.dao.fe.CdMaintenanceConsumptionDao;
 import com.siemens.brownfield.femanagement.dao.fe.CdMaintenanceDao;
+import com.siemens.brownfield.femanagement.dao.fe.CdMaintenanceFeedbackDao;
 import com.siemens.brownfield.femanagement.dto.EquipmentDto;
 import com.siemens.brownfield.femanagement.dto.MaintenanceDto;
 import com.siemens.brownfield.femanagement.dto.PersonDto;
@@ -16,9 +17,11 @@ import com.siemens.brownfield.femanagement.dto.SparePartDto;
 import com.siemens.brownfield.femanagement.entity.fe.CdEquipment;
 import com.siemens.brownfield.femanagement.entity.fe.CdMaintenance;
 import com.siemens.brownfield.femanagement.entity.fe.CdMaintenanceConsumption;
+import com.siemens.brownfield.femanagement.entity.fe.CdMaintenanceFeedback;
 import com.siemens.brownfield.femanagement.service.MaintenanceService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -39,9 +42,10 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     private final ProductionLineDao productionLineDao;
     private final ProcessDao processDao;
     private final CdMaintenanceConsumptionDao cdMaintenanceConsumptionDao;
+    private final CdMaintenanceFeedbackDao cdMaintenanceFeedbackDao;
 
 
-    public MaintenanceServiceImpl(CdEquipmentDao cdEquipmentDao, CdMaintenanceDao cdMaintenanceDao, CdEquipmentGroupDao cdEquipmentGroupDao, PersonDao personDao, ProductionLineDao productionLineDao, ProcessDao processDao, CdMaintenanceConsumptionDao cdMaintenanceConsumptionDao) {
+    public MaintenanceServiceImpl(CdEquipmentDao cdEquipmentDao, CdMaintenanceDao cdMaintenanceDao, CdEquipmentGroupDao cdEquipmentGroupDao, PersonDao personDao, ProductionLineDao productionLineDao, ProcessDao processDao, CdMaintenanceConsumptionDao cdMaintenanceConsumptionDao, CdMaintenanceFeedbackDao cdMaintenanceFeedbackDao) {
         this.cdEquipmentDao = cdEquipmentDao;
         this.cdMaintenanceDao = cdMaintenanceDao;
         this.cdEquipmentGroupDao = cdEquipmentGroupDao;
@@ -49,17 +53,18 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         this.productionLineDao = productionLineDao;
         this.processDao = processDao;
         this.cdMaintenanceConsumptionDao = cdMaintenanceConsumptionDao;
+        this.cdMaintenanceFeedbackDao = cdMaintenanceFeedbackDao;
     }
 
     @Override
-    public List<MaintenanceDto> getMaintenanceList(String start, String end,String status, String equipment, String group) {
+    public List<MaintenanceDto> getMaintenanceList(String start, String end, String status, String equipment, String group) {
         if (Strings.isNotBlank((start))) {
             start = new SimpleDateFormat("yyyy-MM-dd").format(Date.from(Instant.parse(start)));
         }
         if (Strings.isNotBlank(end)) {
             end = new SimpleDateFormat("yyyy-MM-dd").format(Date.from(Instant.parse(end)));
         }
-        return cdMaintenanceDao.getList(equipment, group,status, start, end).parallelStream().map(maintenance -> {
+        return cdMaintenanceDao.getList(equipment, group, status, start, end).parallelStream().map(maintenance -> {
             MaintenanceDto dto = MaintenanceDto.from(maintenance);
             CdEquipment cdEquipment = cdEquipmentDao.selectByPrimaryKey(maintenance.getEquipment());
             if (Objects.nonNull(cdEquipment)) {
@@ -81,7 +86,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Override
     public void delete(List<Integer> ids) {
-        if (ids.size()==0) {
+        if (ids.size() == 0) {
             return;
         }
         cdMaintenanceDao.batchSoftDelete(ids);
@@ -89,7 +94,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Override
     public void audit(List<Integer> ids) {
-        if(ids.size()==0){
+        if (ids.size() == 0) {
             return;
         }
         cdMaintenanceDao.audit(ids);
@@ -97,9 +102,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Override
     public void maintain(MaintenanceDto dto) {
-        CdMaintenance cdMaintenance = CdMaintenance.maintainFrom(dto);
-        cdMaintenance.setStatus("已维护");
-        cdMaintenanceDao.updateByPrimaryKeySelective(cdMaintenance);
+        updateMaintenanceStatus(dto, "已维护");
         if (Objects.nonNull(dto.getSpareParts()) && dto.getSpareParts().length > 0) {
             List<SparePartDto> dtos = Arrays.asList(dto.getSpareParts());
             List<CdMaintenanceConsumption> cdMaintenanceConsumptions = dtos.parallelStream().map(sparePartDto -> CdMaintenanceConsumption.builder()
@@ -109,5 +112,35 @@ public class MaintenanceServiceImpl implements MaintenanceService {
                     .build()).collect(Collectors.toList());
             cdMaintenanceConsumptions.forEach(cdMaintenanceConsumptionDao::insertSelective);
         }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void rate(MaintenanceDto dto) {
+        CdMaintenanceFeedback feedback = CdMaintenanceFeedback.builder()
+                .maintenance(dto.getId())
+                .overall(dto.getOverallRating())
+                .onsiteManagement(dto.getFiveSRating())
+                .quality(dto.getQualityRating())
+                .response(dto.getResponseRating())
+                .description(dto.getDescription())
+                .isAnonymous(String.valueOf(dto.getIsAnonymous()))
+                .provider(Objects.nonNull(dto.getProvider())
+                        ? dto.getProvider().getName() :
+                        "")
+                .build();
+        updateMaintenanceStatus(dto, "已评价");
+        cdMaintenanceFeedbackDao.insertSelective(feedback);
+    }
+
+    @Override
+    public void confirm(MaintenanceDto dto) {
+        updateMaintenanceStatus(dto, "已确认");
+    }
+
+    private void updateMaintenanceStatus(MaintenanceDto dto, String status) {
+        CdMaintenance maintenance = cdMaintenanceDao.selectByPrimaryKey(dto.getId());
+        maintenance.setStatus(status);
+        cdMaintenanceDao.updateByPrimaryKey(maintenance);
     }
 }

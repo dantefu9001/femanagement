@@ -14,4 +14,8 @@ public interface MaintenanceService {
     void audit(List<Integer> ids);
 
     void maintain(MaintenanceDto dto);
+
+    void rate(MaintenanceDto dto);
+
+    void confirm(MaintenanceDto dto);
 }
