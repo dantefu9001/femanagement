@@ -1,7 +1,6 @@
 package com.siemens.brownfield.femanagement.entity.fe;
 
 import com.siemens.brownfield.femanagement.dto.MaintenanceDto;
-import com.siemens.brownfield.femanagement.dto.MaintenanceResDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -232,6 +231,20 @@ public class CdMaintenance implements Serializable {
                 .maintenancePhotos(Objects.nonNull(dto.getMaintainPicUrls())
                         ? Strings.join(Arrays.asList(dto.getMaintainPicUrls()), ',')
                         : null)
+                .build();
+    }
+
+    public static CdMaintenance dispatchFrom(MaintenanceDto dto) {
+        return CdMaintenance.builder()
+                .id(dto.getId())
+                .dispatchTime(Date.from(Instant.now()))
+                .maintenancePersonnel(Objects.nonNull(dto.getMaintenancePerson())
+                        ? dto.getMaintenancePerson().getId()
+                        : null)
+                .maintenanceDeadline(Objects.nonNull(dto.getDeadLine())
+                        ? Date.from(Instant.parse(dto.getDeadLine()))
+                        : null)
+                .dispatchInfo(dto.getDispatchInfo())
                 .build();
     }
 

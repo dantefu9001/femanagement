@@ -22,4 +22,8 @@ public interface MaintenanceService {
     void validateBySubmitter(MaintenanceDto dto);
 
     void approveValidation(List<Integer> ids);
+
+    void dispatch(MaintenanceDto dto);
+
+    void confirmDispatch(MaintenanceDto dto);
 }

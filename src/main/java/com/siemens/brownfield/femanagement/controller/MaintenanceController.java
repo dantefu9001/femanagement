@@ -64,6 +64,16 @@ public class MaintenanceController {
         maintenanceService.validateBySubmitter(dto);
     }
 
+    @PostMapping("/auditor/dispatch")
+    public void dispatchMaintenance(@RequestBody MaintenanceDto dto){
+        maintenanceService.dispatch(dto);
+    }
+
+    @PostMapping("/auditor/confirm")
+    public void confirmMaintenanceDispatch(@RequestBody MaintenanceDto dto){
+        maintenanceService.confirmDispatch(dto);
+    }
+
     @PostMapping("/auditor/deprecate")
     public void deprecateMaintenanceSheet(@RequestBody MaintenanceDto dto) {
         maintenanceService.delete(dto.getIds());

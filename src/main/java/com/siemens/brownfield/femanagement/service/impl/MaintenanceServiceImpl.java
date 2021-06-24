@@ -156,6 +156,17 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         });
     }
 
+    @Override
+    public void dispatch(MaintenanceDto dto) {
+        CdMaintenance cdMaintenance = CdMaintenance.dispatchFrom(dto);
+        cdMaintenanceDao.updateByPrimaryKeySelective(cdMaintenance);
+    }
+
+    @Override
+    public void confirmDispatch(MaintenanceDto dto) {
+        updateMaintenanceStatus(dto);
+    }
+
     private void updateMaintenanceStatus(MaintenanceDto dto) {
         CdMaintenance maintenance = cdMaintenanceDao.selectByPrimaryKey(dto.getId());
         maintenance.setStatus(dto.getStatus());

@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,6 +49,11 @@ public class MaintenanceDto {
 
     private String validation;
     private String validateDesc;
+
+    private PersonDto maintenancePerson;
+    private String deadLine;
+    private String dispatchInfo;
+    private String precautions;
 
     public static MaintenanceDto from(CdMaintenance cdMaintenance) {
         return MaintenanceDto.builder()

@@ -2,7 +2,6 @@ package com.siemens.brownfield.femanagement.dao.fe;
 
 import com.siemens.brownfield.femanagement.entity.fe.CdSparePart;
 
-import java.util.Arrays;
 import java.util.List;
 
 public interface CdSparePartDao {

@@ -35,7 +35,8 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="getList" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"></include>
+    select
+    <include refid="Base_Column_List"></include>
     from "cd_spare_part"
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
