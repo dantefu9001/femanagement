@@ -7,4 +7,6 @@ import java.util.List;
 public interface SparePartService {
 
     List<SparePartDto> getSpareParts();
+
+    List<SparePartDto> getSpareParts(Integer maintenanceId);
 }

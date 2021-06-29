@@ -21,4 +21,10 @@ public class SparePartsImpl implements SparePartService {
     public List<SparePartDto> getSpareParts() {
         return cdSparePartDao.getList().stream().map(SparePartDto::from).collect(Collectors.toList());
     }
+
+    @Override
+    public List<SparePartDto> getSpareParts(Integer maintenanceId) {
+        return cdSparePartDao.getConsumptionsByMaintenance(maintenanceId).stream()
+                .map(SparePartDto::from).collect(Collectors.toList());
+    }
 }

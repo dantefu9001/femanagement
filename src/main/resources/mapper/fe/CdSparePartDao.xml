@@ -36,8 +36,13 @@
   </select>
   <select id="getList" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List"></include>
+    <include refid="Base_Column_List"/>
     from "cd_spare_part"
+  </select>
+  <select id="getConsumptionsByMaintenance" resultMap="BaseResultMap">
+    select csp.* from "cd_maintenance_consumption" cmc
+                        join cd_spare_part csp on cmc.spare_part = csp.id
+    where cmc.maintenance = #{maintenanceId}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from "cd_spare_part"

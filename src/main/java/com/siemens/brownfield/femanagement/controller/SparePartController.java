@@ -6,9 +6,9 @@ import com.siemens.brownfield.femanagement.service.SparePartService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin
@@ -25,5 +25,10 @@ public class SparePartController {
     @GetMapping
     public List<SparePartDto> getSpareParts() {
         return sparePartService.getSpareParts();
+    }
+
+    @GetMapping("/maintenance")
+    public List<SparePartDto> getSparePartByMaintenance(@RequestParam("id") Integer maintenanceId) {
+        return sparePartService.getSpareParts(maintenanceId);
     }
 }

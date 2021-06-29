@@ -1,6 +1,8 @@
 package com.siemens.brownfield.femanagement.dao.fe;
 
+import com.siemens.brownfield.femanagement.entity.fe.CdMaintenanceConsumption;
 import com.siemens.brownfield.femanagement.entity.fe.CdSparePart;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +20,7 @@ public interface CdSparePartDao {
     int updateByPrimaryKey(CdSparePart record);
 
     List<CdSparePart> getList();
+
+    List<CdSparePart> getConsumptionsByMaintenance(@Param("maintenanceId")Integer id);
+
 }

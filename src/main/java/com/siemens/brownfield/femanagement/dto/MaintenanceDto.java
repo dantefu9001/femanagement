@@ -1,7 +1,5 @@
 package com.siemens.brownfield.femanagement.dto;
 
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
-import com.siemens.brownfield.femanagement.entity.MaintenanceStatus;
 import com.siemens.brownfield.femanagement.entity.fe.CdMaintenance;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,9 +24,10 @@ public class MaintenanceDto {
     private EquipmentDto equipment;
     private String nonEquipment;
     private String malfunctionTime;
-    private String description;
+    private String description;//故障描述
     private PersonDto submitter;
     private String malfunctionType;
+    private String malfunctionLevel;
     private String rating;
     private String status;
     //新增维修单上传的图片
@@ -46,12 +44,16 @@ public class MaintenanceDto {
     private String overallRating;
     private PersonDto provider;
     private Boolean isAnonymous;
+    private String rateTime;
+    private String rateDescription;
 
     private String validation;
     private String validateDesc;
 
     private PersonDto maintenancePerson;
     private String deadLine;
+    private String dispatchTime;
+    private PersonDto dispatcher;
     private String dispatchInfo;
     private String precautions;
 

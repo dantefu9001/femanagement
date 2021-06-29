@@ -23,7 +23,8 @@
     from "cd_maintenance_consumption"
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from "cd_maintenance_consumption"
     where id = #{id,jdbcType=INTEGER}
   </delete>

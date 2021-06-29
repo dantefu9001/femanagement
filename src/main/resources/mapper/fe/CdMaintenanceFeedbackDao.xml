@@ -28,7 +28,13 @@
     from "cd_maintenance_feedback"
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByMaintenance"
+            resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from "cd_maintenance_feedback" where maintenance = #{maintenanceId} limit 1
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from "cd_maintenance_feedback"
     where id = #{id,jdbcType=INTEGER}
   </delete>
