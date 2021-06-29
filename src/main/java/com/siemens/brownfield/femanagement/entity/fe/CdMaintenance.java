@@ -241,8 +241,8 @@ public class CdMaintenance implements Serializable {
                 .maintenancePersonnel(Objects.nonNull(dto.getMaintenancePerson())
                         ? dto.getMaintenancePerson().getId()
                         : null)
-                .maintenanceDeadline(Objects.nonNull(dto.getDeadLine())
-                        ? Date.from(Instant.parse(dto.getDeadLine()))
+                .maintenanceDeadline(Objects.nonNull(dto.getDeadline())
+                        ? Date.from(Instant.parse(dto.getDeadline()))
                         : null)
                 .dispatchInfo(dto.getDispatchInfo())
                 .build();
