@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siemens.brownfield.femanagement.dao.fe.CdEquipmentBasicFileDao">
+  <resultMap id="BaseResultMap" type="com.siemens.brownfield.femanagement.entity.fe.CdEquipmentBasicFile">
+    <id column="file_id" jdbcType="VARCHAR" property="fileId" />
+    <result column="file_content" jdbcType="OTHER" property="fileContent" />
+    <result column="file_type" jdbcType="VARCHAR" property="fileType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    file_id, file_content, file_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from "cd_equipment_basic_file"
+    where file_id = #{fileId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from "cd_equipment_basic_file"
+    where file_id = #{fileId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="file_id" keyProperty="fileId" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdEquipmentBasicFile" useGeneratedKeys="true">
+    insert into "cd_equipment_basic_file" (file_content, file_type)
+    values (#{fileContent,jdbcType=OTHER}, #{fileType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="file_id" keyProperty="fileId" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdEquipmentBasicFile" useGeneratedKeys="true">
+    insert into "cd_equipment_basic_file"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fileId != null">
+        file_id,
+      </if>
+      <if test="fileContent != null">
+        file_content,
+      </if>
+      <if test="fileType != null">
+        file_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fileId != null">
+        #{fileId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileContent != null">
+        #{fileContent,jdbcType=OTHER},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdEquipmentBasicFile">
+    update "cd_equipment_basic_file"
+    <set>
+      <if test="fileContent != null">
+        file_content = #{fileContent,jdbcType=OTHER},
+      </if>
+      <if test="fileType != null">
+        file_type = #{fileType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where file_id = #{fileId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdEquipmentBasicFile">
+    update "cd_equipment_basic_file"
+    set file_content = #{fileContent,jdbcType=OTHER},
+      file_type = #{fileType,jdbcType=VARCHAR}
+    where file_id = #{fileId,jdbcType=VARCHAR}
+  </update>
+</mapper>

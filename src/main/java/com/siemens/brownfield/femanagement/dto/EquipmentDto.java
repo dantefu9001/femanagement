@@ -133,6 +133,16 @@ public class EquipmentDto {
      */
     private Integer enterprise;
 
+    /**
+     * 设备手册
+     */
+    private String equipmentManifest;
+
+    /**
+     * 维修手册
+     */
+    private String maintenanceManifest;
+
     public EquipmentDto(String id){
         this.id = Integer.valueOf(id);
     }
@@ -141,6 +151,8 @@ public class EquipmentDto {
         return EquipmentDto.builder()
                 .id(equipment.getId())
                 .picture(equipment.getPicture())
+                .equipmentManifest(equipment.getEquipmentManifest())
+                .maintenanceManifest(equipment.getMaintenanceManifest())
                 .code(equipment.getCode())
                 .name(equipment.getName())
                 .description(equipment.getDescription())

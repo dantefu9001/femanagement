@@ -157,11 +157,23 @@ public class CdEquipment implements Serializable {
      */
     private Integer enterprise;
 
+    /**
+     * 设备手册
+     */
+    private String equipmentManifest;
+
+    /**
+     * 维修手册
+     */
+    private String maintenanceManifest;
+
     private static final long serialVersionUID = 1L;
 
     public static CdEquipment from(EquipmentDto dto) {
         CdEquipment equipment = CdEquipment.builder()
                 .picture(dto.getPicture())
+                .equipmentManifest(dto.getEquipmentManifest())
+                .maintenanceManifest(dto.getMaintenanceManifest())
                 .code(dto.getCode())
                 .name(dto.getName())
                 .responsible(Objects.isNull(dto.getProductionLine()) ? null : dto.getResponsible().getId())

@@ -3,6 +3,7 @@ package com.siemens.brownfield.femanagement.service;
 import com.siemens.brownfield.femanagement.dto.EquipmentDto;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface EquipmentService {
@@ -17,9 +18,13 @@ public interface EquipmentService {
 
     Boolean deleteEquipment(Integer id);
 
-    String savePictureAsBlob(MultipartFile file);
+    String savePictureAsBlob(MultipartFile file) throws IOException;
 
-    byte[] getFileByBytes(String id);
+    String saveFileAsBlob(MultipartFile file) throws IOException;
+
+    byte[] getPictureById(String id);
+
+    byte[] getFileById(String id);
 
     List<EquipmentDto> getEquipmentsByProcessId(Integer processId);
 }

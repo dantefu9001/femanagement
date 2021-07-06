@@ -4,6 +4,7 @@ import com.siemens.brownfield.femanagement.dao.bf.AssetDao;
 import com.siemens.brownfield.femanagement.dao.bf.PersonDao;
 import com.siemens.brownfield.femanagement.dao.bf.ProcessDao;
 import com.siemens.brownfield.femanagement.dao.bf.ProductionLineDao;
+import com.siemens.brownfield.femanagement.dao.fe.CdEquipmentBasicFileDao;
 import com.siemens.brownfield.femanagement.dao.fe.CdEquipmentBasicPictureDao;
 import com.siemens.brownfield.femanagement.dao.fe.CdEquipmentDao;
 import com.siemens.brownfield.femanagement.dto.AssetDto;
@@ -17,6 +18,7 @@ import com.siemens.brownfield.femanagement.entity.bf.Person;
 import com.siemens.brownfield.femanagement.entity.bf.Process;
 import com.siemens.brownfield.femanagement.entity.bf.ProductionLine;
 import com.siemens.brownfield.femanagement.entity.fe.CdEquipment;
+import com.siemens.brownfield.femanagement.entity.fe.CdEquipmentBasicFile;
 import com.siemens.brownfield.femanagement.entity.fe.CdEquipmentBasicPicture;
 import com.siemens.brownfield.femanagement.entity.fe.CdEquipmentGroup;
 import com.siemens.brownfield.femanagement.service.EquipmentGroupService;
@@ -28,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,6 +46,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     private final CdEquipmentBasicPictureDao equipmentBasicPictureDao;
 
+    private final CdEquipmentBasicFileDao cdEquipmentBasicFileDao;
+
     private final ProductionLineDao productionLineDao;
 
     private final PersonDao personDao;
@@ -53,13 +58,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     public EquipmentServiceImpl(EquipmentGroupService equipmentGroupService, CdEquipmentDao equipmentDao,
                                 CdEquipmentBasicPictureDao equipmentBasicPictureDao,
-                                ProductionLineDao productionLineDao,
+                                CdEquipmentBasicFileDao cdEquipmentBasicFileDao, ProductionLineDao productionLineDao,
                                 PersonDao personDao,
                                 ProcessDao processDao,
                                 AssetDao assetDao) {
         this.equipmentGroupService = equipmentGroupService;
         this.equipmentDao = equipmentDao;
         this.equipmentBasicPictureDao = equipmentBasicPictureDao;
+        this.cdEquipmentBasicFileDao = cdEquipmentBasicFileDao;
         this.productionLineDao = productionLineDao;
         this.personDao = personDao;
         this.processDao = processDao;
@@ -150,26 +156,46 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
-    @Transactional
-    public String savePictureAsBlob(MultipartFile file) {
+    @Transactional(rollbackFor = IOException.class)
+    public String savePictureAsBlob(MultipartFile file) throws IOException {
         String blobId = UUID.randomUUID().toString().replace("-", "");
-        try {
-            CdEquipmentBasicPicture picture = new CdEquipmentBasicPicture();
-            picture.setFileId(blobId);
-            picture.setFileContent(file.getBytes());
-            equipmentBasicPictureDao.insertSelective(picture);
-            return blobId;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
+        CdEquipmentBasicPicture picture = new CdEquipmentBasicPicture();
+        picture.setFileId(blobId);
+        picture.setFileContent(file.getBytes());
+        equipmentBasicPictureDao.insertSelective(picture);
+        return blobId;
     }
 
     @Override
-    public byte[] getFileByBytes(String id) {
+    public String saveFileAsBlob(MultipartFile file) throws IOException {
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        CdEquipmentBasicFile basicFile = new CdEquipmentBasicFile();
+        basicFile.setFileId(uuid);
+        basicFile.setFileContent(file.getBytes());
+        basicFile.setFileType(file.getContentType());
+        cdEquipmentBasicFileDao.insertSelective(basicFile);
+        return uuid;
+    }
+
+    @Override
+    public byte[] getPictureById(String id) {
         byte[] result = new byte[0];
         try {
             Object object = equipmentBasicPictureDao.getFileById(id);
+            result = (byte[]) object;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public byte[] getFileById(String id) {
+        byte[] result = new byte[0];
+        try {
+            CdEquipmentBasicFile file = cdEquipmentBasicFileDao.selectByPrimaryKey(id);
+            Object object =file.getFileContent();
             result = (byte[]) object;
         } catch (Exception e) {
             log.error(e.getMessage());

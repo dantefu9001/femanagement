@@ -30,14 +30,16 @@
         <result column="updated_time" jdbcType="DATE" property="updatedTime"/>
         <result column="is_delete" jdbcType="VARCHAR" property="isDelete"/>
         <result column="enterprise" jdbcType="INTEGER" property="enterprise"/>
+        <result column="equipment_manifest" jdbcType="VARCHAR" property="equipmentManifest"/>
+        <result column="maintenance_manifest" jdbcType="VARCHAR" property="maintenanceManifest"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, picture, code, "name", responsible, production_line, "process", asset, equipment_group,
+        id, picture, code, "name", responsible, production_line, "process", asset, equipment_group,
     description, is_auto_dispatch, "status", model, manufacturer, specification, serial_number,
     date_of_production, date_of_installation, date_of_first_use, expires_years, date_of_expiration,
     custom_attributes, created_by, created_time, updated_by, updated_time, is_delete,
-    enterprise
-  </sql>
+    enterprise, equipment_manifest, maintenance_manifest
+    </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -71,32 +73,33 @@
         from "cd_equipment" where process = #{processId}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from "cd_equipment"
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
+        delete
+        from "cd_equipment"
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
     <insert id="insert" keyColumn="id" keyProperty="id"
             parameterType="com.siemens.brownfield.femanagement.entity.fe.CdEquipment" useGeneratedKeys="true">
-    insert into "cd_equipment" (id, picture, code, "name",
-      responsible, production_line, "process",
-      asset, equipment_group, description,
-      is_auto_dispatch, "status", model,
-      manufacturer, specification, serial_number,
-      date_of_production, date_of_installation, date_of_first_use,
-      expires_years, date_of_expiration, custom_attributes,
-      created_by, created_time, updated_by,
-      updated_time, is_delete, enterprise
-      )
-    values (#{id,jdbcType=INTEGER}, #{picture,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
-      #{responsible,jdbcType=INTEGER}, #{productionLine,jdbcType=INTEGER}, #{process,jdbcType=INTEGER},
-      #{asset,jdbcType=INTEGER}, #{equipmentGroup,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
-      #{isAutoDispatch,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{model,jdbcType=VARCHAR},
-      #{manufacturer,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR},
-      #{dateOfProduction,jdbcType=DATE}, #{dateOfInstallation,jdbcType=DATE}, #{dateOfFirstUse,jdbcType=DATE},
-      #{expiresYears,jdbcType=INTEGER}, #{dateOfExpiration,jdbcType=DATE}, #{customAttributes,jdbcType=VARCHAR},
-      #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=DATE}, #{updatedBy,jdbcType=VARCHAR},
-      #{updatedTime,jdbcType=DATE}, #{isDelete,jdbcType=VARCHAR}, #{enterprise,jdbcType=INTEGER}
-      )
-  </insert>
+        insert into "cd_equipment" (id, picture, code, "name",
+                                    responsible, production_line, "process",
+                                    asset, equipment_group, description,
+                                    is_auto_dispatch, "status", model,
+                                    manufacturer, specification, serial_number,
+                                    date_of_production, date_of_installation, date_of_first_use,
+                                    expires_years, date_of_expiration, custom_attributes,
+                                    created_by, created_time, updated_by,
+                                    updated_time, is_delete, enterprise, equipment_manifest, maintenance_manifest)
+        values (#{id,jdbcType=INTEGER}, #{picture,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+                #{responsible,jdbcType=INTEGER}, #{productionLine,jdbcType=INTEGER}, #{process,jdbcType=INTEGER},
+                #{asset,jdbcType=INTEGER}, #{equipmentGroup,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
+                #{isAutoDispatch,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{model,jdbcType=VARCHAR},
+                #{manufacturer,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR},
+                #{dateOfProduction,jdbcType=DATE}, #{dateOfInstallation,jdbcType=DATE}, #{dateOfFirstUse,jdbcType=DATE},
+                #{expiresYears,jdbcType=INTEGER}, #{dateOfExpiration,jdbcType=DATE},
+                #{customAttributes,jdbcType=VARCHAR},
+                #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=DATE}, #{updatedBy,jdbcType=VARCHAR},
+                #{updatedTime,jdbcType=DATE}, #{isDelete,jdbcType=VARCHAR}, #{enterprise,jdbcType=INTEGER},
+                #{equipmentManifest,jdbcType=VARCHAR}, #{maintenanceManifest,jdbcType=VARCHAR})
+    </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
             parameterType="com.siemens.brownfield.femanagement.entity.fe.CdEquipment" useGeneratedKeys="true">
         insert into "cd_equipment"
@@ -182,6 +185,12 @@
             <if test="enterprise != null">
                 enterprise,
             </if>
+            <if test="equipmentManifest != null">
+                equipment_manifest,
+            </if>
+            <if test="maintenanceManifest != null">
+                maintenance_manifest,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="picture != null">
@@ -264,6 +273,12 @@
             </if>
             <if test="enterprise != null">
                 #{enterprise,jdbcType=INTEGER},
+            </if>
+            <if test="equipmentManifest != null">
+                #{equipmentManifest,jdbcType=VARCHAR},
+            </if>
+            <if test="maintenanceManifest != null">
+                #{maintenanceManifest,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -351,38 +366,46 @@
             <if test="enterprise != null">
                 enterprise = #{enterprise,jdbcType=INTEGER},
             </if>
+            <if test="equipmentManifest != null">
+                equipment_manifest = #{equipmentManifest,jdbcType=VARCHAR},
+            </if>
+            <if test="maintenanceManifest != null">
+                maintenance_manifest = #{maintenanceManifest,jdbcType=VARCHAR},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.siemens.brownfield.femanagement.entity.fe.CdEquipment">
-    update "cd_equipment"
-    set picture = #{picture,jdbcType=VARCHAR},
-      code = #{code,jdbcType=VARCHAR},
-      "name" = #{name,jdbcType=VARCHAR},
-      responsible = #{responsible,jdbcType=INTEGER},
-      production_line = #{productionLine,jdbcType=INTEGER},
-      "process" = #{process,jdbcType=INTEGER},
-      asset = #{asset,jdbcType=INTEGER},
-      equipment_group = #{equipmentGroup,jdbcType=INTEGER},
-      description = #{description,jdbcType=VARCHAR},
-      is_auto_dispatch = #{isAutoDispatch,jdbcType=VARCHAR},
-      "status" = #{status,jdbcType=INTEGER},
-      model = #{model,jdbcType=VARCHAR},
-      manufacturer = #{manufacturer,jdbcType=VARCHAR},
-      specification = #{specification,jdbcType=VARCHAR},
-      serial_number = #{serialNumber,jdbcType=VARCHAR},
-      date_of_production = #{dateOfProduction,jdbcType=DATE},
-      date_of_installation = #{dateOfInstallation,jdbcType=DATE},
-      date_of_first_use = #{dateOfFirstUse,jdbcType=DATE},
-      expires_years = #{expiresYears,jdbcType=INTEGER},
-      date_of_expiration = #{dateOfExpiration,jdbcType=DATE},
-      custom_attributes = #{customAttributes,jdbcType=VARCHAR},
-      created_by = #{createdBy,jdbcType=VARCHAR},
-      created_time = #{createdTime,jdbcType=DATE},
-      updated_by = #{updatedBy,jdbcType=VARCHAR},
-      updated_time = #{updatedTime,jdbcType=DATE},
-      is_delete = #{isDelete,jdbcType=VARCHAR},
-      enterprise = #{enterprise,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        update "cd_equipment"
+        set picture              = #{picture,jdbcType=VARCHAR},
+            code                 = #{code,jdbcType=VARCHAR},
+            "name"               = #{name,jdbcType=VARCHAR},
+            responsible          = #{responsible,jdbcType=INTEGER},
+            production_line      = #{productionLine,jdbcType=INTEGER},
+            "process"            = #{process,jdbcType=INTEGER},
+            asset                = #{asset,jdbcType=INTEGER},
+            equipment_group      = #{equipmentGroup,jdbcType=INTEGER},
+            description          = #{description,jdbcType=VARCHAR},
+            is_auto_dispatch     = #{isAutoDispatch,jdbcType=VARCHAR},
+            "status"             = #{status,jdbcType=INTEGER},
+            model                = #{model,jdbcType=VARCHAR},
+            manufacturer         = #{manufacturer,jdbcType=VARCHAR},
+            specification        = #{specification,jdbcType=VARCHAR},
+            serial_number        = #{serialNumber,jdbcType=VARCHAR},
+            date_of_production   = #{dateOfProduction,jdbcType=DATE},
+            date_of_installation = #{dateOfInstallation,jdbcType=DATE},
+            date_of_first_use    = #{dateOfFirstUse,jdbcType=DATE},
+            expires_years        = #{expiresYears,jdbcType=INTEGER},
+            date_of_expiration   = #{dateOfExpiration,jdbcType=DATE},
+            custom_attributes    = #{customAttributes,jdbcType=VARCHAR},
+            created_by           = #{createdBy,jdbcType=VARCHAR},
+            created_time         = #{createdTime,jdbcType=DATE},
+            updated_by           = #{updatedBy,jdbcType=VARCHAR},
+            updated_time         = #{updatedTime,jdbcType=DATE},
+            is_delete            = #{isDelete,jdbcType=VARCHAR},
+            enterprise           = #{enterprise,jdbcType=INTEGER},
+            equipment_manifest   = #{equipmentManifest,jdbcType=VARCHAR},
+            maintenance_manifest = #{maintenanceManifest,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

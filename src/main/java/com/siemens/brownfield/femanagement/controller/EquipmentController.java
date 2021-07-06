@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
-import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin
@@ -75,12 +74,22 @@ public class EquipmentController {
     }
 
     @PostMapping(value = "/upload-pic")
-    public CommonResult<String> uploadPicture(@RequestParam MultipartFile file) {
+    public CommonResult<String> uploadPicture(@RequestParam MultipartFile file) throws IOException {
         return CommonResult.<String>builder().data(equipmentService.savePictureAsBlob(file)).build();
+    }
+
+    @PostMapping(value = "/upload-file")
+    public CommonResult<String> uploadFile(@RequestParam MultipartFile file) throws IOException {
+        return CommonResult.<String>builder().data(equipmentService.saveFileAsBlob(file)).build();
     }
 
     @GetMapping(value = "/pic/{id}", produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] getPicture(@PathVariable String id){
-        return equipmentService.getFileByBytes(id);
+        return equipmentService.getPictureById(id);
+    }
+
+    @GetMapping(value = "/file/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
+    public byte[] getFile(@PathVariable String id){
+        return equipmentService.getFileById(id);
     }
 }
