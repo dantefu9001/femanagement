@@ -1,5 +1,6 @@
 package com.siemens.brownfield.femanagement.dto;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.siemens.brownfield.femanagement.entity.fe.CdMaintenance;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -96,5 +97,49 @@ public class MaintenanceDto {
 
     private static String formatDate(Date date) {
         return Objects.nonNull(date) ? new SimpleDateFormat("yyyy-MM-dd").format(date) : Strings.EMPTY;
+    }
+
+    @Data
+    @Builder
+    public static class MaintenanceExportData{
+        @ExcelProperty(value = "编号",index = 0)
+        private String code;
+        @ExcelProperty(value = "车间",index = 1)
+        private String productionLine;
+        @ExcelProperty(value = "设备",index = 2)
+        private String equipment;
+        @ExcelProperty(value = "提交人",index = 3)
+        private String submitter;
+        @ExcelProperty(value = "提交时间",index = 4)
+        private String submitTime;
+        @ExcelProperty(value = "故障描述",index = 5)
+        private String description;//故障描述
+        @ExcelProperty(value = "处理人",index = 6)
+        private String maintenancePerson;
+        @ExcelProperty(value = "处理方案",index = 7)
+        private String maintenanceDesc;
+        @ExcelProperty(value = "停机时间",index = 8)
+        private String pauseTime;
+        @ExcelProperty(value = "审核人",index = 9)
+        private String checker;
+        @ExcelProperty(value = "审核时间",index = 10)
+        private String checkDate;
+
+
+        public static MaintenanceExportData from(MaintenanceDto dto){
+            return MaintenanceExportData.builder()
+                    .code(dto.getCode())
+                    .productionLine(dto.getProductionLine().getName())
+                    .equipment(dto.getEquipment().getName())
+                    .submitter(dto.getSubmitter().getName())
+                    .submitTime(dto.getSubmitTime())
+                    .description(dto.getDescription())
+                    .maintenanceDesc(dto.getMaintenanceDesc())
+                    .maintenancePerson(dto.getMaintenancePerson().getName())
+                    .pauseTime(dto.getPauseTime())
+                    .checker(dto.getChecker().getName())
+                    .checkDate(dto.getCheckDate())
+                    .build();
+        }
     }
 }

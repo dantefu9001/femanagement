@@ -59,10 +59,10 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Override
     public List<MaintenanceDto> getMaintenanceList(String start, String end, List<String> status, String equipment, String group) {
-        if (Strings.isNotBlank((start))) {
+        if (Strings.isNotEmpty((start))) {
             start = new SimpleDateFormat("yyyy-MM-dd").format(Date.from(Instant.parse(start)));
         }
-        if (Strings.isNotBlank(end)) {
+        if (Strings.isNotEmpty(end)) {
             end = new SimpleDateFormat("yyyy-MM-dd").format(Date.from(Instant.parse(end)));
         }
         return cdMaintenanceDao.getList(equipment, group, status, start, end).parallelStream().map(maintenance -> {
