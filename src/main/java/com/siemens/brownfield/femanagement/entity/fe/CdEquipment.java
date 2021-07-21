@@ -176,7 +176,7 @@ public class CdEquipment implements Serializable {
                 .maintenanceManifest(dto.getMaintenanceManifest())
                 .code(dto.getCode())
                 .name(dto.getName())
-                .responsible(Objects.isNull(dto.getProductionLine()) ? null : dto.getResponsible().getId())
+                .responsible(Objects.isNull(dto.getResponsible()) ? null : dto.getResponsible().getId())
                 .productionLine(Objects.isNull(dto.getProductionLine()) ? null : dto.getProductionLine().getId())
                 .process(Objects.isNull(dto.getProcess()) ? null : dto.getProcess().getId())
                 .asset(Objects.isNull(dto.getAsset()) ? null : dto.getAsset().getId())
