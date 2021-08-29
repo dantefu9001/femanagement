@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -75,10 +76,11 @@ public class MaintenanceServiceImpl implements MaintenanceService {
                 Optional.of(personDao.selectByPrimaryKey(cdEquipment.getResponsible())).ifPresent(cdPerson -> dto.setSubmitter(PersonDto.from(cdPerson)));
             }
             return dto;
-        }).collect(Collectors.toList());
+        }).sorted(Comparator.comparing(MaintenanceDto::getSubmitTime).reversed()).collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void add(MaintenanceDto dto) {
         CdMaintenance cdMaintenance = CdMaintenance.from(dto);
         cdMaintenance.setStatus(MaintenanceStatus.SUBMITTED.getStatus());
