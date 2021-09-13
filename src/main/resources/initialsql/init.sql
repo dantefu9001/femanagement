@@ -111,14 +111,14 @@ create table cd_equipment
     id serial not null
         constraint cd_equipments_pkey
             primary key,
-    picture varchar(32),
+    picture varchar(256),
     code varchar(32),
     name varchar(32),
     responsible integer,
     production_line integer,
     process integer,
     asset integer,
-    equipment_groups integer,
+    equipment_group integer,
     description varchar(1024),
     is_auto_dispatch varchar(1),
     status integer,
@@ -202,7 +202,7 @@ alter table cd_equipment owner to postgres;
 
 create table cd_equipment_group
 (
-    id integer not null
+    id serial not null
         constraint cd_equipment_groups_pkey
             primary key,
     name varchar(32),
@@ -233,6 +233,7 @@ comment on column cd_equipment_group.is_delete is '软删除标识符';
 comment on column cd_equipment_group.enterprise is '引用机构表';
 
 alter table cd_equipment_group owner to postgres;
+
 create table cd_equipment_configuration
 (
     id integer not null,
@@ -324,7 +325,7 @@ alter table cd_equipment_status owner to postgres;
 
 create table cd_maintenance
 (
-    id integer not null
+    id serial not null
         constraint cd_maintenance_pkey
             primary key,
     equipment integer,
@@ -336,9 +337,9 @@ create table cd_maintenance
     submitter integer,
     submit_time date,
     malfunction_desc text,
-    malfunction_photos varchar(32),
-    malfunction_type integer,
-    malfunction_level integer,
+    malfunction_photos varchar(512),
+    malfunction_type varchar(128),
+    malfunction_level varchar(128),
     auditor integer,
     audit_time date,
     dispatcher integer,
@@ -348,14 +349,14 @@ create table cd_maintenance
     maintenance_personnel integer,
     maintenance_desc varchar(1024),
     maintenance_finish_time date,
-    troubleshooting_time integer,
-    maintenance_time integer,
+    troubleshooting_time varchar(32),
+    maintenance_time varchar(32),
     precautions varchar(32),
     validator integer,
     validate_time date,
     validate_desc varchar(1024),
     validate_judgement varchar(32),
-    maintenance_photos varchar(32),
+    maintenance_photos varchar(512),
     created_by varchar(32),
     created_time date,
     updated_by varchar(32),
@@ -386,7 +387,7 @@ comment on column cd_maintenance.submit_time is '提交时间';
 
 comment on column cd_maintenance.malfunction_desc is '故障描述';
 
-comment on column cd_maintenance.malfunction_photos is 'json格式的图片url';
+comment on column cd_maintenance.malfunction_photos is '图片url';
 
 comment on column cd_maintenance.malfunction_type is '引用故障类型配置表';
 
@@ -424,7 +425,7 @@ comment on column cd_maintenance.validate_desc is '验证说明';
 
 comment on column cd_maintenance.validate_judgement is '验证判定';
 
-comment on column cd_maintenance.maintenance_photos is 'json格式字符串';
+comment on column cd_maintenance.maintenance_photos is 'url';
 
 comment on column cd_maintenance.created_by is '创建人';
 
@@ -473,7 +474,7 @@ alter table cd_maintenance_status owner to postgres;
 
 create table cd_maintenance_consumption
 (
-    id integer not null
+    id serial not null
         constraint cd_maintenance_consumption_pkey
             primary key,
     maintenance integer,
@@ -819,35 +820,49 @@ comment on column cd_spare_parts_warehouse.enterprise is '引用机构表';
 
 alter table cd_spare_parts_warehouse owner to postgres;
 
-CREATE TABLE cd_equipment_management_summary(
-                                                id serial not null
-                                                    constraint cd_equipment_management_summary_pkey
-                                                        primary key,                                                type VARCHAR(32),
-                                                person INT,
-                                                "group" INT,
-                                                summary_time DATE,
-                                                summary TEXT,
-                                                created_by VARCHAR(32),
-                                                created_time DATE,
-                                                updated_by VARCHAR(32),
-                                                updated_time DATE,
-                                                is_delete VARCHAR(1),
-                                                enterprise INT
+create table cd_equipment_management_summary
+(
+    id serial not null
+        constraint cd_equipment_managment_summary_pkey
+            primary key,
+    type varchar(32),
+    person integer,
+    "group" integer,
+    summary_time date,
+    summary text,
+    created_by varchar(32),
+    created_time date,
+    updated_by varchar(32),
+    updated_time date,
+    is_delete varchar(1),
+    enterprise integer
 );
 
-COMMENT ON TABLE cd_equipment_management_summary IS '设备管理小结';
-COMMENT ON COLUMN cd_equipment_management_summary.id IS 'id';
-COMMENT ON COLUMN cd_equipment_management_summary.type IS 'monthly/weekly';
-COMMENT ON COLUMN cd_equipment_management_summary.person IS '引用人员表';
-COMMENT ON COLUMN cd_equipment_management_summary.group IS '引用group表';
-COMMENT ON COLUMN cd_equipment_management_summary.summary_time IS '时间';
-COMMENT ON COLUMN cd_equipment_management_summary.summary IS '小结';
-COMMENT ON COLUMN cd_equipment_management_summary.created_by IS '创建人';
-COMMENT ON COLUMN cd_equipment_management_summary.created_time IS '创建时间';
-COMMENT ON COLUMN cd_equipment_management_summary.updated_by IS '更新人';
-COMMENT ON COLUMN cd_equipment_management_summary.updated_time IS '更新时间';
-COMMENT ON COLUMN cd_equipment_management_summary.is_delete IS '软删标识符';
-COMMENT ON COLUMN cd_equipment_management_summary.enterprise IS '引用企业机构表';
+comment on column cd_equipment_management_summary.id is 'id';
+
+comment on column cd_equipment_management_summary.type is 'monthly/weekly';
+
+comment on column cd_equipment_management_summary.person is '引用人员表';
+
+comment on column cd_equipment_management_summary."group" is '引用group表';
+
+comment on column cd_equipment_management_summary.summary_time is '时间';
+
+comment on column cd_equipment_management_summary.summary is '小结';
+
+comment on column cd_equipment_management_summary.created_by is '创建人';
+
+comment on column cd_equipment_management_summary.created_time is '创建时间';
+
+comment on column cd_equipment_management_summary.updated_by is '更新人';
+
+comment on column cd_equipment_management_summary.updated_time is '更新时间';
+
+comment on column cd_equipment_management_summary.is_delete is '软删标识符';
+
+comment on column cd_equipment_management_summary.enterprise is '引用企业机构表';
+
+alter table cd_equipment_management_summary owner to postgres;
 
 create table cd_equipment_basic_picture
 (
@@ -859,5 +874,21 @@ create table cd_equipment_basic_picture
 
 alter table cd_equipment_basic_picture owner to postgres;
 
-create unique index cd_equipment_basic_picture_file_id_uindex
-    on cd_equipment_basic_picture (file_id);
+create table cd_basic_configs
+(
+    easy_mode boolean,
+    auto_dispatch boolean,
+    enable_validation boolean,
+    maintenance_alarm boolean,
+    maintenance_waiting varchar(256),
+    down_time varchar(256),
+    maintenance_dispatch_time varchar(256),
+    malfunction_types varchar(5000),
+    malfunction_level varchar(5000),
+    equipment_management_summary boolean,
+    spare_part_management boolean,
+    id integer
+);
+
+alter table cd_basic_configs owner to postgres;
+
